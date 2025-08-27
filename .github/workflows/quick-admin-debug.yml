@@ -1,0 +1,35 @@
+name: Quick Admin Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug Admin Access
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            echo "=== Laravel Logs ==="
+            tail -30 storage/logs/laravel.log 2>/dev/null || echo "Нет Laravel логов"
+            
+            echo -e "\n=== Проверка пользователя ==="
+            php artisan tinker --execute="echo App\Models\User::where('email', 'corp-altekh07938@yandex.ru')->first();"
+            
+            echo -e "\n=== Проверка helper файла ==="
+            ls -la app/Helpers/RussianPluralHelper.php 2>/dev/null || echo "Helper не найден"
+            
+            echo -e "\n=== Проверка провайдера ==="
+            cat app/Providers/AppServiceProvider.php | grep -A 10 -B 5 RussianPluralHelper
+            
+            echo -e "\n=== Тест админ панели ==="
+            curl -I http://localhost/admin/login 2>/dev/null || echo "Админ панель недоступна"
+            
+            echo -e "\n=== PHP Errors ==="
+            tail -10 /var/log/php*.log 2>/dev/null || echo "Нет PHP логов"
