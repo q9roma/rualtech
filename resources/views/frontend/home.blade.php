@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </h3>
                                 @php
                                     $count = $category->services_count ?? 0;
-                                    $serviceText = services_count_text($count);
+                                    $serviceText = function_exists('services_count_text') ? services_count_text($count) : ($count > 0 ? "$count услуг" : '');
                                 @endphp
                                 @if(!empty($serviceText))
                                     <p class="text-sm text-gray-500">
