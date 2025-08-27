@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center">
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                <span class="text-blue-100">Altech</span> — IT-решения для бизнеса
+                <span class="text-blue-100">Алтех</span> — IT-решения для бизнеса
             </h1>
             <p class="text-xl md:text-2xl mb-4 text-blue-100 max-w-4xl mx-auto">
                 Поставщик и интегратор комплексных решений в области IT
