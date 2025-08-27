@@ -126,9 +126,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <h3 class="text-lg font-semibold text-gray-900">
                                     {{ $category->name }}
                                 </h3>
-                                <p class="text-sm text-gray-500">
-                                    {{ $category->services_count ?? 0 }} {{ Str::plural('услуга', $category->services_count ?? 0, ['услуга', 'услуги', 'услуг']) }}
-                                </p>
+                                @php
+                                    $count = $category->services_count ?? 0;
+                                    $serviceText = services_count_text($count);
+                                @endphp
+                                @if(!empty($serviceText))
+                                    <p class="text-sm text-gray-500">
+                                        {{ $serviceText }}
+                                    </p>
+                                @endif
                             </div>
                         </div>
                         
@@ -312,72 +318,35 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- About Section -->
 <div class="bg-gray-50 py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div class="lg:col-span-5">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6">
-                    Почему выбирают Алтех?
-                </h2>
-                <div class="space-y-4">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-lg font-semibold text-gray-900">Комплексный подход</h3>
-                            <p class="text-gray-600">От консультации до полного внедрения и последующего обслуживания</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-lg font-semibold text-gray-900">Опытные специалисты</h3>
-                            <p class="text-gray-600">Команда сертифицированных инженеров с многолетним опытом</p>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="text-lg font-semibold text-gray-900">Индивидуальные решения</h3>
-                            <p class="text-gray-600">Подбираем оптимальные решения под задачи вашего бизнеса</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Почему выбирают Алтех?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Мы используем современные подходы, быстро реагируем на потребности клиентов и обеспечиваем персональный подход к каждому проекту
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-blue-600 mb-3">50+</div>
+                <div class="text-gray-900 font-semibold mb-2">Довольных клиентов</div>
+                <div class="text-sm text-gray-500">Успешно завершенные проекты</div>
             </div>
-            <div class="mt-10 lg:mt-0 lg:col-span-7">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white p-6 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">500+</div>
-                        <div class="text-gray-600">Реализованных проектов</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">24/7</div>
-                        <div class="text-gray-600">Техническая поддержка</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">15+</div>
-                        <div class="text-gray-600">Лет на рынке</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">100%</div>
-                        <div class="text-gray-600">Гарантия качества</div>
-                    </div>
-                </div>
+            <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-blue-600 mb-3">24/7</div>
+                <div class="text-gray-900 font-semibold mb-2">Техническая поддержка</div>
+                <div class="text-sm text-gray-500">Круглосуточная помощь</div>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-blue-600 mb-3">3+</div>
+                <div class="text-gray-900 font-semibold mb-2">Года развития</div>
+                <div class="text-sm text-gray-500">Опыт в IT-сфере</div>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-blue-600 mb-3">100%</div>
+                <div class="text-gray-900 font-semibold mb-2">Подход к качеству</div>
+                <div class="text-sm text-gray-500">Внимание к деталям</div>
             </div>
         </div>
     </div>

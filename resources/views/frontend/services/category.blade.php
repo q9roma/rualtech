@@ -81,7 +81,18 @@
             </div>
             <div class="mt-6 flex md:mt-0 md:ml-8">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                    {{ $services->total() }} {{ Str::plural('услуга', $services->total(), ['услуга', 'услуги', 'услуг']) }}
+                    @php
+                        $total = $services->total();
+                        $word = 'услуга';
+                        if ($total % 10 == 1 && $total % 100 != 11) {
+                            $word = 'услуга';
+                        } elseif (in_array($total % 10, [2, 3, 4]) && !in_array($total % 100, [12, 13, 14])) {
+                            $word = 'услуги';
+                        } else {
+                            $word = 'услуг';
+                        }
+                    @endphp
+                    {{ $total }} {{ $word }}
                 </span>
             </div>
         </div>

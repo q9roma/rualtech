@@ -88,7 +88,18 @@
                             @if($category->activeServices->count() > 5)
                                 <div class="mt-4 pt-4 border-t border-gray-200">
                                     <p class="text-xs text-gray-500 text-center">
-                                        +{{ $category->activeServices->count() - 5 }} {{ Str::plural('услуга', $category->activeServices->count() - 5, ['услуга', 'услуги', 'услуг']) }}
+                                        @php
+                                            $count = $category->activeServices->count() - 5;
+                                            $word = 'услуга';
+                                            if ($count % 10 == 1 && $count % 100 != 11) {
+                                                $word = 'услуга';
+                                            } elseif (in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14])) {
+                                                $word = 'услуги';
+                                            } else {
+                                                $word = 'услуг';
+                                            }
+                                        @endphp
+                                        +{{ $count }} {{ $word }}
                                     </p>
                                 </div>
                             @endif
