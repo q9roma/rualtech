@@ -55,20 +55,20 @@ jobs:
           # Создаём базовый .env если его нет
           if [ ! -f .env ]; then
             echo "⚙️ Создаём базовый .env файл..."
-            cat > .env << 'EOF'
-APP_NAME=Altech
-APP_ENV=production
-APP_KEY=base64:your_app_key_here
-APP_DEBUG=false
-APP_URL=https://rualtech.ru
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=your_database
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-EOF
+            cat > .env << 'ENVEOF'
+          APP_NAME=Altech
+          APP_ENV=production
+          APP_KEY=base64:your_app_key_here
+          APP_DEBUG=false
+          APP_URL=https://rualtech.ru
+          
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=your_database
+          DB_USERNAME=your_username
+          DB_PASSWORD=your_password
+          ENVEOF
           fi
           
           # Очищаем кэши
