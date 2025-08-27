@@ -1,0 +1,35 @@
+name: Restart Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart web services
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            echo "🔄 Restarting web services..."
+            
+            # Restart PHP-FPM
+            systemctl restart php8.1-fpm || systemctl restart php8.0-fpm || systemctl restart php7.4-fpm || systemctl restart apache2
+            
+            # Restart Nginx
+            systemctl restart nginx
+            
+            # Clear system caches
+            echo 3 > /proc/sys/vm/drop_caches
+            
+            # Check if services are running
+            systemctl status nginx --no-pager
+            systemctl status apache2 --no-pager || echo "Apache not found"
+            
+            # Test site
+            curl -I http://localhost
+            
+            echo "✅ Services restarted"
