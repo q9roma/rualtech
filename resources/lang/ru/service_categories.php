@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'title' => 'Категории услуг',
+    'navigation_label' => 'Категории',
+    'model_label' => 'Категория',
+    'plural_model_label' => 'Категории',
+    'breadcrumb' => 'Категории',
+    'create' => 'Создать категорию',
+    'edit' => 'Редактировать категорию',
+    'view' => 'Просмотр категории',
+    'created' => 'Категория создана',
+    'updated' => 'Категория обновлена',
+    'deleted' => 'Категория удалена',
+    'actions' => [
+        'create' => 'Создать',
+        'edit' => 'Редактировать',
+        'view' => 'Просмотр',
+        'delete' => 'Удалить',
+        'duplicate' => 'Дублировать',
+        'activate' => 'Активировать',
+        'deactivate' => 'Деактивировать',
+    ],
+    'fields' => [
+        'name' => 'Название',
+        'description' => 'Описание',
+        'slug' => 'URL',
+        'icon' => 'Иконка',
+        'image' => 'Обложка',
+        'is_active' => 'Активна',
+        'sort_order' => 'Порядок',
+        'seo_title' => 'SEO заголовок',
+        'seo_description' => 'SEO описание',
+        'services_count' => 'Количество услуг',
+        'created_at' => 'Создана',
+        'updated_at' => 'Обновлена',
+    ],
+];

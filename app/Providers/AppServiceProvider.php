@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Устанавливаем русскую локаль для Carbon
+        Carbon::setLocale('ru');
+        setlocale(LC_TIME, 'ru_RU.UTF-8');
+        
+        // Принудительно используем HTTPS для всех URL
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
+        
+        // Доверяем всем прокси (для Nginx)
+        request()->server->set('HTTPS', 'on');
     }
 }
