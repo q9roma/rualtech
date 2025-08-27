@@ -19,71 +19,49 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          echo "🔍 Диагностика деплоя"
-          echo "📂 Текущая директория:"
-          pwd
+          echo "🚀 Начинаем деплой..."
           
           cd /var/www/www-root/data/www/rualtech.ru
-          echo "📂 Перешли в директорию проекта:"
-          pwd
+          echo "📂 В директории проекта: $(pwd)"
           
-          echo "📊 Статус Git перед обновлением:"
-          git status || echo "Git status failed"
+          # Принудительно скачиваем свежий код
+          echo "📦 Скачиваем свежий код..."
+          wget -O /tmp/latest.zip https://github.com/q9roma/rualtech/archive/refs/heads/main.zip
           
-          echo "📋 Последний коммит:"
-          git log --oneline -1 || echo "Git log failed"
-          
-          # Исправляем права доступа для Git
-          echo "🔧 Исправляем права доступа Git..."
-          git config --global --add safe.directory /var/www/www-root/data/www/rualtech.ru
-          git config --global --add safe.directory '*'
-          
-          # Принудительно получаем обновления
-          echo "📥 Получаем обновления из GitHub..."
-          git remote set-url origin https://github.com/q9roma/rualtech.git
-          git fetch origin main --force 2>/dev/null || echo "Fetch через HTTPS failed, пробуем другой способ..."
-          
-          # Альтернативный способ - скачиваем архив напрямую
-          if ! git diff --quiet HEAD origin/main 2>/dev/null; then
-            echo "� Скачиваем свежий код через wget..."
-            wget -O /tmp/latest.zip https://github.com/q9roma/rualtech/archive/refs/heads/main.zip
-            if [ -f /tmp/latest.zip ]; then
-              # Создаём бэкап текущих файлов
-              cp -r . /tmp/backup_site/
-              # Распаковываем новый код
-              unzip -o /tmp/latest.zip -d /tmp/
-              cp -r /tmp/rualtech-main/* .
-              rm -f /tmp/latest.zip
-              rm -rf /tmp/rualtech-main/
-              echo "✅ Код обновлён через архив"
-            fi
-          fi
-          
-          echo "�🔄 Сбрасываем до последнего коммита..."
-          git reset --hard origin/main 2>/dev/null || echo "Reset failed, продолжаем..."
-          git clean -fd 2>/dev/null || echo "Clean failed, продолжаем..."
-          
-          echo "📊 Статус Git после обновления:"
-          git status || echo "Git status failed"
-          
-          echo "📋 Коммит после обновления:"
-          git log --oneline -1 || echo "Git log failed"
-          
-          echo "🔍 Проверяем содержимое файла home.blade.php:"
-          if [ -f "resources/views/frontend/home.blade.php" ]; then
-            grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Не найдено ни Altech, ни Алтех"
+          if [ -f /tmp/latest.zip ]; then
+            echo "💾 Сохраняем .env файл..."
+            cp .env /tmp/env_backup 2>/dev/null || echo "No .env to backup"
+            
+            echo "📂 Распаковываем новый код..."
+            cd /tmp
+            unzip -o latest.zip
+            
+            echo "📋 Копируем файлы на сайт..."
+            cd /var/www/www-root/data/www/rualtech.ru
+            cp -r /tmp/rualtech-main/* .
+            
+            echo "🔄 Восстанавливаем .env..."
+            cp /tmp/env_backup .env 2>/dev/null || echo "No .env to restore"
+            
+            echo "🧹 Очищаем временные файлы..."
+            rm -f /tmp/latest.zip
+            rm -rf /tmp/rualtech-main/
+            
+            echo "✅ Код успешно обновлён!"
           else
-            echo "❌ Файл home.blade.php не найден!"
+            echo "❌ Не удалось скачать архив"
+            exit 1
           fi
           
-          # Очищаем кэши
+          echo "🔍 Проверяем файл после обновления:"
+          grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Файл не найден"
+          
           echo "🧹 Очищаем кэши Laravel..."
-          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"
-          php artisan view:clear 2>/dev/null || echo "View clear failed"
-          php artisan config:clear 2>/dev/null || echo "Config clear failed"
+          php artisan cache:clear
+          php artisan view:clear
+          php artisan config:clear
           
-          # Перезапускаем веб-сервер
           echo "🔄 Перезапускаем веб-сервер..."
-          systemctl reload nginx 2>/dev/null || echo "Nginx reload failed"
+          systemctl reload nginx
           
-          echo "✅ Деплой завершён! Проверьте сайт."
+          echo "✅ Деплой завершён! Проверьте https://rualtech.ru"
