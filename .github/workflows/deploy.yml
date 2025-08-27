@@ -20,5 +20,46 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd /var/www/www-root/data/www/rualtech.ru
-          chmod +x deploy.sh
-          ./deploy.sh
+          
+          # Исправляем права доступа для Git
+          git config --global --add safe.directory /var/www/www-root/data/www/rualtech.ru
+          git config --global --add safe.directory '*'
+          
+          # Сначала получаем последние изменения
+          git fetch origin main --force || echo "Fetch failed, continuing..."
+          git reset --hard origin/main || echo "Reset failed, continuing..."
+          
+          # Проверяем что deploy.sh существует и делаем его исполняемым
+          if [ -f "deploy.sh" ]; then
+            chmod +x deploy.sh
+            ./deploy.sh
+          else
+            echo "deploy.sh not found, running manual deployment..."
+            
+            # Создаем резервную копию .env файла
+            cp .env .env.backup
+            
+            # Принудительно получаем обновления
+            git fetch origin main --force
+            git reset --hard origin/main
+            git clean -fd
+            
+            # Восстанавливаем .env файл
+            cp .env.backup .env
+            
+            # Устанавливаем зависимости
+            composer install --no-dev --optimize-autoloader
+            npm install --production
+            npm run build
+            
+            # Очищаем кэши
+            php artisan cache:clear
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+            
+            # Перезапускаем веб-сервер
+            systemctl reload nginx
+            systemctl reload apache2
+          fi
