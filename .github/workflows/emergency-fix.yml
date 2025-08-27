@@ -1,0 +1,53 @@
+name: Emergency Site Fix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  emergency-restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emergency Site Restoration
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            # Create simple .env file
+            cat > .env << 'EOF'
+            APP_NAME=Altech
+            APP_ENV=production
+            APP_KEY=base64:your_app_key_here
+            APP_DEBUG=false
+            APP_URL=https://rualtech.ru
+            
+            DB_CONNECTION=mysql
+            DB_HOST=127.0.0.1
+            DB_PORT=3306
+            DB_DATABASE=your_database
+            DB_USERNAME=your_username
+            DB_PASSWORD=your_password
+            EOF
+            
+            # Fix permissions
+            chown -R www-data:www-data /var/www/www-root/data/www/rualtech.ru
+            chmod -R 755 /var/www/www-root/data/www/rualtech.ru
+            chmod -R 775 /var/www/www-root/data/www/rualtech.ru/storage
+            chmod -R 775 /var/www/www-root/data/www/rualtech.ru/bootstrap/cache
+            
+            # Clear all caches
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan view:clear
+            php artisan route:clear
+            
+            # Restart services
+            systemctl reload nginx
+            systemctl restart php8.2-fpm
+            
+            echo "✅ Emergency restoration completed"
