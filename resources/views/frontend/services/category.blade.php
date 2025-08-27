@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', $category->seo_title ?: $category->name . ' - Услуги | Алтех')
+@section('title', $category->seo_title ?: $category->name . ' - Услуги | Altech')
 @section('description', $category->seo_description ?: $category->description)
 
 @section('content')

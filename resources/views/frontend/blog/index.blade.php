@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Блог - IT-новости и статьи | Алтех')
+@section('title', 'Блог - IT-новости и статьи | Altech')
 @section('description', 'Актуальные новости из мира IT, экспертные статьи о виртуализации, серверных решениях и информационной безопасности.')
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Блог Алтех
+                Блог Altech
             </h1>
             <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
                 Актуальные IT-новости, экспертные статьи и полезные материалы для бизнеса

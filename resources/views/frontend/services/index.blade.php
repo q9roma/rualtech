@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Услуги - IT-решения для бизнеса | Алтех')
+@section('title', 'Услуги - IT-решения для бизнеса | Altech')
 @section('description', 'Полный спектр IT-услуг: виртуализация, сборка серверов, техническая поддержка, сетевые решения и информационная безопасность.')
 
 @section('content')
@@ -138,9 +138,10 @@
             <p class="text-lg text-gray-600 mb-6">
                 Мы поможем подобрать индивидуальное решение для вашего бизнеса
             </p>
-            <div class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600">
-                office@rualtech.ru | +7 (495) 275-35-33
-            </div>
+            <a href="#contact" 
+               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-900 transition-colors">
+                Получить консультацию
+            </a>
         </div>
     </div>
 </div>

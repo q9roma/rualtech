@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', $post->seo_title ?: $post->title . ' | Блог Алтех')
+@section('title', $post->seo_title ?: $post->title . ' | Блог Altech')
 @section('description', $post->seo_description ?: $post->excerpt)
 
 @section('content')

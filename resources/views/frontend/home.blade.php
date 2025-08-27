@@ -1,85 +1,35 @@
 @extends('layouts.frontend')
 
-@section('title', 'Алтех - Поставщик IT-решений для бизнеса')
-@section('description', 'Алтех - поставщик и интегратор комплексных решений в области IT. Виртуализация, сборка серверов, рабочие станции, сетевые решения, безопасность.')
+@section('title', 'Altech - Поставщик IT-решений для бизнеса')
+@section('description', 'Altech - поставщик и интегратор комплексных решений в области IT. Виртуализация, сборка серверов, рабочие станции, сетевые решения, безопасность.')
 
 @section('content')
 <!-- Hero Section -->
-<div class="text-white relative overflow-hidden" style="background-color: #121212;">
-    <!-- Анимированные звездочки -->
-    <div id="stars-container" class="absolute inset-0 pointer-events-none"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+<div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center">
-            <h3 class="text-4xl md:text-4xl font-bold mb-6">
-                <span class="text-gray-100">Алтех</span> — ИТ-решения для бизнеса
-            </h3>
-            <p class="text-base md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
-                Поставщик и интегратор комплексных решений в области ИТ. Техническая поддержка, виртуализация, сборка серверов, рабочие станции, безопасность, обслуживание ИТ
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <span class="text-blue-100">Алтех</span> — IT-решения для бизнеса
+            </h1>
+            <p class="text-xl md:text-2xl mb-4 text-blue-100 max-w-4xl mx-auto">
+                Поставщик и интегратор комплексных решений в области IT 
+            </p>
+            <p class="text-lg mb-8 text-blue-200 max-w-3xl mx-auto">
+                Техническая поддержка • Виртуализация • Сборка серверов • Рабочие станции • Безопасность • Обслуживание IT
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('services.index') }}" 
-                   class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-black bg-white hover:bg-blue-100 transition-colors">
+                   class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-blue-600 bg-white hover:bg-blue-100 transition-colors">
                     Наши услуги
                 </a>
                 <a href="#contact" 
-                   class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-black transition-colors">
+                   class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-blue-600 transition-colors">
                     Связаться с нами
                 </a>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-.star {
-    position: absolute;
-    background-color: rgb(113, 190, 13);
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgb(113, 190, 13), 0 0 20px rgb(113, 190, 13), 0 0 30px rgba(113, 190, 13, 0.5);
-    animation: float 10s ease-in-out infinite;
-    opacity: 0.8;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(10px, -15px); }
-    50% { transform: translate(-5px, -10px); }
-    75% { transform: translate(-10px, 5px); }
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('stars-container');
-    const numStars = 15; // Количество звездочек
-    
-    function createStar() {
-        const star = document.createElement('div');
-        star.className = 'star';
-        
-        // Случайный размер от 3px до 8px
-        const size = Math.random() * 5 + 3;
-        star.style.width = size + 'px';
-        star.style.height = size + 'px';
-        
-        // Случайная позиция
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        
-        // Случайная задержка анимации для плавания
-        star.style.animationDelay = Math.random() * 10 + 's';
-        star.style.animationDuration = (Math.random() * 5 + 8) + 's';
-        
-        return star;
-    }
-    
-    // Создаем звездочки
-    for (let i = 0; i < numStars; i++) {
-        container.appendChild(createStar());
-    }
-});
-</script>
 
 <!-- Services Categories Section -->
 @if($serviceCategories && $serviceCategories->count() > 0)
@@ -315,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="lg:grid lg:grid-cols-12 lg:gap-8">
             <div class="lg:col-span-5">
                 <h2 class="text-3xl font-bold text-gray-900 mb-6">
-                    Почему выбирают Алтех?
+                    Почему выбирают Altech?
                 </h2>
                 <div class="space-y-4">
                     <div class="flex">
@@ -431,24 +381,54 @@ document.addEventListener('DOMContentLoaded', function() {
             </p>
         </div>
 
-        <div class="flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Contact Info -->
-            <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 p-8 max-w-md w-full">
-                <h3 class="text-xl font-semibold mb-6 text-center">Контактная информация</h3>
+            <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 p-6">
+                <h3 class="text-xl font-semibold mb-4">Контактная информация</h3>
                 <div class="space-y-4">
-                    <div class="flex items-center justify-center">
+                    <div class="flex items-center">
                         <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        <span class="text-gray-700">office@rualtech.ru</span>
+                        <span class="text-gray-700">info@altech.ru</span>
                     </div>
-                    <div class="flex items-center justify-center">
+                    <div class="flex items-center">
                         <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                         </svg>
-                        <span class="text-gray-700">+7 (495) 275-35-33</span>
+                        <span class="text-gray-700">+7 (495) 123-45-67</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Москва, ул. Примерная, 123</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 p-6">
+                <h3 class="text-xl font-semibold mb-4">Отправить сообщение</h3>
+                <form class="space-y-4">
+                    <div>
+                        <input type="text" placeholder="Ваше имя" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Ваша электронная почта" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <textarea placeholder="Ваше сообщение" rows="4"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors">
+                        Отправить сообщение
+                    </button>
+                </form>
             </div>
         </div>
     </div>
