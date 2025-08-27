@@ -1,0 +1,75 @@
+name: Debug Admin 500 Error
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug-admin:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Debug Admin Panel 500 Error
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔍 Диагностика ошибки 500 в админке..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          echo "📂 Проверяем структуру папок:"
+          ls -la
+          
+          echo ""
+          echo "🔍 Проверяем .env файл:"
+          head -20 .env 2>/dev/null || echo ".env не найден"
+          
+          echo ""
+          echo "📋 Последние ошибки Laravel (storage/logs):"
+          if [ -d "storage/logs" ]; then
+            find storage/logs -name "*.log" -type f -exec tail -20 {} \; 2>/dev/null || echo "Логи не найдены"
+          else
+            echo "Папка storage/logs не существует"
+          fi
+          
+          echo ""
+          echo "🔍 Проверяем права доступа:"
+          ls -la storage/ 2>/dev/null || echo "storage/ не найдена"
+          ls -la bootstrap/cache/ 2>/dev/null || echo "bootstrap/cache/ не найдена"
+          
+          echo ""
+          echo "🧹 Попробуем очистить кеши:"
+          php artisan config:clear 2>&1 || echo "Config clear failed"
+          php artisan cache:clear 2>&1 || echo "Cache clear failed"
+          php artisan view:clear 2>&1 || echo "View clear failed"
+          php artisan route:clear 2>&1 || echo "Route clear failed"
+          
+          echo ""
+          echo "📊 Проверяем подключение к БД:"
+          php artisan tinker --execute="
+          try {
+            echo 'DB connection: ' . (DB::connection()->getPdo() ? 'OK' : 'FAILED');
+          } catch (Exception \$e) {
+            echo 'DB Error: ' . \$e->getMessage();
+          }
+          " 2>&1 || echo "DB test failed"
+          
+          echo ""
+          echo "🎯 Проверяем таблицу users:"
+          mysql -u alexsor -peY7rG4pX7r -D rualtech -e "
+            SELECT COUNT(*) as user_count FROM users;
+            SELECT name, email FROM users LIMIT 3;
+          " 2>&1 || echo "MySQL query failed"
+          
+          echo ""
+          echo "🔧 Проверяем конфигурацию веб-сервера:"
+          nginx -t 2>&1 || echo "Nginx config test failed"
+          
+          echo ""
+          echo "📊 Проверяем процессы PHP:"
+          ps aux | grep php | head -5
+          
+          echo ""
+          echo "💾 Использование диска:"
+          df -h | grep -E "(Filesystem|/var)"

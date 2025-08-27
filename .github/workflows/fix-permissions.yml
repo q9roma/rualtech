@@ -1,0 +1,49 @@
+name: Fix Permissions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-permissions:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Fix Laravel Permissions
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔧 Исправляем права доступа Laravel..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          echo "📁 Создаем недостающие папки:"
+          mkdir -p storage/framework/cache/data
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/views
+          mkdir -p storage/logs
+          mkdir -p bootstrap/cache
+          
+          echo "🔐 Устанавливаем права доступа:"
+          chmod -R 775 storage
+          chmod -R 775 bootstrap/cache
+          chown -R www-data:www-data storage
+          chown -R www-data:www-data bootstrap/cache
+          
+          echo "🧹 Очищаем все кеши:"
+          php artisan config:clear 2>/dev/null || echo "Config clear failed"
+          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"  
+          php artisan view:clear 2>/dev/null || echo "View clear failed"
+          php artisan route:clear 2>/dev/null || echo "Route clear failed"
+          
+          echo "🔄 Генерируем ключ приложения:"
+          php artisan key:generate --force 2>/dev/null || echo "Key generate failed"
+          
+          echo "📊 Проверяем результат:"
+          ls -la storage/
+          ls -la bootstrap/cache/
+          
+          echo ""
+          echo "✅ Готово! Попробуйте снова зайти в админку:"
+          echo "🔗 https://rualtech.ru/admin/login"

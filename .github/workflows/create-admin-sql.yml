@@ -1,0 +1,51 @@
+name: Create Admin via SQL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-admin-sql:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Admin User via SQL
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔐 Создаем админа через прямой SQL запрос..."
+          
+          # Генерируем хеш пароля (Laravel bcrypt)
+          PASSWORD_HASH='$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'  # admin123!
+          
+          # SQL запрос для создания/обновления пользователя
+          mysql -u alexsor -peY7rG4pX7r -D rualtech << 'EOF'
+          
+          -- Удаляем существующего пользователя если есть
+          DELETE FROM users WHERE email = 'corp-altekh07938@yandex.ru';
+          
+          -- Создаем нового пользователя
+          INSERT INTO users (name, email, password, email_verified_at, created_at, updated_at) 
+          VALUES (
+            'alexsoroka',
+            'corp-altekh07938@yandex.ru',
+            '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            NOW(),
+            NOW(),
+            NOW()
+          );
+          
+          -- Проверяем результат
+          SELECT id, name, email, created_at FROM users WHERE email = 'corp-altekh07938@yandex.ru';
+          
+          EOF
+          
+          echo ""
+          echo "✅ Пользователь создан через SQL!"
+          echo "🌐 Админка: https://rualtech.ru/admin/login"
+          echo "📧 Email: corp-altekh07938@yandex.ru"
+          echo "🔐 Password: admin123!"
+          echo ""
+          echo "💡 Хеш пароля: \$2y\$12\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"

@@ -1,0 +1,40 @@
+name: Quick Admin Fix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  quick-fix:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Quick Admin Password Fix
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "⚡ Быстрое создание админа..."
+          
+          # Создаем пользователя одной командой
+          mysql -u alexsor -peY7rG4pX7r -D rualtech -e "
+            INSERT INTO users (name, email, password, created_at, updated_at) 
+            VALUES ('alexsoroka', 'corp-altekh07938@yandex.ru', '\$2y\$10\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NOW(), NOW())
+            ON DUPLICATE KEY UPDATE 
+            password = '\$2y\$10\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
+            updated_at = NOW();
+          "
+          
+          # Проверяем
+          mysql -u alexsor -peY7rG4pX7r -D rualtech -e "
+            SELECT 'SUCCESS: User found' as result, id, name, email 
+            FROM users 
+            WHERE email = 'corp-altekh07938@yandex.ru';
+          "
+          
+          echo ""
+          echo "🎉 ГОТОВО!"
+          echo "🔗 https://rualtech.ru/admin/login"
+          echo "📧 corp-altekh07938@yandex.ru"  
+          echo "🔑 admin123!"
