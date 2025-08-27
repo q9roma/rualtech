@@ -26,7 +26,7 @@ jobs:
     - name: Fix .env file on server
       run: |
         ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-        cd /var/www/rualtech.ru/
+        cd /var/www/www-root/data/www/rualtech.ru/
         
         echo "🔧 Создаем правильный .env файл..."
         
@@ -114,10 +114,10 @@ jobs:
         php artisan optimize:clear
         
         echo "🔧 Проверяем права доступа..."
-        chown -R www-data:www-data /var/www/rualtech.ru/
-        chmod -R 755 /var/www/rualtech.ru/
-        chmod -R 775 /var/www/rualtech.ru/storage/
-        chmod -R 775 /var/www/rualtech.ru/bootstrap/cache/
+        chown -R www-data:www-data /var/www/www-root/data/www/rualtech.ru/
+        chmod -R 755 /var/www/www-root/data/www/rualtech.ru/
+        chmod -R 775 /var/www/www-root/data/www/rualtech.ru/storage/
+        chmod -R 775 /var/www/www-root/data/www/rualtech.ru/bootstrap/cache/
         
         echo "✅ .env файл исправлен!"
         echo "📊 Проверяем статус файлов:"
