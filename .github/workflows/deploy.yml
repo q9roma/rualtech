@@ -19,47 +19,53 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          echo "🔍 Диагностика деплоя"
+          echo "📂 Текущая директория:"
+          pwd
+          
           cd /var/www/www-root/data/www/rualtech.ru
+          echo "📂 Перешли в директорию проекта:"
+          pwd
+          
+          echo "📊 Статус Git перед обновлением:"
+          git status || echo "Git status failed"
+          
+          echo "📋 Последний коммит:"
+          git log --oneline -1 || echo "Git log failed"
           
           # Исправляем права доступа для Git
+          echo "🔧 Исправляем права доступа Git..."
           git config --global --add safe.directory /var/www/www-root/data/www/rualtech.ru
           git config --global --add safe.directory '*'
           
-          # Сначала получаем последние изменения
-          git fetch origin main --force || echo "Fetch failed, continuing..."
-          git reset --hard origin/main || echo "Reset failed, continuing..."
+          # Принудительно получаем обновления
+          echo "📥 Получаем обновления из GitHub..."
+          git fetch origin main --force
+          echo "🔄 Сбрасываем до последнего коммита..."
+          git reset --hard origin/main
+          git clean -fd
           
-          # Проверяем что deploy.sh существует и делаем его исполняемым
-          if [ -f "deploy.sh" ]; then
-            chmod +x deploy.sh
-            ./deploy.sh
+          echo "📊 Статус Git после обновления:"
+          git status || echo "Git status failed"
+          
+          echo "📋 Коммит после обновления:"
+          git log --oneline -1 || echo "Git log failed"
+          
+          echo "🔍 Проверяем содержимое файла home.blade.php:"
+          if [ -f "resources/views/frontend/home.blade.php" ]; then
+            grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Не найдено ни Altech, ни Алтех"
           else
-            echo "deploy.sh not found, running manual deployment..."
-            
-            # Создаем резервную копию .env файла
-            cp .env .env.backup
-            
-            # Принудительно получаем обновления
-            git fetch origin main --force
-            git reset --hard origin/main
-            git clean -fd
-            
-            # Восстанавливаем .env файл
-            cp .env.backup .env
-            
-            # Устанавливаем зависимости
-            composer install --no-dev --optimize-autoloader
-            npm install --production
-            npm run build
-            
-            # Очищаем кэши
-            php artisan cache:clear
-            php artisan config:clear
-            php artisan route:clear
-            php artisan view:clear
-            php artisan optimize:clear
-            
-            # Перезапускаем веб-сервер
-            systemctl reload nginx
-            systemctl reload apache2
+            echo "❌ Файл home.blade.php не найден!"
           fi
+          
+          # Очищаем кэши
+          echo "🧹 Очищаем кэши Laravel..."
+          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"
+          php artisan view:clear 2>/dev/null || echo "View clear failed"
+          php artisan config:clear 2>/dev/null || echo "Config clear failed"
+          
+          # Перезапускаем веб-сервер
+          echo "🔄 Перезапускаем веб-сервер..."
+          systemctl reload nginx 2>/dev/null || echo "Nginx reload failed"
+          
+          echo "✅ Деплой завершён! Проверьте сайт."
