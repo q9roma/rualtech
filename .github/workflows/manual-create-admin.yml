@@ -1,0 +1,60 @@
+name: Manual Create Admin
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-admin:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Admin User on Production
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: rualtech.ru
+        username: u2465636
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔐 Создаем админ пользователя на production..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          echo "📍 Текущая директория:"
+          pwd
+          
+          echo "📂 Содержимое директории:"
+          ls -la
+          
+          echo "🔍 Проверяем artisan:"
+          ls -la artisan
+          
+          echo "👤 Создаем админ пользователя..."
+          php artisan admin:create "alexsoroka" "corp-altekh07938@yandex.ru" "admin123!" 2>&1 || echo "Команда не сработала, пробуем альтернативный способ..."
+          
+          echo "🔧 Альтернативный способ через tinker..."
+          php artisan tinker --execute="
+          try {
+            \$user = App\\Models\\User::where('email', 'corp-altekh07938@yandex.ru')->first();
+            if (!\$user) {
+              \$user = App\\Models\\User::create([
+                'name' => 'alexsoroka',
+                'email' => 'corp-altekh07938@yandex.ru',
+                'password' => Hash::make('admin123!')
+              ]);
+              echo 'User created successfully';
+            } else {
+              \$user->password = Hash::make('admin123!');
+              \$user->save();
+              echo 'User password updated';
+            }
+          } catch (Exception \$e) {
+            echo 'Error: ' . \$e->getMessage();
+          }
+          " 2>&1 || echo "Tinker failed"
+          
+          echo "✅ Проверяем результат:"
+          php artisan tinker --execute="echo App\\Models\\User::where('email', 'corp-altekh07938@yandex.ru')->first() ? 'User exists' : 'User not found'" 2>&1
+          
+          echo "🎯 Готово! Данные для входа:"
+          echo "📍 URL: https://rualtech.ru/admin/login"
+          echo "📧 Email: corp-altekh07938@yandex.ru"
+          echo "🔑 Password: admin123!"

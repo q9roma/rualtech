@@ -1,0 +1,43 @@
+name: Create Admin User
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Admin name'
+        required: true
+        default: 'alexsoroka'
+      email:
+        description: 'Admin email'
+        required: true
+        default: 'corp-altekh07938@yandex.ru'
+      password:
+        description: 'Admin password'
+        required: true
+        default: 'admin123!'
+
+jobs:
+  create-admin:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Admin User on Production
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: rualtech.ru
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          echo "🔐 Создаем админ пользователя..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          # Создаем пользователя
+          php artisan admin:create "${{ github.event.inputs.name }}" "${{ github.event.inputs.email }}" "${{ github.event.inputs.password }}" || echo "User may already exist"
+          
+          # Проверяем, что пользователь создан
+          php artisan tinker --execute="echo App\\Models\\User::where('email', '${{ github.event.inputs.email }}')->first() ? 'User exists: ${{ github.event.inputs.email }}' : 'User not found'"
+          
+          echo "✅ Готово! Попробуйте войти в админку:"
+          echo "📍 URL: https://rualtech.ru/admin/login"
+          echo "📧 Email: ${{ github.event.inputs.email }}"
+          echo "🔑 Password: [hidden]"
