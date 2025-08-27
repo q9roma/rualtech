@@ -1,0 +1,67 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🚀 Начинаем деплой..."
+          
+          cd /var/www/www-root/data/www/rualtech.ru
+          echo "📂 В директории проекта: $(pwd)"
+          
+          # Принудительно скачиваем свежий код
+          echo "📦 Скачиваем свежий код..."
+          wget -O /tmp/latest.zip https://github.com/q9roma/rualtech/archive/refs/heads/main.zip
+          
+          if [ -f /tmp/latest.zip ]; then
+            echo "💾 Сохраняем .env файл..."
+            cp .env /tmp/env_backup 2>/dev/null || echo "No .env to backup"
+            
+            echo "📂 Распаковываем новый код..."
+            cd /tmp
+            unzip -o latest.zip
+            
+            echo "📋 Копируем файлы на сайт..."
+            cd /var/www/www-root/data/www/rualtech.ru
+            cp -r /tmp/rualtech-main/* .
+            
+            echo "🔄 Восстанавливаем .env..."
+            cp /tmp/env_backup .env 2>/dev/null || echo "No .env to restore"
+            
+            echo "🧹 Очищаем временные файлы..."
+            rm -f /tmp/latest.zip
+            rm -rf /tmp/rualtech-main/
+            
+            echo "✅ Код успешно обновлён!"
+          else
+            echo "❌ Не удалось скачать архив"
+            exit 1
+          fi
+          
+          echo "🔍 Проверяем файл после обновления:"
+          grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Файл не найден"
+          
+          echo "🧹 Очищаем кэши Laravel..."
+          php artisan cache:clear
+          php artisan view:clear
+          php artisan config:clear
+          
+          echo "🔄 Перезапускаем веб-сервер..."
+          systemctl reload nginx
+          
+          echo "✅ Деплой завершён! Проверьте https://rualtech.ru"

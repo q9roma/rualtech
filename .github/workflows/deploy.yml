@@ -12,6 +12,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Create deployment archive
+      run: |
+        # Создаём архив с кодом (исключая .git и другие ненужные файлы)
+        tar -czf deploy.tar.gz \
+          --exclude='.git' \
+          --exclude='node_modules' \
+          --exclude='.env*' \
+          --exclude='*.log' \
+          --exclude='storage/logs/*' \
+          --exclude='bootstrap/cache/*' \
+          .
+    
     - name: Deploy to server
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -19,37 +31,55 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          echo "🚀 Начинаем деплой..."
-          
+          echo "🚀 Подготавливаем деплой..."
           cd /var/www/www-root/data/www/rualtech.ru
           echo "📂 В директории проекта: $(pwd)"
           
-          # Принудительно скачиваем свежий код
-          echo "📦 Скачиваем свежий код..."
-          wget -O /tmp/latest.zip https://github.com/q9roma/rualtech/archive/refs/heads/main.zip
+          # Сохраняем важные файлы
+          echo "� Сохраняем .env файл..."
+          cp .env /tmp/env_backup 2>/dev/null || echo "No .env to backup"
           
-          if [ -f /tmp/latest.zip ]; then
-            echo "💾 Сохраняем .env файл..."
-            cp .env /tmp/env_backup 2>/dev/null || echo "No .env to backup"
+          echo "🧹 Очищаем старые файлы (кроме критичных)..."
+          find . -maxdepth 1 -type f -name "*.php" -delete
+          find . -maxdepth 1 -type f -name "*.md" -delete
+          find . -maxdepth 1 -type f -name "*.json" -delete
+          find . -maxdepth 1 -type f -name "*.js" -delete
+          find . -maxdepth 1 -type f -name "*.yml" -delete
+          rm -rf app/ resources/ routes/ database/ config/ bootstrap/app.php bootstrap/providers.php 2>/dev/null
+          
+          echo "✅ Готов к получению новых файлов"
+    
+    - name: Copy files to server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "deploy.tar.gz"
+        target: "/tmp/"
+    
+    - name: Extract and finalize deployment
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "� Распаковываем новый код..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          if [ -f /tmp/deploy.tar.gz ]; then
+            tar -xzf /tmp/deploy.tar.gz
+            echo "✅ Код успешно распакован"
             
-            echo "📂 Распаковываем новый код..."
-            cd /tmp
-            unzip -o latest.zip
-            
-            echo "📋 Копируем файлы на сайт..."
-            cd /var/www/www-root/data/www/rualtech.ru
-            cp -r /tmp/rualtech-main/* .
-            
+            # Восстанавливаем .env
             echo "🔄 Восстанавливаем .env..."
             cp /tmp/env_backup .env 2>/dev/null || echo "No .env to restore"
             
-            echo "🧹 Очищаем временные файлы..."
-            rm -f /tmp/latest.zip
-            rm -rf /tmp/rualtech-main/
-            
-            echo "✅ Код успешно обновлён!"
+            # Очищаем временные файлы
+            rm -f /tmp/deploy.tar.gz /tmp/env_backup
           else
-            echo "❌ Не удалось скачать архив"
+            echo "❌ Архив не найден"
             exit 1
           fi
           
@@ -57,11 +87,11 @@ jobs:
           grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Файл не найден"
           
           echo "🧹 Очищаем кэши Laravel..."
-          php artisan cache:clear
-          php artisan view:clear
-          php artisan config:clear
+          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"
+          php artisan view:clear 2>/dev/null || echo "View clear failed"  
+          php artisan config:clear 2>/dev/null || echo "Config clear failed"
           
           echo "🔄 Перезапускаем веб-сервер..."
-          systemctl reload nginx
+          systemctl reload nginx 2>/dev/null || echo "Nginx reload failed"
           
           echo "✅ Деплой завершён! Проверьте https://rualtech.ru"
