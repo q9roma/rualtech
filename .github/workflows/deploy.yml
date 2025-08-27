@@ -15,14 +15,16 @@ jobs:
     - name: Create deployment archive
       run: |
         # Создаём архив с кодом (исключая .git и другие ненужные файлы)
-        tar -czf deploy.tar.gz \
+        tar -czf ../deploy.tar.gz \
           --exclude='.git' \
           --exclude='node_modules' \
           --exclude='.env*' \
           --exclude='*.log' \
           --exclude='storage/logs/*' \
           --exclude='bootstrap/cache/*' \
+          --exclude='deploy.tar.gz' \
           .
+        mv ../deploy.tar.gz ./deploy.tar.gz
     
     - name: Deploy to server
       uses: appleboy/ssh-action@v1.0.3
