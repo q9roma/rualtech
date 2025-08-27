@@ -1,0 +1,42 @@
+name: Test Admin Access After Fix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Admin Panel Access
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            echo "=== Очистка кеша Laravel ==="
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan view:clear
+            
+            echo -e "\n=== Тест доступности админ панели ==="
+            curl -I http://localhost/admin/login
+            
+            echo -e "\n=== Проверка последних логов ==="
+            tail -5 storage/logs/laravel.log 2>/dev/null || echo "Нет новых логов"
+            
+            echo -e "\n=== Проверка helper ==="
+            php -r "
+            \$path = '/var/www/www-root/data/www/rualtech.ru/app/Helpers/RussianPluralHelper.php';
+            if (file_exists(\$path)) {
+                echo 'Helper exists at ' . \$path . PHP_EOL;
+            } else {
+                echo 'Helper not found' . PHP_EOL;
+            }
+            "
+            
+            echo -e "\n=== Перезапуск PHP-FPM ==="
+            sudo systemctl reload php8.2-fpm
