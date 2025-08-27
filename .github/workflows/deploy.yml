@@ -1,8 +1,8 @@
 name: Deploy to Production
 
 on:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -74,9 +74,41 @@ jobs:
             tar -xzf /tmp/deploy.tar.gz
             echo "✅ Код успешно распакован"
             
-            # Восстанавливаем .env
-            echo "🔄 Восстанавливаем .env..."
-            cp /tmp/env_backup .env 2>/dev/null || echo "No .env to restore"
+            # Создаем правильный .env из .env.production
+            echo "🔄 Создаем правильный .env..."
+            if [ -f ".env.production" ]; then
+              cp .env.production .env
+              echo "✅ .env создан из .env.production"
+            else
+              echo "❌ .env.production не найден, создаем .env вручную"
+              cat > .env << 'ENVEOF'
+          APP_NAME=Laravel
+          APP_ENV=production
+          APP_KEY=base64:koCcDULFl7i77qQI2uVkvcZ2613SXNC8R1mCahDmveU=
+          APP_DEBUG=false
+          APP_URL=https://rualtech.ru
+          
+          APP_LOCALE=ru
+          APP_FALLBACK_LOCALE=ru
+          
+          DB_CONNECTION=mysql
+          DB_HOST=localhost
+          DB_PORT=3306
+          DB_DATABASE=rualtech
+          DB_USERNAME=alexsor
+          DB_PASSWORD=eY7rG4pX7r
+          
+          SESSION_DRIVER=file
+          SESSION_LIFETIME=120
+          
+          CACHE_STORE=file
+          QUEUE_CONNECTION=database
+          
+          MAIL_MAILER=log
+          MAIL_FROM_ADDRESS="office@rualtech.ru"
+          MAIL_FROM_NAME="Алтех"
+          ENVEOF
+            fi
             
             # Очищаем временные файлы
             rm -f /tmp/deploy.tar.gz /tmp/env_backup
