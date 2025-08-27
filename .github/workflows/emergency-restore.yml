@@ -1,0 +1,90 @@
+name: Emergency Site Restore
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Emergency restore
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🚨 ЭКСТРЕННОЕ ВОССТАНОВЛЕНИЕ САЙТА"
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          # Восстанавливаем критические директории и файлы
+          echo "📁 Создаём необходимые директории..."
+          mkdir -p storage/logs
+          mkdir -p storage/framework/cache/data
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/views
+          mkdir -p storage/app/public
+          mkdir -p bootstrap/cache
+          
+          # Восстанавливаем права доступа
+          echo "🔐 Устанавливаем права доступа..."
+          chown -R www-data:www-data storage bootstrap/cache
+          chmod -R 775 storage bootstrap/cache
+          
+          # Восстанавливаем storage если есть бэкап
+          if [ -d /tmp/storage_backup ]; then
+            echo "📦 Восстанавливаем storage из бэкапа..."
+            cp -r /tmp/storage_backup/* storage/
+            chown -R www-data:www-data storage
+          fi
+          
+          # Восстанавливаем bootstrap/cache если есть бэкап
+          if [ -d /tmp/bootstrap_cache_backup ]; then
+            echo "📦 Восстанавливаем bootstrap/cache из бэкапа..."
+            cp -r /tmp/bootstrap_cache_backup/* bootstrap/cache/
+            chown -R www-data:www-data bootstrap/cache
+          fi
+          
+          # Восстанавливаем .env
+          if [ -f /tmp/env_backup ]; then
+            echo "⚙️ Восстанавливаем .env..."
+            cp /tmp/env_backup .env
+          fi
+          
+          # Создаём базовый .env если его нет
+          if [ ! -f .env ]; then
+            echo "⚙️ Создаём базовый .env файл..."
+            cat > .env << 'EOF'
+APP_NAME=Altech
+APP_ENV=production
+APP_KEY=base64:your_app_key_here
+APP_DEBUG=false
+APP_URL=https://rualtech.ru
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+EOF
+          fi
+          
+          # Очищаем кэши
+          echo "🧹 Очищаем кэши..."
+          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"
+          php artisan config:clear 2>/dev/null || echo "Config clear failed"
+          php artisan view:clear 2>/dev/null || echo "View clear failed"
+          
+          # Проверяем автозагрузчик
+          echo "🔄 Обновляем автозагрузчик..."
+          composer dump-autoload 2>/dev/null || echo "Composer dump-autoload failed"
+          
+          # Перезапускаем веб-сервер
+          echo "🔄 Перезапускаем веб-сервер..."
+          systemctl reload nginx
+          systemctl reload apache2 2>/dev/null || echo "Apache reload failed"
+          
+          echo "✅ ЭКСТРЕННОЕ ВОССТАНОВЛЕНИЕ ЗАВЕРШЕНО!"
+          echo "🌐 Проверьте сайт: https://rualtech.ru"
