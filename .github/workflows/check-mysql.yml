@@ -1,0 +1,51 @@
+name: Check MySQL Users
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-mysql:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check MySQL configuration
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /var/www/www-root/data/www/rualtech.ru/
+          
+          echo "🔍 === ПРОВЕРКА MYSQL ==="
+          
+          echo "🗄️ Проверяем доступные базы данных:"
+          mysql -e "SHOW DATABASES;" 2>/dev/null || echo "❌ MySQL без аутентификации не работает"
+          
+          echo "🔑 Пробуем разные варианты подключения:"
+          echo "1. Пробуем mysql без пароля:"
+          mysql -u root -e "SELECT USER();" 2>/dev/null || echo "❌ root без пароля не работает"
+          
+          echo "2. Пробуем mysql с пустым паролем:"
+          mysql -u root -p'' -e "SELECT USER();" 2>/dev/null || echo "❌ root с пустым паролем не работает"
+          
+          echo "3. Проверяем существует ли пользователь rualtech:"
+          mysql -u rualtech -e "SELECT USER();" 2>/dev/null || echo "❌ пользователь rualtech без пароля не работает"
+          
+          echo "🔍 Ищем файлы конфигурации MySQL:"
+          find /etc -name "*.cnf" 2>/dev/null | head -5 || echo "Конфиг файлы не найдены"
+          
+          echo "📋 Проверяем переменные окружения для БД:"
+          env | grep -i mysql || echo "MySQL переменных не найдено"
+          env | grep -i db || echo "DB переменных не найдено"
+          
+          echo "🔧 Попробуем определить правильные настройки БД из других файлов:"
+          if [ -f ".env.example" ]; then
+            echo "--- .env.example ---"
+            grep "DB_" .env.example || echo "Нет настроек БД в .env.example"
+          fi
+          
+          if [ -f ".env.backup" ]; then
+            echo "--- .env.backup ---"
+            grep "DB_" .env.backup || echo "Нет настроек БД в .env.backup"
+          fi
