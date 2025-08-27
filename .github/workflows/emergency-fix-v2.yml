@@ -1,23 +1,18 @@
-name: Emergency Site Fix
+name: Emergency Fix - Complete Site Restoration
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 jobs:
   emergency-restore:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Emergency Site Restoration
+      - name: Complete Site Restoration
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
           script: |
             echo "🚨 Starting emergency restoration..."
             
@@ -30,12 +25,15 @@ jobs:
             mkdir -p /var/www/www-root/data/www/rualtech.ru
             cd /var/www/www-root/data/www/rualtech.ru
             
-          # Download repository as archive (works with private repos)
-          wget https://github.com/q9roma/rualtech/archive/refs/heads/main.zip -O repo.zip
-          unzip repo.zip
-          mv rualtech-main/* .
-          mv rualtech-main/.* . 2>/dev/null || true
-          rm -rf rualtech-main repo.zip            # Install dependencies
+            # Download repository as archive (works with private repos)
+            wget https://github.com/q9roma/rualtech/archive/refs/heads/main.zip -O repo.zip
+            unzip repo.zip
+            mv rualtech-main/* .
+            mv rualtech-main/.* . 2>/dev/null || true
+            rm -rf rualtech-main repo.zip
+            
+            # Install dependencies
+            export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-dev --optimize-autoloader
             
             # Create .env file
@@ -102,3 +100,5 @@ jobs:
             echo "✅ Emergency restoration completed"
             echo "📁 Directory contents:"
             ls -la
+            echo "📋 Checking if site works:"
+            curl -I http://localhost || echo "Site not responding yet"
