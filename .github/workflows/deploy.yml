@@ -125,7 +125,11 @@ jobs:
           php artisan view:clear 2>/dev/null || echo "View clear failed"  
           php artisan config:clear 2>/dev/null || echo "Config clear failed"
           
-          echo "🔄 Перезапускаем веб-сервер..."
+          echo "� Создаем администратора..."
+          php artisan admin:create "alexsoroka" "corp-altekh07938@yandex.ru" "admin123!" 2>/dev/null || echo "Admin user already exists or creation failed"
+          
+          echo "�🔄 Перезапускаем веб-сервер..."
           systemctl reload nginx 2>/dev/null || echo "Nginx reload failed"
           
           echo "✅ Деплой завершён! Проверьте https://rualtech.ru"
+          echo "🔐 Админка доступна по адресу: https://rualtech.ru/admin/login"
