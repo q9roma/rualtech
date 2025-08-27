@@ -1,0 +1,51 @@
+name: Quick Server Diagnosis
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Quick server check
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔍 === БЫСТРАЯ ДИАГНОСТИКА ==="
+          
+          echo "📂 Текущая директория:"
+          pwd
+          
+          echo "📁 Содержимое проекта:"
+          cd /var/www/www-root/data/www/rualtech.ru/
+          pwd
+          ls -la
+          
+          echo "📋 Статус .env файла:"
+          if [ -f ".env" ]; then
+            echo "✅ .env найден"
+            echo "--- Первые строки .env ---"
+            head -10 .env
+            echo "--- Настройки БД ---"
+            grep "DB_" .env
+          else
+            echo "❌ .env отсутствует"
+          fi
+          
+          echo "🔧 Тест artisan:"
+          php artisan --version || echo "❌ Artisan не работает"
+          
+          echo "📝 Последние ошибки Laravel:"
+          if [ -f "storage/logs/laravel.log" ]; then
+            echo "--- Последние 10 строк ---"
+            tail -10 storage/logs/laravel.log
+          else
+            echo "❌ Лог файл не найден"
+          fi
+          
+          echo "🗄️ Тест подключения к БД:"
+          php artisan tinker --execute="echo 'DB test: '; try { DB::connection()->getPdo(); echo 'DB OK'; } catch(Exception \$e) { echo 'DB Error: '.\$e->getMessage(); }" || echo "❌ Tinker не работает"
