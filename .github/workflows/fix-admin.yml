@@ -1,0 +1,49 @@
+name: Fix Admin User
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-admin:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Fix Admin User via Tinker
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔧 Исправляем пользователя админа..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          echo "📍 Текущая папка: $(pwd)"
+          
+          # Прямая команда через tinker
+          php artisan tinker --execute="
+          use App\\Models\\User;
+          use Illuminate\\Support\\Facades\\Hash;
+          
+          \\$email = 'corp-altekh07938@yandex.ru';
+          \\$user = User::where('email', \\$email)->first();
+          
+          if (!\\$user) {
+            \\$user = User::create([
+              'name' => 'alexsoroka',
+              'email' => \\$email,
+              'password' => Hash::make('admin123!')
+            ]);
+            echo 'Пользователь создан: ' . \\$user->email;
+          } else {
+            \\$user->password = Hash::make('admin123!');
+            \\$user->save();
+            echo 'Пароль обновлен для: ' . \\$user->email;
+          }
+          "
+          
+          echo ""
+          echo "✅ Готово! Админка доступна:"
+          echo "🌐 https://rualtech.ru/admin/login"
+          echo "📧 corp-altekh07938@yandex.ru"
+          echo "🔐 admin123!"

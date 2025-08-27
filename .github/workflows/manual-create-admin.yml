@@ -11,8 +11,8 @@ jobs:
     - name: Create Admin User on Production
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: rualtech.ru
-        username: u2465636
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
           echo "🔐 Создаем админ пользователя на production..."
