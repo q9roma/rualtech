@@ -25,12 +25,9 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('ru');
         setlocale(LC_TIME, 'ru_RU.UTF-8');
         
-        // Принудительно используем HTTPS для всех URL
+        // Принудительно используем HTTPS только для продакшена
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
-        
-        // Доверяем всем прокси (для Nginx)
-        request()->server->set('HTTPS', 'on');
     }
 }
