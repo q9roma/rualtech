@@ -1,0 +1,33 @@
+name: Fix Database Settings
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-db:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Fix database settings in .env
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /var/www/www-root/data/www/rualtech.ru/
+          
+          echo "🔧 Исправляем настройки базы данных в .env..."
+          
+          # Исправляем только имя пользователя БД
+          sed -i 's/DB_USERNAME=rualtech/DB_USERNAME=root/' .env
+          
+          echo "📋 Новые настройки БД:"
+          grep "DB_" .env
+          
+          echo "🧹 Очищаем кеш Laravel..."
+          php artisan config:clear
+          php artisan cache:clear
+          
+          echo "🗄️ Тестируем подключение к БД:"
+          php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'DB подключение OK!'; } catch(Exception \$e) { echo 'DB Error: '.\$e->getMessage(); }"
