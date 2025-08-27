@@ -1,0 +1,46 @@
+name: Force Fix Database Username
+
+on:
+  workflow_dispatch:
+
+jobs:
+  force-fix:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Force fix database username with backup
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /var/www/www-root/data/www/rualtech.ru/
+          
+          echo "🔧 Принудительное исправление DB_USERNAME..."
+          
+          # Создаем бэкап
+          cp .env .env.backup
+          echo "✅ Бэкап создан: .env.backup"
+          
+          # Показываем текущие настройки
+          echo "📋 ДО изменения:"
+          grep "DB_USERNAME" .env
+          
+          # Используем более надежный способ замены
+          awk '{gsub(/DB_USERNAME=rualtech/, "DB_USERNAME=root"); print}' .env > .env.tmp && mv .env.tmp .env
+          
+          # Проверяем результат
+          echo "📋 ПОСЛЕ изменения:"
+          grep "DB_USERNAME" .env
+          
+          # Устанавливаем права доступа
+          chown www-data:www-data .env
+          chmod 644 .env
+          
+          echo "🧹 Очищаем кеш..."
+          php artisan config:clear
+          php artisan cache:clear
+          
+          echo "🗄️ Тестируем подключение к БД:"
+          php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'SUCCESS: База данных подключена!'; } catch(Exception \$e) { echo 'ERROR: '.\$e->getMessage(); }"
