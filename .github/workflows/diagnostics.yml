@@ -1,0 +1,77 @@
+name: Server Diagnostics
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Server Diagnostics and Logs
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "=== SERVER DIAGNOSTICS ==="
+            echo "Current date: $(date)"
+            echo "Current directory: $(pwd)"
+            
+            echo ""
+            echo "=== CHECKING SITE DIRECTORY ==="
+            cd /var/www/www-root/data/www/rualtech.ru
+            ls -la
+            
+            echo ""
+            echo "=== CHECKING .ENV FILE ==="
+            if [ -f .env ]; then
+              echo ".env exists"
+              head -10 .env
+            else
+              echo ".env does not exist!"
+            fi
+            
+            echo ""
+            echo "=== CHECKING PERMISSIONS ==="
+            ls -la storage/
+            ls -la bootstrap/cache/
+            
+            echo ""
+            echo "=== NGINX ERROR LOG ==="
+            tail -20 /var/log/nginx/error.log
+            
+            echo ""
+            echo "=== NGINX ACCESS LOG ==="
+            tail -10 /var/log/nginx/access.log | grep rualtech
+            
+            echo ""
+            echo "=== PHP-FPM ERROR LOG ==="
+            tail -20 /var/log/php8.2-fpm.log
+            
+            echo ""
+            echo "=== LARAVEL ERROR LOG ==="
+            if [ -f storage/logs/laravel.log ]; then
+              tail -20 storage/logs/laravel.log
+            else
+              echo "Laravel log not found"
+            fi
+            
+            echo ""
+            echo "=== CHECKING SERVICES ==="
+            systemctl status nginx --no-pager -l
+            systemctl status php8.2-fpm --no-pager -l
+            
+            echo ""
+            echo "=== TRYING TO RUN LARAVEL COMMANDS ==="
+            php artisan --version
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan view:clear
+            
+            echo ""
+            echo "=== CHECKING DISK SPACE ==="
+            df -h
+            
+            echo ""
+            echo "=== END DIAGNOSTICS ==="
