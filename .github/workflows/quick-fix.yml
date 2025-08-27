@@ -1,0 +1,54 @@
+name: Quick Fix - Public Repo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  quick-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            echo "🚀 Quick deployment start..."
+            
+            # Navigate to site directory
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            # Backup current files
+            cp -r . ../backup-$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
+            
+            # Pull latest changes (repo is now public)
+            git pull origin main || git clone https://github.com/q9roma/rualtech.git . || echo "Git failed, trying wget..."
+            
+            # If git failed, use wget
+            if [ ! -f "artisan" ]; then
+              echo "Using wget method..."
+              rm -rf * .*
+              wget https://github.com/q9roma/rualtech/archive/refs/heads/main.zip -O repo.zip
+              unzip repo.zip
+              mv rualtech-main/* .
+              mv rualtech-main/.* . 2>/dev/null || true
+              rm -rf rualtech-main repo.zip
+            fi
+            
+            # Install composer dependencies
+            export COMPOSER_ALLOW_SUPERUSER=1
+            composer install --no-dev --optimize-autoloader || echo "Composer failed"
+            
+            # Set proper permissions
+            chown -R www-data:www-data .
+            chmod -R 755 .
+            chmod -R 775 storage bootstrap/cache
+            
+            # Restart services
+            systemctl reload nginx
+            systemctl restart apache2
+            
+            echo "✅ Quick fix completed!"
+            echo "Files present:"
+            ls -la | head -10
