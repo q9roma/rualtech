@@ -1,0 +1,75 @@
+name: Server Diagnostics
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  diagnose-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Server Diagnostics and Emergency Fix
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "=== ДИАГНОСТИКА СЕРВЕРА ==="
+            date
+            
+            echo "=== СОСТОЯНИЕ ДИРЕКТОРИИ ==="
+            cd /var/www/www-root/data/www/rualtech.ru
+            pwd
+            ls -la
+            
+            echo "=== ПРАВА ДОСТУПА ==="
+            ls -la storage/
+            ls -la bootstrap/cache/
+            
+            echo "=== ЛОГИ NGINX ==="
+            tail -20 /var/log/nginx/error.log
+            
+            echo "=== ЛОГИ PHP ==="
+            tail -20 /var/log/php8.2-fpm.log
+            
+            echo "=== ЛОГИ LARAVEL ==="
+            tail -20 storage/logs/laravel.log
+            
+            echo "=== ПРОВЕРКА .ENV ==="
+            ls -la .env
+            head -5 .env
+            
+            echo "=== ЭКСТРЕННОЕ ВОССТАНОВЛЕНИЕ ==="
+            
+            # Восстанавливаем права
+            chown -R www-data:www-data /var/www/www-root/data/www/rualtech.ru
+            chmod -R 755 /var/www/www-root/data/www/rualtech.ru
+            chmod -R 775 storage bootstrap/cache
+            
+            # Очищаем кеши
+            php artisan config:clear || echo "Config clear failed"
+            php artisan cache:clear || echo "Cache clear failed"
+            php artisan view:clear || echo "View clear failed"
+            php artisan route:clear || echo "Route clear failed"
+            
+            # Создаем недостающие директории
+            mkdir -p storage/logs
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p bootstrap/cache
+            
+            # Восстанавливаем права снова
+            chown -R www-data:www-data storage bootstrap/cache
+            chmod -R 775 storage bootstrap/cache
+            
+            # Перезапускаем сервисы
+            systemctl reload nginx
+            systemctl restart php8.2-fpm
+            
+            echo "=== ПРОВЕРКА ПОСЛЕ ВОССТАНОВЛЕНИЯ ==="
+            curl -s -o /dev/null -w "%{http_code}" http://localhost || echo "Curl failed"
+            
+            echo "=== ДИАГНОСТИКА ЗАВЕРШЕНА ==="

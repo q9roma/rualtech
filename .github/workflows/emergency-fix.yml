@@ -9,6 +9,9 @@ jobs:
   emergency-restore:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Emergency Site Restoration
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -16,9 +19,24 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            echo "🚨 Starting emergency restoration..."
+            
+            # Backup current directory if exists
+            if [ -d "/var/www/www-root/data/www/rualtech.ru" ]; then
+              mv /var/www/www-root/data/www/rualtech.ru /var/www/www-root/data/www/rualtech.ru.backup.$(date +%Y%m%d_%H%M%S)
+            fi
+            
+            # Create fresh directory
+            mkdir -p /var/www/www-root/data/www/rualtech.ru
             cd /var/www/www-root/data/www/rualtech.ru
             
-            # Create simple .env file
+            # Clone repository fresh
+            git clone https://github.com/q9roma/rualtech.git .
+            
+            # Install dependencies
+            composer install --no-dev --optimize-autoloader
+            
+            # Create .env file
             cat > .env << 'EOF'
             APP_NAME=Altech
             APP_ENV=production
@@ -32,22 +50,53 @@ jobs:
             DB_DATABASE=your_database
             DB_USERNAME=your_username
             DB_PASSWORD=your_password
+            
+            BROADCAST_DRIVER=log
+            CACHE_DRIVER=file
+            FILESYSTEM_DISK=local
+            QUEUE_CONNECTION=sync
+            SESSION_DRIVER=file
+            SESSION_LIFETIME=120
             EOF
             
-            # Fix permissions
+            # Create storage structure
+            mkdir -p storage/logs
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p bootstrap/cache
+            
+            # Set permissions
             chown -R www-data:www-data /var/www/www-root/data/www/rualtech.ru
             chmod -R 755 /var/www/www-root/data/www/rualtech.ru
             chmod -R 775 /var/www/www-root/data/www/rualtech.ru/storage
             chmod -R 775 /var/www/www-root/data/www/rualtech.ru/bootstrap/cache
             
-            # Clear all caches
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan view:clear
-            php artisan route:clear
+            # Try to find correct PHP-FPM service
+            if systemctl is-active --quiet php8.1-fpm; then
+              PHP_FPM_SERVICE="php8.1-fpm"
+            elif systemctl is-active --quiet php8.0-fpm; then
+              PHP_FPM_SERVICE="php8.0-fpm"
+            elif systemctl is-active --quiet php7.4-fpm; then
+              PHP_FPM_SERVICE="php7.4-fpm"
+            else
+              PHP_FPM_SERVICE="apache2"
+            fi
+            
+            echo "Using PHP service: $PHP_FPM_SERVICE"
+            
+            # Clear caches only if artisan exists
+            if [ -f "artisan" ]; then
+              php artisan config:clear || true
+              php artisan cache:clear || true
+              php artisan view:clear || true
+              php artisan route:clear || true
+            fi
             
             # Restart services
-            systemctl reload nginx
-            systemctl restart php8.2-fpm
+            systemctl reload nginx || true
+            systemctl restart $PHP_FPM_SERVICE || true
             
             echo "✅ Emergency restoration completed"
+            echo "📁 Directory contents:"
+            ls -la
