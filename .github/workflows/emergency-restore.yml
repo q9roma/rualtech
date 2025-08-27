@@ -56,7 +56,7 @@ jobs:
           if [ ! -f .env ]; then
             echo "⚙️ Создаём базовый .env файл..."
             cat > .env << 'EOF'
-APP_NAME=Altech
+APP_NAME=Алтех
 APP_ENV=production
 APP_KEY=base64:your_app_key_here
 APP_DEBUG=false

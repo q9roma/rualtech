@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO -->
-    <title>@yield('title', 'Altech - IT-решения для бизнеса')</title>
-    <meta name="description" content="@yield('description', 'Altech - поставщик и интегратор комплексных решений в области IT')">
+    <title>@yield('title', 'Алтех - IT-решения для бизнеса')</title>
+    <meta name="description" content="@yield('description', 'Алтех - поставщик и интегратор комплексных решений в области IT')">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -126,13 +126,23 @@
     <header class="shadow-lg border-b border-gray-700 fixed top-0 left-0 right-0 z-50" style="background-color: #121212;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex items-center">
+                <!-- Logo and Contact Info -->
+                <div class="flex items-center space-x-4">
                     <a href="{{ route('home') }}" class="flex items-center">
                         <img src="{{ asset('images/logo_light.svg') }}" 
-                             alt="Altech" 
+                             alt="Алтех" 
                              class="h-12 w-auto">
                     </a>
+                    <!-- Desktop Contact Info -->
+                    <div class="hidden md:flex items-center text-gray-300 text-sm">
+                        <span>+7 (495) 275-35-33</span>
+                        <div class="w-2 h-2 rounded-full mx-3" style="background-color: rgb(113, 190, 13); box-shadow: 0 0 5px rgb(113, 190, 13), 0 0 10px rgb(113, 190, 13), 0 0 15px rgba(113, 190, 13, 0.5); opacity: 0.8;"></div>
+                        <span>office@rualtech.ru</span>
+                    </div>
+                    <!-- Mobile Contact Info -->
+                    <div class="md:hidden text-gray-300 text-sm font-semibold leading-relaxed">
+                        <p>+7 (495) 275-35-33</p>
+                    </div>
                 </div>
 
                 <!-- Navigation Desktop -->
@@ -155,9 +165,6 @@
                             {{ $page->title }}
                         </a>
                     @endforeach
-                    <a href="#contact" class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium">
-                        Контакты
-                    </a>
                 </nav>
 
                 <!-- Mobile menu button -->
@@ -203,9 +210,6 @@
                             {{ $page->title }}
                         </a>
                     @endforeach
-                    <a href="#contact" class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium">
-                        Контакты
-                    </a>
                 </div>
             </div>
         </div>
@@ -219,53 +223,32 @@
     <!-- Footer -->
     <footer class="text-white" style="background-color: #121212;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Company Info -->
                 <div>
                     <div class="flex items-center mb-4">
                         <img src="{{ asset('images/logo_light.svg') }}" 
-                             alt="Altech" 
+                             alt="Алтех" 
                              class="h-8 w-auto mr-3">
-                        <h3 class="text-lg font-semibold">Altech</h3>
+                        <h3 class="text-lg font-semibold">Алтех</h3>
                     </div>
                     <p class="text-gray-300">
                         Современные технологические решения для вашего бизнеса.
                     </p>
                 </div>
 
-                <!-- Navigation -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Навигация</h3>
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="{{ route('home') }}" class="text-gray-300 hover:text-green-600 transition-colors">
-                                Главная
-                            </a>
-                        </li>
-                        @foreach($navigationPages ?? [] as $page)
-                            <li>
-                                <a href="{{ route('pages.show', $page->slug) }}" 
-                                   class="text-gray-300 hover:text-green-600 transition-colors">
-                                    {{ $page->title }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
                 <!-- Contact -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Контакты</h3>
                     <div class="space-y-2 text-gray-300">
-                        <p>Email: info@altech.ru</p>
-                        <p>Телефон: +7 (495) 123-45-67</p>
-                        <p>Адрес: Москва, ул. Примерная, 123</p>
+                        <p>Email: office@rualtech.ru</p>
+                        <p>Телефон: +7 (495) 275-35-33</p>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-gray-600 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; {{ date('Y') }} Altech. Все права защищены.</p>
+                <p>&copy; {{ date('Y') }} Алтех. Все права защищены.</p>
             </div>
         </div>
     </footer>
