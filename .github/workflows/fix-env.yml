@@ -1,0 +1,143 @@
+name: Fix ENV File on Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Причина запуска'
+        required: false
+        default: 'Исправление .env файла'
+
+jobs:
+  fix-env:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H rualtech.ru >> ~/.ssh/known_hosts
+        
+    - name: Fix .env file on server
+      run: |
+        ssh root@rualtech.ru << 'EOF'
+        cd /var/www/rualtech.ru/
+        
+        echo "🔧 Создаем правильный .env файл..."
+        
+        # Создаем .env из .env.production
+        if [ -f ".env.production" ]; then
+          cp .env.production .env
+          echo "✅ .env создан из .env.production"
+        else
+          echo "❌ .env.production не найден, создаем .env вручную"
+          cat > .env << 'ENVEOF'
+        APP_NAME=Laravel
+        APP_ENV=production
+        APP_KEY=base64:koCcDULFl7i77qQI2uVkvcZ2613SXNC8R1mCahDmveU=
+        APP_DEBUG=false
+        APP_URL=https://rualtech.ru
+
+        APP_LOCALE=ru
+        APP_FALLBACK_LOCALE=ru
+        APP_FAKER_LOCALE=ru_RU
+
+        APP_MAINTENANCE_DRIVER=file
+
+        PHP_CLI_SERVER_WORKERS=4
+
+        BCRYPT_ROUNDS=10
+
+        LOG_CHANNEL=stack
+        LOG_STACK=single
+        LOG_DEPRECATIONS_CHANNEL=null
+        LOG_LEVEL=error
+
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=rualtech
+        DB_USERNAME=root
+        DB_PASSWORD=
+
+        SESSION_DRIVER=file
+        SESSION_LIFETIME=120
+        SESSION_ENCRYPT=false
+        SESSION_PATH=/
+        SESSION_DOMAIN=null
+
+        BROADCAST_CONNECTION=log
+        FILESYSTEM_DISK=local
+        QUEUE_CONNECTION=database
+
+        CACHE_STORE=file
+
+        MEMCACHED_HOST=127.0.0.1
+
+        REDIS_CLIENT=phpredis
+        REDIS_HOST=127.0.0.1
+        REDIS_PASSWORD=null
+        REDIS_PORT=6379
+
+        MAIL_MAILER=log
+        MAIL_SCHEME=null
+        MAIL_HOST=127.0.0.1
+        MAIL_PORT=2525
+        MAIL_USERNAME=null
+        MAIL_PASSWORD=null
+        MAIL_FROM_ADDRESS="office@rualtech.ru"
+        MAIL_FROM_NAME="Алтех"
+
+        AWS_ACCESS_KEY_ID=
+        AWS_SECRET_ACCESS_KEY=
+        AWS_DEFAULT_REGION=us-east-1
+        AWS_BUCKET=
+        AWS_USE_PATH_STYLE_ENDPOINT=false
+
+        VITE_APP_NAME="Алтех"
+        ENVEOF
+        fi
+        
+        echo "📋 Проверяем настройки базы данных:"
+        grep "DB_DATABASE" .env
+        
+        echo "🧹 Очищаем весь кеш Laravel..."
+        php artisan config:clear
+        php artisan cache:clear
+        php artisan route:clear
+        php artisan view:clear
+        php artisan optimize:clear
+        
+        echo "🔧 Проверяем права доступа..."
+        chown -R www-data:www-data /var/www/rualtech.ru/
+        chmod -R 755 /var/www/rualtech.ru/
+        chmod -R 775 /var/www/rualtech.ru/storage/
+        chmod -R 775 /var/www/rualtech.ru/bootstrap/cache/
+        
+        echo "✅ .env файл исправлен!"
+        echo "📊 Проверяем статус файлов:"
+        ls -la .env*
+        EOF
+        
+    - name: Test site response
+      run: |
+        echo "🔍 Проверяем ответ сайта..."
+        sleep 5
+        
+        for i in {1..3}; do
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://rualtech.ru/ || echo "error")
+          echo "Попытка $i: HTTP $response"
+          
+          if [ "$response" = "200" ]; then
+            echo "🎉 САЙТ РАБОТАЕТ!"
+            break
+          else
+            echo "❌ Ошибка $response, ждем 10 секунд..."
+            sleep 10
+          fi
+        done
