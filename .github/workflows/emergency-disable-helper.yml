@@ -1,0 +1,45 @@
+name: Emergency Disable Helper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  disable-helper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disable Helper and Check Logs
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            echo "=== Проверяем логи до изменений ==="
+            tail -20 storage/logs/laravel.log 2>/dev/null || echo "Нет Laravel логов"
+            
+            echo -e "\n=== Создаем бэкап провайдера ==="
+            cp app/Providers/AppServiceProvider.php app/Providers/AppServiceProvider.php.backup
+            
+            echo -e "\n=== Отключаем helper ==="
+            sed -i '/RussianPluralHelper/d' app/Providers/AppServiceProvider.php
+            sed -i '/require_once/d' app/Providers/AppServiceProvider.php
+            sed -i '/file_exists/d' app/Providers/AppServiceProvider.php
+            sed -i '/helperPath/d' app/Providers/AppServiceProvider.php
+            
+            echo -e "\n=== Очищаем кеши ==="
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+            
+            echo -e "\n=== Перезапускаем PHP-FPM ==="
+            sudo systemctl reload php8.2-fpm
+            
+            echo -e "\n=== Тест админ панели ==="
+            curl -I http://localhost/admin/login
+            
+            echo -e "\n=== Проверяем логи после изменений ==="
+            tail -10 storage/logs/laravel.log 2>/dev/null || echo "Нет новых логов"

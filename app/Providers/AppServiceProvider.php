@@ -21,14 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Подключаем helper для склонения русских слов только если это не админ панель
-        if (!request()->is('admin*')) {
-            $helperPath = app_path('Helpers/RussianPluralHelper.php');
-            if (file_exists($helperPath)) {
-                require_once $helperPath;
-            }
-        }
-        
         // Устанавливаем русскую локаль для Carbon
         Carbon::setLocale('ru');
         setlocale(LC_TIME, 'ru_RU.UTF-8');
