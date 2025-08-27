@@ -1,0 +1,33 @@
+name: Clear Cache
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clear-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear Laravel Cache
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /var/www/www-root/data/www/rualtech.ru
+            
+            echo "=== Очистка всех кешей ==="
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+            
+            echo -e "\n=== Перезапуск PHP-FPM ==="
+            sudo systemctl reload php8.2-fpm
+            
+            echo -e "\n=== Тест основного сайта ==="
+            curl -I http://localhost/
+            
+            echo -e "\n=== Тест админ панели ==="
+            curl -I http://localhost/admin/login
