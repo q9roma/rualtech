@@ -1,0 +1,43 @@
+name: Fix Laravel Error
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-error:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Fix Laravel Error
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "🔧 Исправляем ошибку Laravel..."
+          cd /var/www/www-root/data/www/rualtech.ru
+          
+          # Временно отключаем helper для проверки
+          echo "🚫 Временно отключаем проблемный helper..."
+          sed -i 's/require_once app_path.*RussianPluralHelper.php.*;//g' app/Providers/AppServiceProvider.php
+          
+          # Очищаем все кеши
+          echo "🧹 Очищаем кеши..."
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan view:clear
+          php artisan route:clear
+          
+          # Проверяем, исправилась ли ошибка
+          echo "🧪 Тестируем главную страницу..."
+          curl -I https://rualtech.ru/ 2>/dev/null | head -1
+          
+          echo "🧪 Тестируем админку..."
+          curl -I https://rualtech.ru/admin/login 2>/dev/null | head -1
+          
+          echo ""
+          echo "✅ Попробуйте зайти в админку сейчас:"
+          echo "🔗 https://rualtech.ru/admin/login"
+          echo "📧 corp-altekh07938@yandex.ru"
+          echo "🔑 admin123!"
