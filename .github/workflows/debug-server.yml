@@ -1,0 +1,112 @@
+name: Debug Server Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      debug_level:
+        description: 'Уровень диагностики'
+        required: false
+        default: 'full'
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H rualtech.ru >> ~/.ssh/known_hosts
+        
+    - name: Full server diagnostics
+      run: |
+        ssh root@rualtech.ru << 'EOF'
+        cd /var/www/rualtech.ru/
+        
+        echo "🔍 === ДИАГНОСТИКА СЕРВЕРА ==="
+        echo
+        
+        echo "📁 Структура проекта:"
+        ls -la
+        echo
+        
+        echo "📋 Содержимое .env файла:"
+        if [ -f ".env" ]; then
+          cat .env
+        else
+          echo "❌ .env файл отсутствует!"
+        fi
+        echo
+        
+        echo "🔑 Проверка APP_KEY:"
+        grep "APP_KEY" .env || echo "❌ APP_KEY не найден"
+        echo
+        
+        echo "🗄️ Проверка подключения к базе данных:"
+        mysql -u root -e "SHOW DATABASES;" | grep -E "(altech|rualtech)" || echo "❌ Базы данных не найдены"
+        echo
+        
+        echo "📝 Последние ошибки Laravel (storage/logs):"
+        if [ -d "storage/logs" ]; then
+          ls -la storage/logs/
+          echo "--- Последние 20 строк из laravel.log ---"
+          tail -20 storage/logs/laravel.log 2>/dev/null || echo "Лог файл пуст или отсутствует"
+        else
+          echo "❌ Папка storage/logs не найдена"
+        fi
+        echo
+        
+        echo "🔧 Проверка прав доступа:"
+        echo "storage/:"
+        ls -la storage/ | head -5
+        echo "bootstrap/cache/:"
+        ls -la bootstrap/cache/ | head -5
+        echo
+        
+        echo "🐘 Проверка PHP:"
+        php -v
+        echo
+        
+        echo "📦 Проверка Composer:"
+        composer --version
+        echo "vendor/autoload.php:"
+        ls -la vendor/autoload.php || echo "❌ vendor/autoload.php отсутствует"
+        echo
+        
+        echo "🌐 Проверка веб-сервера:"
+        systemctl status apache2 | head -10
+        echo
+        
+        echo "🔍 Попытка запуска artisan:"
+        php artisan --version || echo "❌ Artisan не работает"
+        echo
+        
+        echo "🧹 Очистка всех кешей:"
+        php artisan config:clear
+        php artisan cache:clear
+        php artisan route:clear
+        php artisan view:clear
+        php artisan optimize:clear
+        
+        echo
+        echo "✅ Диагностика завершена"
+        EOF
+        
+    - name: Test site response with details
+      run: |
+        echo "🌐 Подробная проверка ответа сайта:"
+        
+        echo "1. Простой запрос:"
+        curl -I https://rualtech.ru/ 2>/dev/null || echo "Ошибка подключения"
+        
+        echo "2. Запрос с подробностями:"
+        curl -v https://rualtech.ru/ 2>&1 | head -20
+        
+        echo "3. Проверка статуса кода:"
+        status=$(curl -s -o /dev/null -w "%{http_code}" https://rualtech.ru/ 2>/dev/null || echo "error")
+        echo "HTTP Status: $status"
