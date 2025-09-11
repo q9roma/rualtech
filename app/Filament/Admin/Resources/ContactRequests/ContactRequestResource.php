@@ -28,7 +28,7 @@ class ContactRequestResource extends Resource
     
     protected static ?string $pluralModelLabel = 'Заявки';
     
-    protected static ?string $navigationGroup = 'Контент';
+    // protected static ?string $navigationGroup = 'Контент';
     
     protected static ?int $navigationSort = 1;
 

@@ -18,8 +18,14 @@ chmod -R 777 bootstrap/cache/
 
 echo "Настраиваем storage symlink..."
 rm -f public/storage
-ln -s ../../storage/app/public public/storage
+ln -s /var/www/www-root/data/www/rualtech.ru/storage/app/public public/storage
 chown -h www-data:www-data public/storage
+
+echo "Исправляем права на storage..."
+chmod 755 storage/app/public/
+chmod 755 storage/app/public/categories/ 2>/dev/null || true
+chmod 644 storage/app/public/categories/* 2>/dev/null || true
+chown -R www-data:www-data storage/app/public/
 
 echo "Настраиваем nginx для storage..."
 # Создаем backup конфигурации
