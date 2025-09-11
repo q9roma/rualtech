@@ -14,53 +14,42 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            echo "=== 🚨 ЭКСТРЕННАЯ ДИАГНОСТИКА САЙТА ==="
+            echo "=== � ПОИСК И ИСПРАВЛЕНИЕ NGINX КОНФИГУРАЦИИ ==="
             
-            echo -e "\n=== КРИТИЧЕСКАЯ ПРОБЛЕМА: Apache/Nginx конфликт ==="
-            echo "Сайт отвечает через Apache вместо Nginx!"
+            echo -e "\n=== ШАГ 1: Ищем конфиг файлы nginx ==="
+            find /etc -name "*nginx*" -type d 2>/dev/null | head -10
+            find /var -name "*nginx*" -type d 2>/dev/null | head -10
             
-            echo -e "\n=== Проверка конфликта портов ==="
-            netstat -tlnp | grep :80
-            netstat -tlnp | grep :443
+            echo -e "\n=== ШАГ 2: Ищем конфиги для rualtech.ru ==="
+            find /etc -name "*rualtech*" 2>/dev/null
+            find /var -name "*rualtech*" 2>/dev/null
             
-            echo -e "\n=== Статус сервисов ==="
-            systemctl status apache2 --no-pager -l
-            echo "--- NGINX STATUS ---"
-            systemctl status nginx --no-pager -l
+            echo -e "\n=== ШАГ 3: Проверяем стандартные пути ==="
+            ls -la /etc/nginx/ 2>/dev/null || echo "❌ /etc/nginx/ не найден"
+            ls -la /etc/nginx/sites-available/ 2>/dev/null || echo "❌ /etc/nginx/sites-available/ не найден"
+            ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "❌ /etc/nginx/conf.d/ не найден"
+            ls -la /etc/nginx/vhosts/ 2>/dev/null || echo "❌ /etc/nginx/vhosts/ не найден"
             
-            echo -e "\n=== ЭКСТРЕННОЕ ИСПРАВЛЕНИЕ КОНФЛИКТА ==="
+            echo -e "\n=== ШАГ 4: Проверяем /var пути ==="
+            ls -la /var/www/httpd-conf/ 2>/dev/null || echo "❌ /var/www/httpd-conf/ не найден"
+            ls -la /var/www/nginx-conf/ 2>/dev/null || echo "❌ /var/www/nginx-conf/ не найден"
             
-            # Останавливаем Apache (он блокирует порты)
-            echo "Останавливаем Apache..."
-            systemctl stop apache2
-            systemctl disable apache2
+            echo -e "\n=== ШАГ 5: Ищем все .conf файлы с nginx ==="
+            find /etc /var -name "*.conf" -exec grep -l "rualtech.ru\|server_name" {} \; 2>/dev/null | head -5
             
-            # Проверяем освобождение портов
-            sleep 3
-            echo "Проверяем освобождение портов..."
-            netstat -tlnp | grep :80 || echo "✅ Порт 80 освобожден"
-            netstat -tlnp | grep :443 || echo "✅ Порт 443 освобожден"
+            echo -e "\n=== ШАГ 6: Проверяем процесс nginx ==="
+            ps aux | grep nginx | grep -v grep
             
-            # Запускаем Nginx с SSL
-            echo "Запускаем Nginx..."
-            systemctl enable nginx
-            systemctl start nginx
-            systemctl reload nginx
+            echo -e "\n=== ШАГ 7: Проверяем конфиг nginx ==="
+            nginx -t 2>&1
             
-            echo -e "\n=== Проверка после исправления ==="
-            systemctl status nginx --no-pager -l
+            echo -e "\n=== ШАГ 8: Показываем главный конфиг ==="
+            nginx -T 2>/dev/null | grep -A 10 -B 5 "rualtech.ru" || echo "❌ Не найден в главном конфиге"
             
-            echo "Тестируем HTTP..."
-            curl -I http://localhost 2>&1 | head -3
+            echo -e "\n=== ШАГ 9: Ищем include директивы ==="
+            grep -r "include.*conf" /etc/nginx/ 2>/dev/null | head -5
             
-            echo "Тестируем HTTPS..."
-            curl -I https://localhost 2>&1 | head -3
-            
-            echo -e "\n=== Проверка внешнего доступа ==="
-            curl -I http://rualtech.ru 2>&1 | head -3
-            curl -I https://rualtech.ru 2>&1 | head -3
-            
-            echo -e "\n=== ✅ ДИАГНОСТИКА ЗАВЕРШЕНА ===" Debug
+            echo -e "\n=== 📍 РЕЗУЛЬТАТ ПОИСКА ЗАВЕРШЕН ===" Debug
 
 on:
   workflow_dispatch:

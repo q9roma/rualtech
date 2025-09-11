@@ -6,6 +6,11 @@ use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\BlogController;
 use Illuminate\Support\Facades\Route;
 
+// Роут для аутентификации (нужен для Filament)
+Route::get('/login', function () {
+    return redirect('/admin/login');
+})->name('login');
+
 // Главная страница
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
