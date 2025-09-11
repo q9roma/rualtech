@@ -212,7 +212,7 @@ class ContactRequestResource extends Resource
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make()
                         ->label('Удалить'),
                     Actions\BulkAction::make('mark_in_progress')
