@@ -7,9 +7,11 @@ use App\Filament\Admin\Resources\ContactRequests\Pages\EditContactRequest;
 use App\Filament\Admin\Resources\ContactRequests\Pages\ListContactRequests;
 use App\Filament\Admin\Resources\ContactRequests\Pages\ViewContactRequest;
 use App\Models\ContactRequest;
+use BackedEnum;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -20,7 +22,7 @@ class ContactRequestResource extends Resource
 {
     protected static ?string $model = ContactRequest::class;
     
-    protected static ?string $navigationIcon = 'heroicon-o-envelope';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelope;
     
     protected static ?string $navigationLabel = 'Заявки';
     
