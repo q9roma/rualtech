@@ -1,0 +1,61 @@
+# === КОМАНДЫ ДЛЯ ВЫПОЛНЕНИЯ НА СЕРВЕРЕ ===
+# Скопируйте и выполните эти команды на сервере root@cv5181156
+
+# 1. Переходим в папку проекта и обновляем код
+cd /var/www/www-root/data/www/rualtech.ru
+git pull origin main
+
+# 2. Делаем скрипт исполняемым и запускаем
+chmod +x fix_nginx_storage.sh
+./fix_nginx_storage.sh
+
+# === АЛЬТЕРНАТИВНЫЕ КОМАНДЫ (если скрипт не работает) ===
+
+# Создаем backup nginx конфигурации
+cp /etc/nginx/vhosts/www-root/rualtech.ru.conf /etc/nginx/vhosts/www-root/rualtech.ru.conf.backup
+
+# Настраиваем storage symlink
+rm -f public/storage
+ln -s ../../storage/app/public public/storage
+chown -h www-data:www-data public/storage
+
+# Исправляем права на storage
+chmod 755 storage/app/public/
+chmod 755 storage/app/public/categories/
+chmod 644 storage/app/public/categories/*
+chown -R www-data:www-data storage/app/public/
+
+# Добавляем nginx location блок для storage
+cat > /tmp/storage_block.conf << 'EOF'
+    # Storage files handling
+    location /storage/ {
+        alias /var/www/www-root/data/www/rualtech.ru/storage/app/public/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        try_files $uri =404;
+    }
+
+EOF
+
+# Добавляем блок в nginx конфигурацию перед location /
+sed -i '/location \/ {/i\
+    # Storage files handling\
+    location /storage/ {\
+        alias /var/www/www-root/data/www/rualtech.ru/storage/app/public/;\
+        expires 1y;\
+        add_header Cache-Control "public, immutable";\
+        access_log off;\
+        try_files $uri =404;\
+    }\
+' /etc/nginx/vhosts/www-root/rualtech.ru.conf
+
+# Проверяем и перезагружаем nginx
+nginx -t && systemctl reload nginx
+
+# Тестируем доступ
+curl -I https://rualtech.ru/storage/categories/01K4WSP3RBBQMB3811KF25WRS6.png
+
+# Показываем содержимое конфигурации для проверки
+echo "=== NGINX КОНФИГУРАЦИЯ ==="
+cat /etc/nginx/vhosts/www-root/rualtech.ru.conf | grep -A 10 -B 5 "location.*storage"
