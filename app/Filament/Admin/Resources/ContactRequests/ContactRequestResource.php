@@ -8,8 +8,8 @@ use App\Filament\Admin\Resources\ContactRequests\Pages\ListContactRequests;
 use App\Filament\Admin\Resources\ContactRequests\Pages\ViewContactRequest;
 use App\Models\ContactRequest;
 use BackedEnum;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
@@ -34,71 +34,71 @@ class ContactRequestResource extends Resource
     
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Информация о клиенте')
+                Schemas\Components\Section::make('Информация о клиенте')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        Schemas\Components\TextInput::make('name')
                             ->label('Имя')
                             ->required()
                             ->maxLength(100),
                         
-                        Forms\Components\TextInput::make('email')
+                        Schemas\Components\TextInput::make('email')
                             ->label('Email')
                             ->email()
                             ->required()
                             ->maxLength(255),
                         
-                        Forms\Components\TextInput::make('phone')
+                        Schemas\Components\TextInput::make('phone')
                             ->label('Телефон')
                             ->tel()
                             ->maxLength(20),
                         
-                        Forms\Components\TextInput::make('company')
+                        Schemas\Components\TextInput::make('company')
                             ->label('Компания')
                             ->maxLength(100),
                     ])
                     ->columns(2),
                 
-                Forms\Components\Section::make('Заявка')
+                Schemas\Components\Section::make('Заявка')
                     ->schema([
-                        Forms\Components\TextInput::make('subject')
+                        Schemas\Components\TextInput::make('subject')
                             ->label('Тема')
                             ->required()
                             ->maxLength(200),
                         
-                        Forms\Components\TextInput::make('service')
+                        Schemas\Components\TextInput::make('service')
                             ->label('Услуга')
                             ->maxLength(200),
                         
-                        Forms\Components\Textarea::make('message')
+                        Schemas\Components\Textarea::make('message')
                             ->label('Сообщение')
                             ->required()
                             ->rows(4)
                             ->columnSpanFull(),
                     ]),
                 
-                Forms\Components\Section::make('Управление')
+                Schemas\Components\Section::make('Управление')
                     ->schema([
-                        Forms\Components\Select::make('status')
+                        Schemas\Components\Select::make('status')
                             ->label('Статус')
                             ->options(ContactRequest::getStatuses())
                             ->required()
                             ->default(ContactRequest::STATUS_NEW),
                         
-                        Forms\Components\Select::make('source')
+                        Schemas\Components\Select::make('source')
                             ->label('Источник')
                             ->options(ContactRequest::getSources())
                             ->required()
                             ->default(ContactRequest::SOURCE_WEBSITE),
                         
-                        Forms\Components\DateTimePicker::make('processed_at')
+                        Schemas\Components\DateTimePicker::make('processed_at')
                             ->label('Обработана')
                             ->nullable(),
                         
-                        Forms\Components\Textarea::make('admin_notes')
+                        Schemas\Components\Textarea::make('admin_notes')
                             ->label('Заметки администратора')
                             ->rows(3)
                             ->columnSpanFull(),
