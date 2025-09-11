@@ -8,6 +8,7 @@ use App\Filament\Admin\Resources\ContactRequests\Pages\ListContactRequests;
 use App\Filament\Admin\Resources\ContactRequests\Pages\ViewContactRequest;
 use App\Models\ContactRequest;
 use BackedEnum;
+use Filament\Actions;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -190,11 +191,11 @@ class ContactRequestResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->whereDate('created_at', today())),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+                Actions\ViewAction::make()
                     ->label('Просмотр'),
-                Tables\Actions\EditAction::make()
+                Actions\EditAction::make()
                     ->label('Редактировать'),
-                Tables\Actions\Action::make('mark_in_progress')
+                Actions\Action::make('mark_in_progress')
                     ->label('В работу')
                     ->icon('heroicon-o-play')
                     ->color('warning')
@@ -202,7 +203,7 @@ class ContactRequestResource extends Resource
                     ->action(fn (ContactRequest $record) => $record->markAsInProgress())
                     ->requiresConfirmation(),
                 
-                Tables\Actions\Action::make('mark_completed')
+                Actions\Action::make('mark_completed')
                     ->label('Завершить')
                     ->icon('heroicon-o-check')
                     ->color('success')
@@ -212,9 +213,9 @@ class ContactRequestResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                    Actions\DeleteBulkAction::make()
                         ->label('Удалить'),
-                    Tables\Actions\BulkAction::make('mark_in_progress')
+                    Actions\BulkAction::make('mark_in_progress')
                         ->label('Отметить как "В работе"')
                         ->icon('heroicon-o-play')
                         ->color('warning')
