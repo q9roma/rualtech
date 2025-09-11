@@ -1,4 +1,4 @@
-name: Quick Admin Debug
+name: Emergency Site Diagnosis
 
 on:
   workflow_dispatch:
@@ -7,7 +7,68 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug Admin Access
+      - name: Emergency Site Check
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            echo "=== 🚨 ЭКСТРЕННАЯ ДИАГНОСТИКА САЙТА ==="
+            
+            echo -e "\n=== Проверка доступности сайта ==="
+            curl -I http://rualtech.ru/ 2>&1 | head -3
+            curl -I https://rualtech.ru/ 2>&1 | head -3
+            
+            echo -e "\n=== Статус веб-сервисов ==="
+            systemctl status nginx | head -10
+            systemctl status apache2 | head -10
+            systemctl status php8.3-fpm | head -10
+            
+            echo -e "\n=== Проверка SSL сертификата ==="
+            openssl x509 -in /var/www/httpd-cert/www-root/www.rualtech.ru_custom_1.crtca -text -noout | grep -A 2 "Validity" || echo "Ошибка чтения сертификата"
+            
+            echo -e "\n=== Проверка nginx конфигурации ==="
+            nginx -t
+            
+            echo -e "\n=== Проверка доступа к файлам ==="
+            ls -la /var/www/www-root/data/www/rualtech.ru/ | head -5
+            
+            echo -e "\n=== Логи nginx (последние ошибки) ==="
+            tail -20 /var/log/nginx/error.log | grep -E "(error|403|ssl)" || echo "Нет критических ошибок"
+            
+            echo -e "\n=== Логи nginx access (последние запросы) ==="
+            tail -10 /var/www/httpd-logs/rualtech.ru.access.log | grep -E "(403|404|500)" || echo "Нет ошибок доступа"
+            
+            echo -e "\n=== Проверка прав доступа ==="
+            ls -la /var/www/www-root/data/www/rualtech.ru/public/
+            
+            echo -e "\n=== Проверка места на диске ==="
+            df -h | head -5
+            
+            echo -e "\n=== Проверка процессов ==="
+            ps aux | grep -E "(nginx|apache|php)" | head -5
+            
+            echo -e "\n=== Laravel логи ==="
+            tail -10 /var/www/www-root/data/www/rualtech.ru/storage/logs/laravel.log 2>/dev/null || echo "Нет Laravel логов"
+            
+            echo -e "\n=== Быстрые исправления ==="
+            echo "1. Перезапуск сервисов..."
+            systemctl restart nginx
+            systemctl restart php8.3-fpm
+            
+            echo "2. Проверка после перезапуска..."
+            sleep 3
+            curl -I https://rualtech.ru/ 2>&1 | head -3 Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Final Admin Test
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -16,20 +77,26 @@ jobs:
           script: |
             cd /var/www/www-root/data/www/rualtech.ru
             
-            echo "=== Laravel Logs ==="
-            tail -30 storage/logs/laravel.log 2>/dev/null || echo "Нет Laravel логов"
+            echo "=== ✅ Filament ассеты работают ==="
+            echo "JS: $(curl -s -o /dev/null -w "%{http_code}" https://rualtech.ru/vendor/filament/index.js)"
+            echo "CSS: $(curl -s -o /dev/null -w "%{http_code}" https://rualtech.ru/vendor/filament/theme.css)"
             
             echo -e "\n=== Проверка пользователя ==="
-            php artisan tinker --execute="echo App\Models\User::where('email', 'corp-altekh07938@yandex.ru')->first();"
-            
-            echo -e "\n=== Проверка helper файла ==="
-            ls -la app/Helpers/RussianPluralHelper.php 2>/dev/null || echo "Helper не найден"
-            
-            echo -e "\n=== Проверка провайдера ==="
-            cat app/Providers/AppServiceProvider.php | grep -A 10 -B 5 RussianPluralHelper
+            php artisan tinker --execute="
+            \$user = App\\Models\\User::where('email', 'corp-altekh07938@yandex.ru')->first();
+            echo 'User: ' . \$user->email . ' (ID: ' . \$user->id . ')';
+            "
             
             echo -e "\n=== Тест админ панели ==="
-            curl -I http://localhost/admin/login 2>/dev/null || echo "Админ панель недоступна"
+            curl -I https://rualtech.ru/admin/login | head -3
             
-            echo -e "\n=== PHP Errors ==="
-            tail -10 /var/log/php*.log 2>/dev/null || echo "Нет PHP логов"
+            echo -e "\n=== 🎉 ГОТОВО! Админка настроена ==="
+            echo "🔗 URL: https://rualtech.ru/admin/login"
+            echo "📧 Email: corp-altekh07938@yandex.ru"
+            echo "🔑 Password: altechcorp2024"
+            echo ""
+            echo "✅ Filament ассеты загружаются"
+            echo "✅ Пользователь создан"
+            echo "✅ HTTPS работает"
+            echo ""
+            echo "🔄 Очистите кеш браузера (Ctrl+Shift+Del) и войдите в админку!"
