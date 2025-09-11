@@ -315,6 +315,86 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 @endif
 
+<!-- Featured Services Section -->
+@if($featuredServices && $featuredServices->count() > 0)
+<div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Рекомендуемые услуги
+            </h2>
+            <p class="text-xl text-gray-600">
+                Наши наиболее популярные IT-решения для бизнеса
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($featuredServices as $service)
+                <div class="bg-white overflow-hidden shadow-sm ring-1 ring-gray-900/5 rounded-xl hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            @if($service->icon)
+                                @if(str_ends_with($service->icon, '.svg'))
+                                    <img src="{{ asset('icons/' . $service->icon) }}" alt="Icon" class="w-8 h-8 mr-3">
+                                @else
+                                    <div class="w-8 h-8 mr-3 text-blue-600">
+                                        @svg($service->icon, 'w-8 h-8')
+                                    </div>
+                                @endif
+                            @endif
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">{{ $service->title }}</h3>
+                                @if($service->category)
+                                    <p class="text-sm text-gray-500">{{ $service->category->name }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            {{ Str::limit($service->short_description, 120) }}
+                        </p>
+                        
+                        <div class="flex items-center justify-between">
+                            @if($service->price_from)
+                                <div class="text-lg font-semibold text-blue-600">
+                                    от {{ number_format($service->price_from, 0, ',', ' ') }} ₽
+                                </div>
+                            @else
+                                <div class="text-sm text-gray-500">
+                                    По запросу
+                                </div>
+                            @endif
+                            
+                            <div class="flex space-x-2">
+                                <a href="{{ route('services.show', [$service->category->slug ?? 'uncategorized', $service->slug]) }}" 
+                                   class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Подробнее
+                                </a>
+                                <button x-on:click="$dispatch('open-order-modal', { service: '{{ $service->title }}' })"
+                                        type="button"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Заказать
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{{ route('services.index') }}" 
+               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                Все услуги
+                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+@endif
+
 <!-- About Section -->
 <div class="bg-gray-50 py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -422,4 +502,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
+
+<!-- Service Order Modal -->
+@include('components.service-order-modal')
 @endsection

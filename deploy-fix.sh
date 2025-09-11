@@ -61,6 +61,9 @@ php artisan config:clear
 php artisan view:clear
 php artisan route:clear
 
+echo "Выполняем миграции..."
+php artisan migrate --force
+
 echo "Тестируем storage доступ..."
 sleep 2
 echo "Проверка storage файла:"

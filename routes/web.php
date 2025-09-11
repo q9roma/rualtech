@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\ContactController;
 use Illuminate\Support\Facades\Route;
 
 // Роут для аутентификации (нужен для Filament)
@@ -25,6 +26,13 @@ Route::prefix('services')->name('services.')->group(function () {
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('index');
     Route::get('/{slug}', [BlogController::class, 'show'])->name('show');
+});
+
+// Контакты и заявки
+Route::prefix('contact')->name('contact.')->group(function () {
+    Route::post('/', [ContactController::class, 'store'])->name('store');
+    Route::post('/order-service', [ContactController::class, 'orderService'])->name('order-service');
+    Route::post('/services/{service}/order', [ContactController::class, 'orderService'])->name('order-service-by-id');
 });
 
 // Страницы (должны быть в самом конце, чтобы не перехватывать другие маршруты)

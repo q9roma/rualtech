@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Models\Service;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -32,6 +33,16 @@ class HomeController extends Controller
                 ->get();
         });
 
-        return view('frontend.home', compact('pages', 'serviceCategories'));
+        // Кэшируем рекомендуемые услуги на 30 минут
+        $featuredServices = Cache::remember('home_featured_services', 1800, function () {
+            return Service::where('is_active', true)
+                ->where('is_featured', true)
+                ->with('category')
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get();
+        });
+
+        return view('frontend.home', compact('pages', 'serviceCategories', 'featuredServices'));
     }
 }

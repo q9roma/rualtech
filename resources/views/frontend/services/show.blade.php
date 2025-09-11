@@ -111,10 +111,11 @@
                         @endif
                         
                         <div class="mt-6">
-                            <a href="#contact" 
-                               class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <button x-on:click="$dispatch('open-order-modal', { service: '{{ $service->title }}' })"
+                                    type="button"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                                 Заказать услугу
-                            </a>
+                            </button>
                         </div>
                         
                         <div class="mt-3">
@@ -231,4 +232,7 @@
         </div>
     </div>
 </div>
+
+<!-- Service Order Modal -->
+@include('components.service-order-modal')
 @endsection
