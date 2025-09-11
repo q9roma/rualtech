@@ -15,7 +15,6 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Illuminate\Database\Eloquent\Builder;
 
 class ContactRequestResource extends Resource
@@ -228,9 +227,9 @@ class ContactRequestResource extends Resource
             ->defaultSort('created_at', 'desc');
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Infolists\Components\Section::make('Информация о клиенте')
                     ->schema([
