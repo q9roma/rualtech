@@ -1,5 +1,5 @@
 <!-- Service Order Modal -->
-<div x-data="{ 
+<div class="hidden" x-data="{ 
     showOrderModal: false, 
     isSubmitting: false,
     serviceName: '',
@@ -16,11 +16,16 @@
         this.serviceName = service;
         this.showOrderModal = true;
         this.resetForm();
+        // Добавляем небольшую задержку для предотвращения автоматического закрытия
+        this.$nextTick(() => {
+            document.body.style.overflow = 'hidden';
+        });
     },
     
     closeOrderModal() {
         this.showOrderModal = false;
         this.resetForm();
+        document.body.style.overflow = 'auto';
     },
     
     resetForm() {
@@ -42,11 +47,16 @@
         this.errors = {};
         
         try {
+            const csrfToken = document.querySelector(`meta[name=csrf-token]`);
+            if (!csrfToken) {
+                throw new Error(`CSRF token not found`);
+            }
+            
             const response = await fetch('/contact/order-service', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                    'X-CSRF-TOKEN': csrfToken.content,
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify({
@@ -115,7 +125,13 @@
     }
 }" 
 x-on:open-order-modal.window="openOrderModal($event.detail.service)"
-x-on:keydown.escape.window="showOrderModal && closeOrderModal()">
+x-on:keydown.escape.window="showOrderModal && closeOrderModal()"
+x-init="
+    // Добавляем глобальный слушатель событий
+    window.addEventListener('open-order-modal', (e) => {
+        openOrderModal(e.detail.service);
+    });
+">>
 
     <!-- Modal Overlay -->
     <div x-show="showOrderModal" 
@@ -126,6 +142,7 @@ x-on:keydown.escape.window="showOrderModal && closeOrderModal()">
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50"
+         style="display: none;"
          x-cloak>
         
         <div class="flex min-h-screen items-center justify-center px-4 py-6">
@@ -144,7 +161,7 @@ x-on:keydown.escape.window="showOrderModal && closeOrderModal()">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-semibold text-gray-900">
-                            Заказать услугу
+                            Заказать продукт
                         </h3>
                         <button x-on:click="closeOrderModal()" 
                                 type="button" 
@@ -155,7 +172,7 @@ x-on:keydown.escape.window="showOrderModal && closeOrderModal()">
                         </button>
                     </div>
                     <p class="mt-1 text-sm text-gray-600" x-show="serviceName">
-                        Услуга: <span class="font-medium" x-text="serviceName"></span>
+                        Продукт: <span class="font-medium" x-text="serviceName"></span>
                     </p>
                 </div>
                 

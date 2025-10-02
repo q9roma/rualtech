@@ -20,7 +20,7 @@
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('services.index') }}" 
                    class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-black bg-white hover:bg-blue-100 transition-colors">
-                    Наши услуги
+                    Каталог
                 </a>
                 <a href="#contact" 
                    class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-black transition-colors">
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Наши направления
             </h2>
             <p class="text-xl text-gray-600">
-                Полный спектр IT-услуг для вашего бизнеса
+                Полный спектр IT-решений для вашего бизнеса
             </p>
         </div>
 
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </h3>
                                 @php
                                     $count = $category->services_count ?? 0;
-                                    $serviceText = function_exists('services_count_text') ? services_count_text($count) : ($count > 0 ? "$count услуг" : '');
+                                    $serviceText = function_exists('services_count_text') ? services_count_text($count) : ($count > 0 ? "$count решений" : '');
                                 @endphp
                                 @if(!empty($serviceText))
                                     <p class="text-sm text-gray-500">
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-10">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-900 transition-colors">
-                Все услуги
+                Каталог
             </a>
         </div>
     </div>
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Наши направления
             </h2>
             <p class="text-xl text-gray-600">
-                Полный спектр IT-услуг для вашего бизнеса
+                Полный спектр IT-решений для вашего бизнеса
             </p>
         </div>
 
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-10">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-900 transition-colors">
-                Все услуги
+                Каталог
             </a>
         </div>
     </div>
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Рекомендуемые услуги
+                Рекомендуемые решения
             </h2>
             <p class="text-xl text-gray-600">
                 Наши наиболее популярные IT-решения для бизнеса
@@ -338,7 +338,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <img src="{{ asset('icons/' . $service->icon) }}" alt="Icon" class="w-8 h-8 mr-3">
                                 @else
                                     <div class="w-8 h-8 mr-3 text-blue-600">
-                                        @svg($service->icon, 'w-8 h-8')
+                                        @if(str_starts_with($service->icon, 'heroicon-'))
+                                            @svg($service->icon, 'w-8 h-8')
+                                        @else
+                                            @svg('heroicon-o-' . $service->icon, 'w-8 h-8')
+                                        @endif
                                     </div>
                                 @endif
                             @endif
@@ -385,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-12">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-                Все услуги
+                Каталог
                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
@@ -407,21 +411,16 @@ document.addEventListener('DOMContentLoaded', function() {
             </p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
-                <div class="text-4xl font-bold text-blue-600 mb-3">50+</div>
+                <div class="text-4xl font-bold text-blue-600 mb-3">10+</div>
                 <div class="text-gray-900 font-semibold mb-2">Довольных клиентов</div>
                 <div class="text-sm text-gray-500">Успешно завершенные проекты</div>
             </div>
             <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
-                <div class="text-4xl font-bold text-blue-600 mb-3">24/7</div>
-                <div class="text-gray-900 font-semibold mb-2">Техническая поддержка</div>
-                <div class="text-sm text-gray-500">Круглосуточная помощь</div>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
-                <div class="text-4xl font-bold text-blue-600 mb-3">3+</div>
-                <div class="text-gray-900 font-semibold mb-2">Года развития</div>
-                <div class="text-sm text-gray-500">Опыт в IT-сфере</div>
+                <div class="text-4xl font-bold text-blue-600 mb-3">7</div>
+                <div class="text-gray-900 font-semibold mb-2">Лет в IT</div>
+                <div class="text-sm text-gray-500">Профессиональный опыт</div>
             </div>
             <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
                 <div class="text-4xl font-bold text-blue-600 mb-3">100%</div>
@@ -431,6 +430,338 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
+
+<!-- Advantages Section -->
+<div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Наши преимущества
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Что делает нас особенными в мире IT-решений
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Индивидуальный подход -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Индивидуальный подход</h3>
+                </div>
+                <p class="text-gray-600">
+                    Никаких шаблонных решений. Глубоко вникаем в ваши запросы и готовы реализовать нестандартные задачи — например, организовали сборки ПК с гравировкой корпусов в фирменном дизайне клиента.
+                </p>
+            </div>
+
+            <!-- Быстрое реагирование -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Быстрое реагирование</h3>
+                </div>
+                <p class="text-gray-600">
+                    На заявку отвечаем оперативно — не заставляем ждать. Быстро берем в работу и даем обратную связь по каждому запросу.
+                </p>
+            </div>
+
+            <!-- Гибкие условия -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Гибкие финансовые условия</h3>
+                </div>
+                <p class="text-gray-600">
+                    Готовы согласовывать финансовые вопросы: скидки, разбивку платежа, постоплату. Найдем удобный для вас формат сотрудничества.
+                </p>
+            </div>
+
+            <!-- Скоростная доставка -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Скоростная доставка</h3>
+                </div>
+                <p class="text-gray-600">
+                    Доставка за наш счет. Возможна доставка в день заказа, стандартные сроки по Москве 1-3 дня. Некоторые клиенты не успевают оплатить счет, а мы уже привозим заказ.
+                </p>
+            </div>
+
+            <!-- Удобная документация -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Удобная документация</h3>
+                </div>
+                <p class="text-gray-600">
+                    Используем ЭДО, Контур Диадок. Минимум документации — 1 счет, 1 УПД. Никакой бумажной волокиты.
+                </p>
+            </div>
+
+            <!-- Широкая партнерская сеть -->
+            <div class="bg-gray-50 p-6 rounded-xl hover:shadow-md transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 ml-3">Множество вендоров</h3>
+                </div>
+                <p class="text-gray-600">
+                    Работаем с огромным количеством вендоров и дистрибьюторов. Готовы проработать любые потребности — от оборудования Allen-Bradley до контрольно-измерительного оборудования Testo.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How to Buy Section -->
+<div class="bg-blue-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Как купить
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Простой процесс заказа IT-решений в четыре шага
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12 relative">
+            <!-- Step 1 -->
+            <div class="relative">
+                <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow h-64 flex flex-col justify-center">
+                    <div class="relative w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <!-- Step number badge on icon -->
+                        <div class="absolute -top-1 -right-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                            1
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Отправить запрос</h3>
+                    <p class="text-sm text-gray-600">
+                        Отправьте запрос через форму на сайте, позвоните или напишите письмо.
+                    </p>
+                </div>
+                <!-- Arrow for desktop -->
+                <div class="hidden lg:block absolute top-1/2 -right-6 transform -translate-y-1/2 translate-x-1/2 z-10">
+                    <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="relative">
+                <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow h-64 flex flex-col justify-center">
+                    <div class="relative w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        <!-- Step number badge on icon -->
+                        <div class="absolute -top-1 -right-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                            2
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Мы свяжемся с вами</h3>
+                    <p class="text-sm text-gray-600">
+                        Мы отправим вам коммерческое предложение.
+                    </p>
+                </div>
+                <!-- Arrow for desktop -->
+                <div class="hidden lg:block absolute top-1/2 -right-6 transform -translate-y-1/2 translate-x-1/2 z-10">
+                    <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="relative">
+                <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow h-64 flex flex-col justify-center">
+                    <div class="relative w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <!-- Step number badge on icon -->
+                        <div class="absolute -top-1 -right-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                            3
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Счет</h3>
+                    <p class="text-sm text-gray-600">
+                        На основании КП мы выставляем вам счет или счет-оферту.
+                    </p>
+                </div>
+                <!-- Arrow for desktop -->
+                <div class="hidden lg:block absolute top-1/2 -right-6 transform -translate-y-1/2 translate-x-1/2 z-10">
+                    <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="relative">
+                <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow h-64 flex flex-col justify-center">
+                    <div class="relative w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                        <!-- Step number badge on icon -->
+                        <div class="absolute -top-1 -right-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                            4
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Доставка</h3>
+                    <p class="text-sm text-gray-600">
+                        После оплаты вы можете забрать товар или мы его доставим.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="text-center mt-12">
+            <button onclick="openServiceModal('Консультация по выбору решения')"
+                    type="button"
+                    class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                Получить консультацию
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Partners Section -->
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Наши партнеры
+            </h2>
+            <p class="text-xl text-gray-600">
+                Работаем с ведущими мировыми брендами
+            </p>
+        </div>
+        
+        <!-- Логотипы партнеров -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            <!-- Microsoft -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/microsoft.svg') }}" alt="Microsoft" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Microsoft</span>
+            </div>
+
+            <!-- Huawei -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/huawei.svg') }}" alt="Huawei" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Huawei</span>
+            </div>
+
+            <!-- HP -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/hp.svg') }}" alt="HP" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">HP</span>
+            </div>
+
+            <!-- Cisco -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/cisco.svg') }}" alt="Cisco" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Cisco</span>
+            </div>
+
+            <!-- Lenovo -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/lenovo.svg') }}" alt="Lenovo" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Lenovo</span>
+            </div>
+
+            <!-- Dell -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/dell.svg') }}" alt="Dell" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Dell</span>
+            </div>
+
+            <!-- Intel -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/intel.svg') }}" alt="Intel" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Intel</span>
+            </div>
+
+            <!-- ASUS -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+              <img src="{{ asset('images/partners/asus.svg') }}" alt="ASUS" class="w-12 h-12 object-contain mb-2">    
+                <span class="text-xs font-medium text-gray-600">ASUS</span>
+            </div>
+
+            <!-- Supermicro -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+               <img src="{{ asset('images/partners/supermicro.svg') }}" alt="Supermicro" class="w-12 h-12 object-contain mb-2">   
+                <span class="text-xs font-medium text-gray-600">Supermicro</span>
+            </div>
+
+            <!-- Seagate -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+               <img src="{{ asset('images/partners/seagate.svg') }}" alt="Seagate" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Seagate</span>
+            </div>
+
+            <!-- MikroTik -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                   <img src="{{ asset('images/partners/mikrotik.svg') }}" alt="MikroTik" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">MikroTik</span>
+            </div>
+
+            <!-- Apple -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                    <img src="{{ asset('images/partners/apple.svg') }}" alt="Apple" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Apple</span>
+            </div>
+
+            <!-- Samsung -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                <img src="{{ asset('images/partners/samsung.svg') }}" alt="Samsung" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">Samsung</span>
+            </div>
+
+            <!-- LG -->
+            <div class="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-900/5 flex flex-col items-center justify-center hover:shadow-md transition-shadow h-24">
+                    <img src="{{ asset('images/partners/lg.svg') }}" alt="LG" class="w-12 h-12 object-contain mb-2">
+                <span class="text-xs font-medium text-gray-600">LG</span>
+            </div>
+        </div>
+                
+    </div>
+</div>
+
+
 
 <!-- Pages Section -->
 @if($pages && $pages->count() > 0)

@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
-@section('title', 'Услуги - IT-решения для бизнеса | Altech')
-@section('description', 'Полный спектр IT-услуг: виртуализация, сборка серверов, техническая поддержка, сетевые решения и информационная безопасность.')
+@section('title', 'Продукты - IT-решения для бизнеса | Алтех')
+@section('description', 'Полный спектр IT-продуктов: виртуализация, сборка серверов, техническая поддержка, сетевые решения и информационная безопасность.')
 
 @section('content')
 <!-- Header Section -->
@@ -10,7 +10,7 @@
         <div class="md:flex md:items-center md:justify-between">
             <div class="min-w-0 flex-1">
                 <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl">
-                    Наши услуги
+                    Наши продукты
                 </h1>
                 <p class="mt-1 text-sm text-gray-500">
                     Комплексные IT-решения для вашего бизнеса
@@ -25,7 +25,7 @@
     @if($categories->count() > 0)
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
             @foreach($categories as $category)
-                <div class="bg-white overflow-hidden shadow-sm ring-1 ring-gray-900/5 rounded-xl hover:shadow-md transition-shadow group">
+                <div class="bg-white overflow-hidden shadow-sm ring-1 ring-gray-900/5 rounded-xl hover:shadow-md transition-shadow group flex flex-col">
                     @if($category->image)
                         <div class="aspect-video overflow-hidden">
                             <img src="{{ asset('storage/' . $category->image) }}" 
@@ -58,7 +58,7 @@
                     </div>
 
                     <!-- Services List -->
-                    <div class="px-6 py-4">
+                    <div class="px-6 py-4 flex-1">
                         @if($category->activeServices->count() > 0)
                             <ul class="space-y-3">
                                 @foreach($category->activeServices->take(5) as $service)
@@ -90,13 +90,13 @@
                                     <p class="text-xs text-gray-500 text-center">
                                         @php
                                             $count = $category->activeServices->count() - 5;
-                                            $word = 'услуга';
+                                            $word = 'продукт';
                                             if ($count % 10 == 1 && $count % 100 != 11) {
-                                                $word = 'услуга';
+                                                $word = 'продукт';
                                             } elseif (in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14])) {
-                                                $word = 'услуги';
+                                                $word = 'продукта';
                                             } else {
-                                                $word = 'услуг';
+                                                $word = 'продуктов';
                                             }
                                         @endphp
                                         +{{ $count }} {{ $word }}
@@ -105,16 +105,16 @@
                             @endif
                         @else
                             <p class="text-sm text-gray-500 italic">
-                                Услуги в разработке
+                                Продукты в разработке
                             </p>
                         @endif
                     </div>
 
                     <!-- Category Footer -->
-                    <div class="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                    <div class="px-6 py-3 bg-gray-50 border-t border-gray-200 mt-auto">
                         <a href="{{ route('services.category', $category->slug) }}" 
                            class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
-                            Все услуги категории
+                            Все продукты категории
                             <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
@@ -131,9 +131,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
             </div>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">Нет услуг</h3>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Нет продуктов</h3>
             <p class="mt-1 text-sm text-gray-500">
-                Услуги находятся в разработке. Свяжитесь с нами для получения консультации.
+                Продукты находятся в разработке. Свяжитесь с нами для получения консультации.
             </p>
         </div>
     @endif
@@ -144,16 +144,19 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                Не нашли нужную услугу?
+                Не нашли нужный продукт?
             </h2>
             <p class="text-lg text-gray-600 mb-6">
                 Мы поможем подобрать индивидуальное решение для вашего бизнеса
             </p>
-            <a href="#contact" 
-               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-900 transition-colors">
+            <button onclick="openServiceModal('Консультация по выбору решения')"
+                    type="button"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-900 transition-colors">
                 Получить консультацию
-            </a>
+            </button>
         </div>
     </div>
 </div>
+<!-- Service Order Modal -->
+@include('components.service-order-modal')
 @endsection

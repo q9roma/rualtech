@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- SEO -->
     <title>@yield('title', 'Алтех - IT-решения для бизнеса')</title>
@@ -36,8 +37,22 @@
     <!-- Alpine.js для интерактивности -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
+    <!-- Modal functions -->
+    <script>
+        // Глобальная функция для открытия модального окна
+        function openServiceModal(serviceName) {
+            // Отправляем событие Alpine.js
+            window.dispatchEvent(new CustomEvent('open-order-modal', {
+                detail: { service: serviceName }
+            }));
+        }
+    </script>
+    
     <!-- Custom Styles -->
     <style>
+        /* Alpine.js x-cloak styling */
+        [x-cloak] { display: none !important; }
+        
         .prose {
             max-width: none;
             color: #374151;
@@ -153,12 +168,14 @@
                     </a>
                     <a href="{{ route('services.index') }}" 
                        class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('services.*') ? 'bg-green-600 text-white' : '' }}">
-                        Услуги
+                        Продукты
                     </a>
-                    <a href="{{ route('blog.index') }}" 
-                       class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('blog.*') ? 'bg-green-600 text-white' : '' }}">
-                        Блог
-                    </a>
+                    @if(\App\Models\BlogPost::published()->count() > 0)
+                        <a href="{{ route('blog.index') }}" 
+                           class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('blog.*') ? 'bg-green-600 text-white' : '' }}">
+                            Блог
+                        </a>
+                    @endif
                     @foreach($navigationPages ?? [] as $page)
                         <a href="{{ route('pages.show', $page->slug) }}" 
                            class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->url() === route('pages.show', $page->slug) ? 'bg-green-600 text-white' : '' }}">
@@ -198,12 +215,14 @@
                     </a>
                     <a href="{{ route('services.index') }}" 
                        class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('services.*') ? 'bg-green-600 text-white' : '' }}">
-                        Услуги
+                        Продукты
                     </a>
-                    <a href="{{ route('blog.index') }}" 
-                       class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('blog.*') ? 'bg-green-600 text-white' : '' }}">
-                        Блог
-                    </a>
+                    @if(\App\Models\BlogPost::published()->count() > 0)
+                        <a href="{{ route('blog.index') }}" 
+                           class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('blog.*') ? 'bg-green-600 text-white' : '' }}">
+                            Блог
+                        </a>
+                    @endif
                     @foreach($navigationPages ?? [] as $page)
                         <a href="{{ route('pages.show', $page->slug) }}" 
                            class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->url() === route('pages.show', $page->slug) ? 'bg-green-600 text-white' : '' }}">
