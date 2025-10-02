@@ -31,7 +31,7 @@ return [
         'sort_order' => 'Порядок',
         'seo_title' => 'SEO заголовок',
         'seo_description' => 'SEO описание',
-        'services_count' => 'Количество услуг',
+        'services_count' => 'Количество продуктов',
         'created_at' => 'Создана',
         'updated_at' => 'Обновлена',
     ],

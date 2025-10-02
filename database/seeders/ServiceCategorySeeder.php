@@ -17,7 +17,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-wrench-screwdriver',
                 'sort_order' => 1,
                 'is_active' => true,
-                'seo_title' => 'Техническая поддержка IT | Altech',
+                'seo_title' => 'Техническая поддержка IT | Алтех',
                 'seo_description' => 'Профессиональная техническая поддержка IT-систем 24/7. Удаленное администрирование, диагностика, устранение неполадок.'
             ],
             [
@@ -27,7 +27,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-server-stack',
                 'sort_order' => 2,
                 'is_active' => true,
-                'seo_title' => 'Виртуализация VMware, Hyper-V | Altech',
+                'seo_title' => 'Виртуализация VMware, Hyper-V | Алтех',
                 'seo_description' => 'Внедрение и настройка систем виртуализации VMware vSphere, Microsoft Hyper-V. Создание отказоустойчивых кластеров.'
             ],
             [
@@ -37,7 +37,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-server',
                 'sort_order' => 3,
                 'is_active' => true,
-                'seo_title' => 'Сборка серверов на заказ | Altech',
+                'seo_title' => 'Сборка серверов на заказ | Алтех',
                 'seo_description' => 'Профессиональная сборка серверов под ваши задачи. Проектирование конфигурации, настройка, гарантия.'
             ],
             [
@@ -47,7 +47,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-computer-desktop',
                 'sort_order' => 4,
                 'is_active' => true,
-                'seo_title' => 'Сборка рабочих станций | Altech',
+                'seo_title' => 'Сборка рабочих станций | Алтех',
                 'seo_description' => 'Сборка мощных рабочих станций для офиса, дизайна, инженерии. Подбор оптимальной конфигурации под задачи.'
             ],
             [
@@ -57,7 +57,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-signal',
                 'sort_order' => 5,
                 'is_active' => true,
-                'seo_title' => 'Сетевые решения | Altech',
+                'seo_title' => 'Сетевые решения | Алтех',
                 'seo_description' => 'Проектирование корпоративных сетей, настройка оборудования, системы мониторинга и управления трафиком.'
             ],
             [
@@ -67,7 +67,7 @@ class ServiceCategorySeeder extends Seeder
                 'icon' => 'heroicon-o-shield-check',
                 'sort_order' => 6,
                 'is_active' => true,
-                'seo_title' => 'Информационная безопасность | Altech',
+                'seo_title' => 'Информационная безопасность | Алтех',
                 'seo_description' => 'Комплексные решения по информационной безопасности: аудит, внедрение систем защиты, обучение персонала.'
             ]
         ];

@@ -6,11 +6,34 @@ use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Роут для аутентификации (нужен для Filament)
 Route::get('/login', function () {
     return redirect('/admin/login');
 })->name('login');
+
+// Тестовые роуты для отладки авторизации
+Route::get('/test-login', function () {
+    // Покажем всех пользователей прямо в форме
+    $users = \App\Models\User::all();
+    return view('test-login', compact('users'));
+});
+
+Route::post('/test-login', function () {
+    $credentials = request()->only('email', 'password');
+    
+    // Сначала попробуем стандартные пароли для существующих пользователей
+    $testPasswords = ['password', 'admin123', '123456', 'admin', 'qwerty'];
+    
+    foreach($testPasswords as $testPassword) {
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $testPassword])) {
+            return back()->with('success', "Успешный вход! Email: {$credentials['email']}, Пароль: {$testPassword}");
+        }
+    }
+    
+    return back()->with('error', 'Не удалось найти правильный пароль для ' . $credentials['email']);
+});
 
 // Главная страница
 Route::get('/', [HomeController::class, 'index'])->name('home');

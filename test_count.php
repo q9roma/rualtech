@@ -7,20 +7,20 @@ $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 use App\Models\ServiceCategory;
 
-echo "Тест склонения услуг:\n";
+echo "Тест склонения продуктов:\n";
 
-function formatServicesCount($count) {
+function formatProductsCount($count) {
     if ($count % 10 == 1 && $count % 100 != 11) {
-        return $count . ' услуга';
+        return $count . ' продукт';
     } elseif (in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14])) {
-        return $count . ' услуги';
+        return $count . ' продукта';
     } else {
-        return $count . ' услуг';
+        return $count . ' продуктов';
     }
 }
 
 for ($i = 0; $i <= 25; $i++) {
-    echo "Число $i: " . formatServicesCount($i) . "\n";
+    echo "Число $i: " . formatProductsCount($i) . "\n";
 }
 
 echo "\nРеальные данные из базы:\n";
@@ -30,5 +30,5 @@ $categories = ServiceCategory::withCount(['services' => function($query) {
 }])->get();
 
 foreach ($categories as $cat) {
-    echo $cat->name . ': ' . formatServicesCount($cat->services_count) . "\n";
+    echo $cat->name . ': ' . formatProductsCount($cat->services_count) . "\n";
 }

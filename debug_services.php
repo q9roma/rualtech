@@ -7,20 +7,20 @@ $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 use App\Models\ServiceCategory;
 
-echo "Проверка количества услуг по категориям:\n";
+echo "Проверка количества продуктов по категориям:\n";
 
 $categories = ServiceCategory::withCount('services')->get();
 
 foreach ($categories as $cat) {
-    echo $cat->name . ': ' . $cat->services_count . " услуг\n";
+    echo $cat->name . ': ' . $cat->services_count . " продуктов\n";
 }
 
-echo "\nАктивные услуги по категориям:\n";
+echo "\nАктивные продукты по категориям:\n";
 
 $categories = ServiceCategory::withCount(['services' => function($query) {
     $query->where('is_active', true);
 }])->get();
 
 foreach ($categories as $cat) {
-    echo $cat->name . ': ' . $cat->services_count . " активных услуг\n";
+    echo $cat->name . ': ' . $cat->services_count . " активных продуктов\n";
 }

@@ -1,6 +1,7 @@
 @extends('layouts.frontend')
 
-@section('title', $category->seo_title ?: $category->name . ' - Услуги | Altech')
+@section('title', $category->seo_title ?: $category->name . ' - Продукты | АлтЗаказать услугу
+Получить консультациюех')
 @section('description', $category->seo_description ?: $category->description)
 
 @section('content')
@@ -22,7 +23,7 @@
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                         </svg>
                         <a href="{{ route('services.index') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                            Услуги
+                            Продукты
                         </a>
                     </div>
                 </li>
@@ -83,13 +84,13 @@
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
                     @php
                         $total = $services->total();
-                        $word = 'услуга';
+                        $word = 'продукт';
                         if ($total % 10 == 1 && $total % 100 != 11) {
-                            $word = 'услуга';
+                            $word = 'продукт';
                         } elseif (in_array($total % 10, [2, 3, 4]) && !in_array($total % 100, [12, 13, 14])) {
-                            $word = 'услуги';
+                            $word = 'продукта';
                         } else {
-                            $word = 'услуг';
+                            $word = 'продуктов';
                         }
                     @endphp
                     {{ $total }} {{ $word }}
@@ -186,14 +187,14 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
             </div>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">Нет услуг</h3>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Нет продуктов</h3>
             <p class="mt-1 text-sm text-gray-500">
-                В данной категории пока нет услуг.
+                В данной категории пока нет продуктов.
             </p>
             <div class="mt-6">
                 <a href="{{ route('services.index') }}" 
                    class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-900">
-                    Посмотреть все услуги
+                    Посмотреть все продукты
                 </a>
             </div>
         </div>

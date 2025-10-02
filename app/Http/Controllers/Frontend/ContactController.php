@@ -61,8 +61,11 @@ class ContactController extends Controller
             // Отправляем уведомление администратору
             $this->sendAdminNotification($contactRequest);
 
-            // Отправляем подтверждение клиенту
-            $this->sendClientConfirmation($contactRequest);
+            // Подтверждение клиенту не отправляем - только логируем
+            Log::info('Заявка обработана без отправки подтверждения клиенту', [
+                'id' => $contactRequest->id,
+                'email' => $contactRequest->email
+            ]);
 
             Log::info('Новая заявка с сайта', [
                 'id' => $contactRequest->id,
@@ -98,7 +101,7 @@ class ContactController extends Controller
         }
     }
 
-    public function orderService(Request $request, Service $service)
+    public function orderService(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:2|max:100',
@@ -106,6 +109,7 @@ class ContactController extends Controller
             'phone' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
             'message' => 'nullable|string|max:1000',
+            'service' => 'required|string|max:200',
         ]);
 
         if ($validator->fails()) {
@@ -128,41 +132,39 @@ class ContactController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'company' => $request->company,
-                'subject' => "Заказ услуги: {$service->title}",
-                'message' => $request->message ?: "Заинтересован в услуге: {$service->title}",
-                'service' => $service->title,
+                'subject' => "Заказ продукта: {$request->service}",
+                'message' => $request->message ?: "Заинтересован в продукте: {$request->service}",
+                'service' => $request->service,
                 'source' => ContactRequest::SOURCE_SERVICE_PAGE,
                 'meta_data' => [
-                    'service_id' => $service->id,
-                    'service_slug' => $service->slug,
-                    'service_price' => $service->price_from,
                     'user_agent' => $request->userAgent(),
                     'ip_address' => $request->ip(),
+                    'referer' => $request->header('referer'),
                     'submitted_at' => now()->toISOString()
                 ]
             ]);
 
             $this->sendAdminNotification($contactRequest);
-            $this->sendClientConfirmation($contactRequest);
+            // Подтверждение клиенту не отправляем
 
-            Log::info('Заказ услуги с сайта', [
+            Log::info('Заказ продукта с сайта', [
                 'request_id' => $contactRequest->id,
-                'service' => $service->title,
+                'service' => $request->service,
                 'email' => $contactRequest->email
             ]);
 
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Спасибо! Ваша заявка на услугу принята. Наш менеджер свяжется с вами для уточнения деталей.'
+                    'message' => 'Спасибо! Ваша заявка на продукт принята. Наш менеджер свяжется с вами для уточнения деталей.'
                 ]);
             }
 
-            return back()->with('success', 'Спасибо! Ваша заявка на услугу принята. Наш менеджер свяжется с вами для уточнения деталей.');
+            return back()->with('success', 'Спасибо! Ваша заявка на продукт принята. Наш менеджер свяжется с вами для уточнения деталей.');
 
         } catch (\Exception $e) {
-            Log::error('Ошибка при заказе услуги', [
-                'service_id' => $service->id,
+            Log::error('Ошибка при заказе продукта', [
+                'service' => $request->service,
                 'error' => $e->getMessage()
             ]);
 
@@ -182,33 +184,19 @@ class ContactController extends Controller
     private function sendAdminNotification(ContactRequest $contactRequest)
     {
         try {
-            // Здесь можно отправить email администратору
-            // Mail::to(config('mail.admin_email'))->send(new AdminContactNotification($contactRequest));
+            // Отправляем email администратору
+            Mail::to(config('mail.admin_email', 'office@rualtech.ru'))
+                ->send(new \App\Mail\AdminContactNotification($contactRequest));
             
-            // Пока просто логируем
-            Log::info('Уведомление администратору о новой заявке', [
+            Log::info('Уведомление администратору отправлено', [
                 'id' => $contactRequest->id,
-                'subject' => $contactRequest->subject
+                'subject' => $contactRequest->subject,
+                'admin_email' => config('mail.admin_email', 'office@rualtech.ru')
             ]);
         } catch (\Exception $e) {
             Log::error('Ошибка отправки уведомления администратору', [
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    private function sendClientConfirmation(ContactRequest $contactRequest)
-    {
-        try {
-            // Здесь можно отправить подтверждение клиенту
-            // Mail::to($contactRequest->email)->send(new ClientConfirmation($contactRequest));
-            
-            Log::info('Подтверждение отправлено клиенту', [
-                'email' => $contactRequest->email
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Ошибка отправки подтверждения клиенту', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'contact_request_id' => $contactRequest->id
             ]);
         }
     }

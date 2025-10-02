@@ -59,7 +59,7 @@ return [
     'sections' => [
         'home' => 'Главная',
         'about' => 'О нас',
-        'services' => 'Услуги',
+        'services' => 'Продукты',
         'portfolio' => 'Портфолио',
         'blog' => 'Блог',
         'news' => 'Новости',

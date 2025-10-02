@@ -42,7 +42,7 @@ class ServiceCategoriesTable
                     ->boolean(),
                     
                 TextColumn::make('custom_services_text')
-                    ->label('Услуг')
+                    ->label('Продуктов')
                     ->html()
                     ->formatStateUsing(function ($record) {
                         $count = \App\Models\Service::where('service_category_id', $record->id)
@@ -51,11 +51,11 @@ class ServiceCategoriesTable
                         
                         $text = '';
                         if ($count % 10 == 1 && $count % 100 != 11) {
-                            $text = $count . ' услуга';
+                            $text = $count . ' продукт';
                         } elseif (in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14])) {
-                            $text = $count . ' услуги';
+                            $text = $count . ' продукта';
                         } else {
-                            $text = $count . ' услуг';
+                            $text = $count . ' продуктов';
                         }
                         
                         return '<span>' . $text . '</span>';

@@ -21,19 +21,19 @@ if (!function_exists('pluralize_russian')) {
     }
 }
 
-if (!function_exists('services_count_text')) {
+if (!function_exists('products_count_text')) {
     /**
-     * Возвращает текст для количества услуг
+     * Возвращает текст для количества продуктов
      * 
      * @param int $count
      * @return string
      */
-    function services_count_text($count) {
+    function products_count_text($count) {
         if ($count <= 0) {
             return '';
         }
         
-        $word = pluralize_russian($count, ['услуга', 'услуги', 'услуг']);
+        $word = pluralize_russian($count, ['продукт', 'продукта', 'продуктов']);
         return "{$count} {$word}";
     }
 }
