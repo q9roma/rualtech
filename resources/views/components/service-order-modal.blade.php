@@ -1,5 +1,5 @@
 <!-- Service Order Modal -->
-<div class="hidden" x-data="{ 
+<div x-data="{ 
     showOrderModal: false, 
     isSubmitting: false,
     serviceName: '',
