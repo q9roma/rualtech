@@ -20,7 +20,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Support\Icons\Heroicon;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Section as InfolistSection;
+use Filament\Infolists\Components\Section as InfolistSection;
 use App\Filament\Admin\Resources\ContactRequestResource\Pages;
 
 class ContactRequestResource extends Resource
