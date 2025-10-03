@@ -20,7 +20,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Support\Icons\Heroicon;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\Group;
 use App\Filament\Admin\Resources\ContactRequestResource\Pages;
 
 class ContactRequestResource extends Resource
@@ -98,61 +97,54 @@ class ContactRequestResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
-                Group::make([
-                    TextEntry::make('name')
-                        ->label('Имя'),
-                    TextEntry::make('email')
-                        ->label('Email')
-                        ->copyable(),
-                    TextEntry::make('phone')
-                        ->label('Телефон')
-                        ->copyable(),
-                    TextEntry::make('company')
-                        ->label('Компания'),
-                ])->columns(2),
-
-                Group::make([
-                    TextEntry::make('subject')
-                        ->label('Тема'),
-                    TextEntry::make('service')
-                        ->label('Услуга'),
-                    TextEntry::make('source')
-                        ->label('Источник')
-                        ->formatStateUsing(fn ($state) => ContactRequest::getSources()[$state] ?? $state),
-                    TextEntry::make('message')
-                        ->label('Сообщение')
-                        ->columnSpanFull(),
-                ])->columns(3),
-
-                Group::make([
-                    TextEntry::make('status')
-                        ->label('Статус')
-                        ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'new' => 'warning',
-                            'in_progress' => 'info',
-                            'completed' => 'success',
-                            'cancelled' => 'danger',
-                            default => 'gray',
-                        })
-                        ->formatStateUsing(fn (string $state): string => match ($state) {
-                            'new' => 'Новая',
-                            'in_progress' => 'В работе',
-                            'completed' => 'Завершена',
-                            'cancelled' => 'Отменена',
-                            default => $state,
-                        }),
-                    TextEntry::make('processed_at')
-                        ->label('Дата обработки')
-                        ->dateTime('d.m.Y H:i'),
-                    TextEntry::make('created_at')
-                        ->label('Дата создания')
-                        ->dateTime('d.m.Y H:i'),
-                    TextEntry::make('admin_notes')
-                        ->label('Заметки администратора')
-                        ->columnSpanFull(),
-                ])->columns(3),
+                TextEntry::make('name')
+                    ->label('Имя'),
+                TextEntry::make('email')
+                    ->label('Email')
+                    ->copyable(),
+                TextEntry::make('phone')
+                    ->label('Телефон')
+                    ->copyable(),
+                TextEntry::make('company')
+                    ->label('Компания'),
+                TextEntry::make('subject')
+                    ->label('Тема'),
+                TextEntry::make('service')
+                    ->label('Услуга'),
+                TextEntry::make('source')
+                    ->label('Источник')
+                    ->formatStateUsing(fn ($state) => ContactRequest::getSources()[$state] ?? $state),
+                TextEntry::make('message')
+                    ->label('Сообщение')
+                    ->columnSpanFull(),
+                TextEntry::make('status')
+                    ->label('Статус')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'new' => 'warning',
+                        'in_progress' => 'info',
+                        'completed' => 'success',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'new' => 'Новая',
+                        'in_progress' => 'В работе',
+                        'completed' => 'Завершена',
+                        'cancelled' => 'Отменена',
+                        default => $state,
+                    }),
+                TextEntry::make('processed_at')
+                    ->label('Дата обработки')
+                    ->dateTime('d.m.Y H:i'),
+                TextEntry::make('created_at')
+                    ->label('Дата создания')
+                    ->dateTime('d.m.Y H:i'),
+                TextEntry::make('admin_notes')
+                    ->label('Заметки администратора')
+                    ->columnSpanFull(),
             ]);
     }
 
