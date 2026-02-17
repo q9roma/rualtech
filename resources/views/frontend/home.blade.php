@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                    class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     Подробнее
                                 </a>
-                                <button x-on:click="$dispatch('open-order-modal', { service: '{{ $service->title }}' })"
+                                <button onclick="openContactForm()"
                                         type="button"
                                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     Заказать
@@ -413,12 +413,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
-                <div class="text-4xl font-bold text-blue-600 mb-3">10+</div>
+                <div class="text-4xl font-bold text-blue-600 mb-3">50+</div>
                 <div class="text-gray-900 font-semibold mb-2">Довольных клиентов</div>
                 <div class="text-sm text-gray-500">Успешно завершенные проекты</div>
             </div>
             <div class="bg-white p-8 rounded-xl shadow-sm ring-1 ring-gray-900/5 text-center hover:shadow-md transition-shadow">
-                <div class="text-4xl font-bold text-blue-600 mb-3">7</div>
+                <div class="text-4xl font-bold text-blue-600 mb-3">8</div>
                 <div class="text-gray-900 font-semibold mb-2">Лет в IT</div>
                 <div class="text-sm text-gray-500">Профессиональный опыт</div>
             </div>
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- CTA Button -->
         <div class="text-center mt-12">
-            <button onclick="openServiceModal('Консультация по выбору решения')"
+            <button onclick="openContactForm()"
                     type="button"
                     class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -664,10 +664,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Наши партнеры
+                Наш портфель брендов
             </h2>
             <p class="text-xl text-gray-600">
-                Работаем с ведущими мировыми брендами
+                Поставляем оборудование ведущих мировых производителей
             </p>
         </div>
         
@@ -829,11 +829,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="text-gray-700">+7 (495) 275-35-33</span>
                     </div>
                 </div>
+
+                <div class="mt-8 text-center">
+                    <button type="button"
+                            onclick="openContactForm()"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Написать нам
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Service Order Modal -->
-@include('components.service-order-modal')
 @endsection

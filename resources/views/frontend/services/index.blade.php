@@ -149,7 +149,7 @@
             <p class="text-lg text-gray-600 mb-6">
                 Мы поможем подобрать индивидуальное решение для вашего бизнеса
             </p>
-            <button onclick="openServiceModal('Консультация по выбору решения')"
+            <button onclick="openContactForm()"
                     type="button"
                     class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-900 transition-colors">
                 Получить консультацию
@@ -157,6 +157,4 @@
         </div>
     </div>
 </div>
-<!-- Service Order Modal -->
-@include('components.service-order-modal')
 @endsection

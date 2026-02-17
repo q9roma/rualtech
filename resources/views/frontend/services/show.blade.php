@@ -111,7 +111,7 @@
                         @endif
                         
                         <div class="mt-6">
-                            <button onclick="openServiceModal('{{ $service->name }}')"
+                            <button onclick="openContactForm()"
                                     type="button"
                                     class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                                 Заказать продукт
@@ -119,7 +119,7 @@
                         </div>
                         
                         <div class="mt-3">
-                            <button onclick="openServiceModal('Консультация по: {{ $service->name }}')"
+                            <button onclick="openContactForm()"
                                     type="button"
                                     class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 Получить консультацию
@@ -234,6 +234,4 @@
     </div>
 </div>
 
-<!-- Service Order Modal -->
-@include('components.service-order-modal')
 @endsection
