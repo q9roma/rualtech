@@ -46,43 +46,9 @@
             }));
         }
 
-        // Глобальная функция для открытия формы обратной связи (Битрикс24)
+        // Открыть форму Битрикс24 — кликаем по родителю script-тега
         function openContactForm() {
-            // Стратегия 1: кликнуть на wrapper — Б24 вешает обработчик на родителя script-тега
-            var wrapper = document.getElementById('b24-contact-wrapper');
-            if (wrapper) {
-                wrapper.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-            }
-
-            // Стратегия 2: кликнуть на script[data-b24-form] — Б24 слушает клики на нём
-            var scriptEl = document.querySelector('script[data-b24-form="click/8/f73jug"]');
-            if (scriptEl) {
-                scriptEl.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-            }
-
-            // Стратегия 3: b24Tracker / b24order — другие глобалы Б24
-            if (window.b24Tracker && typeof window.b24Tracker.openForm === 'function') {
-                window.b24Tracker.openForm(8); return;
-            }
-            if (window.b24order && typeof window.b24order.open === 'function') {
-                window.b24order.open(); return;
-            }
-
-            // Стратегия 4: найти скрытый popup Б24 в DOM и показать его
-            var popup = document.querySelector('.b24-form-wrapper, .bx-form-wrapper, [class*="b24-form"], [id*="b24-form"]');
-            if (popup) {
-                popup.style.display = '';
-                popup.style.visibility = 'visible';
-                popup.style.opacity = '1';
-                return;
-            }
-
-            // Диагностика
-            console.warn('[Алтех] Открыть Б24 форму не удалось.');
-            console.info('b24form:', window.b24form);
-            console.info('b24Tracker:', window.b24Tracker);
-            console.info('b24order:', window.b24order);
-            console.info('b24* DOM:', document.querySelectorAll('[class*="b24"],[id*="b24"]'));
+            document.getElementById('b24-trigger').click();
         }
     </script>
     
@@ -312,15 +278,14 @@
 
     @stack('scripts')
 
-    <!-- Битрикс24: форма обратной связи (тип click — попап) -->
-    <!-- Обёртка спрятана за экран, а не display:none — иначе клики не пройдут -->
-    <div id="b24-contact-wrapper" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;">
+    <!-- Битрикс24: скрипт внутри span — loader вешает click-обработчик на родителя -->
+    <span id="b24-trigger" style="position:fixed;top:-9999px;left:-9999px;">
         <script data-b24-form="click/8/f73jug" data-skip-moving="true">
         (function(w,d,u){
             var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
             var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn-ru.bitrix24.ru/b34132196/crm/form/loader_8.js');
         </script>
-    </div>
+    </span>
 </body>
 </html>
