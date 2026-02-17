@@ -46,10 +46,18 @@
             }));
         }
 
-        // Открыть форму Битрикс24 — кликаем по родителю script-тега
+        // Открыть/закрыть форму Битрикс24
         function openContactForm() {
-            document.getElementById('b24-trigger').click();
+            document.getElementById('b24-modal-overlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
+        function closeContactForm() {
+            document.getElementById('b24-modal-overlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeContactForm();
+        });
     </script>
     
     <!-- Custom Styles -->
@@ -278,14 +286,22 @@
 
     @stack('scripts')
 
-    <!-- Битрикс24: скрипт внутри span — loader вешает click-обработчик на родителя -->
-    <span id="b24-trigger" style="position:fixed;top:-9999px;left:-9999px;">
-        <script data-b24-form="click/8/f73jug" data-skip-moving="true">
-        (function(w,d,u){
-            var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
-            var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn-ru.bitrix24.ru/b34132196/crm/form/loader_8.js');
-        </script>
-    </span>
+    <!-- Битрикс24: модальное окно с inline-формой -->
+    <div id="b24-modal-overlay"
+         onclick="if(event.target===this)closeContactForm()"
+         style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:16px;">
+        <div style="background:#fff;border-radius:12px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+            <button onclick="closeContactForm()"
+                    type="button"
+                    style="position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;font-size:20px;color:#6b7280;line-height:1;z-index:1;"
+                    aria-label="Закрыть">&#x2715;</button>
+            <script data-b24-form="inline/8/f73jug" data-skip-moving="true">
+            (function(w,d,u){
+                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
+                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+            })(window,document,'https://cdn-ru.bitrix24.ru/b34132196/crm/form/loader_8.js');
+            </script>
+        </div>
+    </div>
 </body>
 </html>
