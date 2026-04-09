@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
+use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -37,6 +38,12 @@ Route::post('/test-login', function () {
 
 // Главная страница
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Каталог прайса (до catch-all страниц)
+Route::redirect('/katalog', '/catalog', 301);
+Route::get('/catalog', [ProductController::class, 'index'])->name('products.index');
+// Привязка по id: у части товаров slug мог быть пуст — {product:slug} ломал route('products.show', $product)
+Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Услуги
 Route::prefix('services')->name('services.')->group(function () {

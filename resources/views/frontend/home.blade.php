@@ -18,7 +18,7 @@
                 Поставщик и интегратор комплексных решений в области ИТ. Техническая поддержка, виртуализация, сборка серверов, рабочие станции, безопасность, обслуживание ИТ
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('services.index') }}" 
+                <a href="{{ route('products.index') }}" 
                    class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-black bg-white hover:bg-blue-100 transition-colors">
                     Каталог
                 </a>
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-10">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-900 transition-colors">
-                Каталог
+                Все услуги
             </a>
         </div>
     </div>
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-10">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-900 transition-colors">
-                Каталог
+                Все услуги
             </a>
         </div>
     </div>
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="text-center mt-12">
             <a href="{{ route('services.index') }}" 
                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-                Каталог
+                Все услуги
                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>

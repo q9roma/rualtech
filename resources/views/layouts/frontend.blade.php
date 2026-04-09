@@ -8,6 +8,12 @@
     <!-- SEO -->
     <title>@yield('title', 'Алтех - IT-решения для бизнеса')</title>
     <meta name="description" content="@yield('description', 'Алтех - поставщик и интегратор комплексных решений в области IT')">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -148,7 +154,7 @@
     
     @stack('styles')
 </head>
-<body class="bg-gray-50 text-gray-900 pt-20">
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-900 pt-20">
     <!-- Header -->
     <header class="shadow-lg border-b border-gray-700 fixed top-0 left-0 right-0 z-50" style="background-color: #121212;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -178,9 +184,13 @@
                        class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('home') ? 'bg-green-600 text-white' : '' }}">
                         Главная
                     </a>
+                    <a href="{{ route('products.index') }}" 
+                       class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('products.*') ? 'bg-green-600 text-white' : '' }}">
+                        Каталог
+                    </a>
                     <a href="{{ route('services.index') }}" 
                        class="px-4 py-2 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all duration-200 font-medium {{ request()->routeIs('services.*') ? 'bg-green-600 text-white' : '' }}">
-                        Продукты
+                        Услуги
                     </a>
                     @if(\App\Models\BlogPost::published()->count() > 0)
                         <a href="{{ route('blog.index') }}" 
@@ -225,9 +235,13 @@
                        class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('home') ? 'bg-green-600 text-white' : '' }}">
                         Главная
                     </a>
+                    <a href="{{ route('products.index') }}" 
+                       class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('products.*') ? 'bg-green-600 text-white' : '' }}">
+                        Каталог
+                    </a>
                     <a href="{{ route('services.index') }}" 
                        class="block px-4 py-3 rounded-lg text-gray-300 hover:bg-green-800 hover:text-white transition-all font-medium {{ request()->routeIs('services.*') ? 'bg-green-600 text-white' : '' }}">
-                        Продукты
+                        Услуги
                     </a>
                     @if(\App\Models\BlogPost::published()->count() > 0)
                         <a href="{{ route('blog.index') }}" 
@@ -246,13 +260,14 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="min-h-screen">
-        @yield('content')
-    </main>
+    <div class="flex flex-col flex-1 min-h-0">
+        <!-- Main Content -->
+        <main class="flex flex-1 flex-col min-h-0">
+            @yield('content')
+        </main>
 
-    <!-- Footer -->
-    <footer class="text-white" style="background-color: #121212;">
+        <!-- Footer -->
+        <footer class="text-white shrink-0" style="background-color: #121212;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Company Info -->
@@ -283,6 +298,7 @@
             </div>
         </div>
     </footer>
+    </div>
 
     @stack('scripts')
 
