@@ -34,13 +34,12 @@
                 {{-- Заглушка обложки (фото товара) --}}
                 <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 flex items-center justify-center overflow-hidden">
                     <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.12),transparent_55%)]" aria-hidden="true"></div>
-                    <div class="relative flex flex-col items-center justify-center gap-3 px-8 text-center">
+                    <div class="relative flex items-center justify-center px-8">
                         <img src="{{ asset('images/logo_light.svg') }}"
                              alt=""
                              class="h-14 sm:h-20 w-auto opacity-95 drop-shadow-lg"
                              width="200"
                              height="80">
-                        <span class="text-xs font-medium uppercase tracking-wider text-white/50">Фото по запросу</span>
                     </div>
                 </div>
 
@@ -67,7 +66,7 @@
                             </span>
                         @endif
                         <span class="text-sm text-gray-500">
-                            Смотрят сейчас: <span class="font-medium tabular-nums text-gray-700">{{ $viewersCount }}</span> {{ $viewersWord }}
+                            Прямо сейчас смотрят <span class="font-medium tabular-nums text-gray-700">{{ $viewersCount }}</span> {{ $viewersWord }}
                         </span>
                     </div>
                 </div>
