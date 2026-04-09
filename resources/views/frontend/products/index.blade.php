@@ -82,7 +82,7 @@
                 @if($currentCategory)
                     <input type="hidden" name="category" value="{{ $currentCategory }}">
                 @endif
-                <div class="flex-1 min-w-[12rem]">
+                <div class="w-full min-w-0 flex-1 sm:min-w-[12rem]">
                     <label for="catalog-search" class="sr-only">Поиск</label>
                     <input type="search"
                            name="search"
@@ -92,9 +92,9 @@
                            autocomplete="off"
                            class="w-full {{ $inputClass }}">
                 </div>
-                <div class="w-full sm:w-auto sm:min-w-[11rem]">
-                    <label for="catalog-sort" class="sr-only">Сортировка</label>
-                    <div class="relative">
+                <div class="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:items-end">
+                    <div class="relative min-w-0 flex-1 sm:min-w-[11rem] sm:flex-none sm:w-auto">
+                        <label for="catalog-sort" class="sr-only">Сортировка</label>
                         <select name="sort" id="catalog-sort" class="w-full {{ $selectClass }}" onchange="this.form.requestSubmit()">
                             <option value="name" @selected($sort === 'name')>По названию</option>
                             <option value="brand" @selected($sort === 'brand')>По бренду</option>
@@ -107,18 +107,18 @@
                             </svg>
                         </span>
                     </div>
-                </div>
-                <div class="flex gap-2">
-                    <button type="submit"
-                            class="inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-                        Найти
-                    </button>
-                    @if(request()->filled('search') || request()->filled('category') || ($sort !== 'name'))
-                        <a href="{{ route('products.index') }}"
-                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
-                            Сбросить
-                        </a>
-                    @endif
+                    <div class="flex shrink-0 items-center gap-2">
+                        <button type="submit"
+                                class="inline-flex justify-center whitespace-nowrap px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                            Найти
+                        </button>
+                        @if(request()->filled('search') || request()->filled('category') || ($sort !== 'name'))
+                            <a href="{{ route('products.index') }}"
+                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
+                                Сбросить
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </form>
 

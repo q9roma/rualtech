@@ -116,10 +116,6 @@
                             class="w-full inline-flex justify-center items-center px-5 py-3 border border-transparent rounded-md text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                         Запросить КП или поставку
                     </button>
-                    <a href="{{ route('products.index') }}"
-                       class="w-full inline-flex justify-center items-center px-5 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-                        ← В каталог
-                    </a>
                 </div>
             </div>
 
