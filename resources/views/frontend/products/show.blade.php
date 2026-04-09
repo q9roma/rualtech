@@ -38,28 +38,25 @@
                     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
                         {{ $product->name }}
                     </h1>
-                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-                        @if($product->availability)
-                            @php
-                                $avRaw = trim((string) $product->availability);
-                                $avLow = mb_strtolower($avRaw);
-                                $isSpecial = str_contains($avLow, 'заказ')
-                                    || str_contains($avLow, 'нет')
-                                    || str_contains($avLow, 'ожида')
-                                    || str_contains($avLow, 'транзит');
-                                $tail = preg_replace('/^\s*в\s+наличии\s*/iu', '', $avRaw);
-                                $availabilityPhrase = $isSpecial
-                                    ? $avRaw
-                                    : ('в наличии ' . ($tail !== '' ? $tail : $avRaw));
-                            @endphp
+                    @if($product->availability)
+                        @php
+                            $avRaw = trim((string) $product->availability);
+                            $avLow = mb_strtolower($avRaw);
+                            $isSpecial = str_contains($avLow, 'заказ')
+                                || str_contains($avLow, 'нет')
+                                || str_contains($avLow, 'ожида')
+                                || str_contains($avLow, 'транзит');
+                            $tail = preg_replace('/^\s*в\s+наличии\s*/iu', '', $avRaw);
+                            $availabilityPhrase = $isSpecial
+                                ? $avRaw
+                                : ('в наличии ' . ($tail !== '' ? $tail : $avRaw));
+                        @endphp
+                        <p class="mt-4">
                             <span class="inline-flex max-w-full items-center rounded-md px-2.5 py-1 text-sm font-medium {{ $isSpecial ? 'bg-gray-100 text-gray-800 ring-1 ring-gray-200' : 'bg-green-100 text-green-800 ring-1 ring-green-600/15' }}">
                                 Наличие: {{ $availabilityPhrase }}
                             </span>
-                        @endif
-                        <span class="text-sm text-gray-500">
-                            Сейчас смотрит 1 Сашка
-                        </span>
-                    </div>
+                        </p>
+                    @endif
                 </div>
 
                 <div class="px-6 py-5 sm:px-8 sm:py-6">
