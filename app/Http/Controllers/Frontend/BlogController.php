@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 
 class BlogController extends Controller
 {
@@ -24,7 +23,11 @@ class BlogController extends Controller
                 ->get();
         });
 
-        return view('frontend.blog.index', compact('posts', 'featuredPosts'));
+        $canonicalUrl = $posts->currentPage() === 1
+            ? route('blog.index')
+            : $posts->url($posts->currentPage());
+
+        return view('frontend.blog.index', compact('posts', 'featuredPosts', 'canonicalUrl'));
     }
 
     public function show(string $slug): View

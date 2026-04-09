@@ -2,16 +2,7 @@
 
 @section('title', $product->name . ' — Каталог | Алтех')
 @section('description', Str::limit(strip_tags($product->name . ($product->sku ? ' Артикул ' . $product->sku : '')), 160))
-
-@php
-    // Заглушка: «сколько смотрят» — стабильно для позиции, выглядит по-разному у разных товаров
-    $viewersCount = 3 + (abs(crc32((string) $product->getKey() . '|' . ($product->slug ?? ''))) % 18);
-    $viewersWord = match (true) {
-        $viewersCount % 10 === 1 && $viewersCount % 100 !== 11 => 'человек',
-        in_array($viewersCount % 10, [2, 3, 4], true) && ! in_array($viewersCount % 100, [12, 13, 14], true) => 'человека',
-        default => 'человек',
-    };
-@endphp
+@section('canonical', route('products.show', $product))
 
 @section('content')
 <div class="bg-white border-b border-gray-200">
@@ -66,7 +57,7 @@
                             </span>
                         @endif
                         <span class="text-sm text-gray-500">
-                            Прямо сейчас смотрят <span class="font-medium tabular-nums text-gray-700">{{ $viewersCount }}</span> {{ $viewersWord }}
+                            Сейчас смотрит 1 Сашка
                         </span>
                     </div>
                 </div>

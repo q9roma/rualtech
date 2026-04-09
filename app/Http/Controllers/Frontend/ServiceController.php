@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Service;
 use App\Models\ServiceCategory;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
@@ -16,14 +14,16 @@ class ServiceController extends Controller
         // Кэшируем категории услуг на 30 минут
         $categories = Cache::remember('services_categories_with_services', 1800, function () {
             return ServiceCategory::where('is_active', true)
-                ->with(['activeServices' => function($query) {
+                ->with(['activeServices' => function ($query) {
                     $query->orderBy('sort_order');
                 }])
                 ->orderBy('sort_order')
                 ->get();
         });
 
-        return view('frontend.services.index', compact('categories'));
+        $canonicalUrl = route('services.index');
+
+        return view('frontend.services.index', compact('categories', 'canonicalUrl'));
     }
 
     public function category(string $categorySlug): View
@@ -36,7 +36,13 @@ class ServiceController extends Controller
             ->orderBy('sort_order')
             ->paginate(12);
 
-        return view('frontend.services.category', compact('category', 'services'));
+        $pageNum = max(1, (int) request('page', 1));
+        $canonicalUrl = route('services.category', ['categorySlug' => $category->slug]);
+        if ($pageNum > 1) {
+            $canonicalUrl = route('services.category', ['categorySlug' => $category->slug, 'page' => $pageNum]);
+        }
+
+        return view('frontend.services.category', compact('category', 'services', 'canonicalUrl'));
     }
 
     public function show(string $categorySlug, string $serviceSlug): View
@@ -58,6 +64,11 @@ class ServiceController extends Controller
                 ->get();
         });
 
-        return view('frontend.services.show', compact('service', 'category', 'relatedServices'));
+        $canonicalUrl = route('services.show', [
+            'categorySlug' => $category->slug,
+            'serviceSlug' => $service->slug,
+        ]);
+
+        return view('frontend.services.show', compact('service', 'category', 'relatedServices', 'canonicalUrl'));
     }
 }

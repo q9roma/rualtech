@@ -2,6 +2,7 @@
 
 @section('title', 'Блог - IT-новости и статьи | Алтех')
 @section('description', 'Актуальные новости из мира IT, экспертные статьи о виртуализации, серверных решениях и информационной безопасности.')
+@section('canonical', $canonicalUrl)
 
 @section('content')
 <!-- Header Section -->

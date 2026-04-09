@@ -2,6 +2,7 @@
 
 @section('title', $service->seo_title ?: $service->name . ' - ' . $category->name . ' | Алтех')
 @section('description', $service->seo_description ?: $service->short_description)
+@section('canonical', $canonicalUrl)
 
 @section('content')
 <!-- Breadcrumbs -->

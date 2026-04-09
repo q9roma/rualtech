@@ -8,6 +8,9 @@
     <!-- SEO -->
     <title>@yield('title', 'Алтех - IT-решения для бизнеса')</title>
     <meta name="description" content="@yield('description', 'Алтех - поставщик и интегратор комплексных решений в области IT')">
+    @hasSection('canonical')
+        <link rel="canonical" href="@yield('canonical')">
+    @endif
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">

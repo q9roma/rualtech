@@ -2,6 +2,7 @@
 
 @section('title', 'Продукты - IT-решения для бизнеса | Алтех')
 @section('description', 'Полный спектр IT-продуктов: виртуализация, сборка серверов, техническая поддержка, сетевые решения и информационная безопасность.')
+@section('canonical', $canonicalUrl)
 
 @section('content')
 <!-- Header Section -->

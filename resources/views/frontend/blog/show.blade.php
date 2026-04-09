@@ -2,6 +2,7 @@
 
 @section('title', $post->seo_title ?: $post->title . ' | Блог Altech')
 @section('description', $post->seo_description ?: $post->excerpt)
+@section('canonical', route('blog.show', $post->slug))
 
 @section('content')
 <!-- Breadcrumbs -->

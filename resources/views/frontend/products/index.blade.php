@@ -2,6 +2,7 @@
 
 @section('title', 'Каталог — Алтех')
 @section('description', 'Каталог оборудования и позиций прайса. Категории, поиск по названию и артикулу.')
+@section('canonical', $canonicalUrl)
 
 @section('content')
 <div class="flex flex-1 flex-col min-h-0">

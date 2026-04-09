@@ -1,7 +1,8 @@
-@extends('la                    <a href="{{ route('home') }}" class="text-gray-500 hover:text-blue-600">outs.frontend')
+@extends('layouts.frontend')
 
 @section('title', $page->seo_title ?: $page->title)
 @section('description', $page->seo_description ?: Str::limit(strip_tags($page->content), 160))
+@section('canonical', route('pages.show', $page->slug))
 
 @section('content')
 <div class="bg-gray-50 py-8">

@@ -16,7 +16,7 @@ class ProductController extends Controller
         if ($request->filled('search')) {
             $search = $request->string('search')->trim()->value();
             if ($search !== '') {
-                $term = '%' . addcslashes($search, '%_\\') . '%';
+                $term = '%'.addcslashes($search, '%_\\').'%';
                 $query->where(function ($q) use ($term) {
                     $q->where('name', 'like', $term)
                         ->orWhere('sku', 'like', $term)
@@ -49,6 +49,12 @@ class ProductController extends Controller
 
         $products = $query->paginate(48)->withQueryString();
 
+        $pageNum = max(1, $request->integer('page', 1));
+        $canonicalUrl = route('products.index');
+        if ($pageNum > 1) {
+            $canonicalUrl = route('products.index', ['page' => $pageNum]);
+        }
+
         $totalActiveProducts = Product::query()->active()->count();
 
         $categoryDirectory = Product::query()
@@ -66,6 +72,7 @@ class ProductController extends Controller
             'sort',
             'categoryDirectory',
             'totalActiveProducts',
+            'canonicalUrl',
         ));
     }
 

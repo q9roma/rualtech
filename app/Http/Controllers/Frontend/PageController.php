@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -15,6 +14,6 @@ class PageController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        return view('frontend.pages.show', compact('page'));
+        return view('frontend.page', compact('page'));
     }
 }
