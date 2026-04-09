@@ -125,6 +125,9 @@ jobs:
           php artisan view:clear 2>/dev/null || echo "View clear failed"  
           php artisan config:clear 2>/dev/null || echo "Config clear failed"
           
+          echo "🗄️ Применяем миграции БД..."
+          php artisan migrate --force
+          
           echo "� Создаем администратора..."
           php artisan admin:create "alexsoroka" "corp-altekh07938@yandex.ru" "admin123!" 2>/dev/null || echo "Admin user already exists or creation failed"
           

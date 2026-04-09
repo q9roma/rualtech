@@ -3,6 +3,16 @@
 @section('title', $product->name . ' — Каталог | Алтех')
 @section('description', Str::limit(strip_tags($product->name . ($product->sku ? ' Артикул ' . $product->sku : '')), 160))
 
+@php
+    // Заглушка: «сколько смотрят» — стабильно для позиции, выглядит по-разному у разных товаров
+    $viewersCount = 3 + (abs(crc32((string) $product->getKey() . '|' . ($product->slug ?? ''))) % 18);
+    $viewersWord = match (true) {
+        $viewersCount % 10 === 1 && $viewersCount % 100 !== 11 => 'человек',
+        in_array($viewersCount % 10, [2, 3, 4], true) && ! in_array($viewersCount % 100, [12, 13, 14], true) => 'человека',
+        default => 'человек',
+    };
+@endphp
+
 @section('content')
 <div class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -21,11 +31,47 @@
         {{-- Основная информация --}}
         <div class="lg:col-span-7 space-y-6">
             <div class="bg-white overflow-hidden shadow-sm ring-1 ring-gray-900/5 rounded-xl">
+                {{-- Заглушка обложки (фото товара) --}}
+                <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 flex items-center justify-center overflow-hidden">
+                    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.12),transparent_55%)]" aria-hidden="true"></div>
+                    <div class="relative flex flex-col items-center justify-center gap-3 px-8 text-center">
+                        <img src="{{ asset('images/logo_light.svg') }}"
+                             alt=""
+                             class="h-14 sm:h-20 w-auto opacity-95 drop-shadow-lg"
+                             width="200"
+                             height="80">
+                        <span class="text-xs font-medium uppercase tracking-wider text-white/50">Фото по запросу</span>
+                    </div>
+                </div>
+
                 <div class="px-6 py-5 sm:px-8 sm:py-6 border-b border-gray-100">
                     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
                         {{ $product->name }}
                     </h1>
+                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                        @if($product->availability)
+                            @php
+                                $avRaw = trim((string) $product->availability);
+                                $avLow = mb_strtolower($avRaw);
+                                $isSpecial = str_contains($avLow, 'заказ')
+                                    || str_contains($avLow, 'нет')
+                                    || str_contains($avLow, 'ожида')
+                                    || str_contains($avLow, 'транзит');
+                                $tail = preg_replace('/^\s*в\s+наличии\s*/iu', '', $avRaw);
+                                $availabilityPhrase = $isSpecial
+                                    ? $avRaw
+                                    : ('в наличии ' . ($tail !== '' ? $tail : $avRaw));
+                            @endphp
+                            <span class="inline-flex max-w-full items-center rounded-md px-2.5 py-1 text-sm font-medium {{ $isSpecial ? 'bg-gray-100 text-gray-800 ring-1 ring-gray-200' : 'bg-green-100 text-green-800 ring-1 ring-green-600/15' }}">
+                                Наличие: {{ $availabilityPhrase }}
+                            </span>
+                        @endif
+                        <span class="text-sm text-gray-500">
+                            Смотрят сейчас: <span class="font-medium tabular-nums text-gray-700">{{ $viewersCount }}</span> {{ $viewersWord }}
+                        </span>
+                    </div>
                 </div>
+
                 <div class="px-6 py-5 sm:px-8 sm:py-6">
                     <h2 class="sr-only">Параметры позиции</h2>
                     <dl class="divide-y divide-gray-100 text-sm">
@@ -47,16 +93,6 @@
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 py-3 sm:gap-4 sm:items-start">
                                 <dt class="font-medium text-gray-500 sm:col-span-1">Категория</dt>
                                 <dd class="text-gray-900 sm:col-span-2">{{ $product->category }}</dd>
-                            </div>
-                        @endif
-                        @if($product->availability)
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 py-3 sm:gap-4 sm:items-start">
-                                <dt class="font-medium text-gray-500 sm:col-span-1">Наличие</dt>
-                                <dd class="sm:col-span-2">
-                                    <span class="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800 ring-1 ring-inset ring-gray-200">
-                                        {{ $product->availability }}
-                                    </span>
-                                </dd>
                             </div>
                         @endif
                     </dl>

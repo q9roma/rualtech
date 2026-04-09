@@ -61,6 +61,9 @@ jobs:
           php artisan view:clear
           php artisan config:clear
           
+          echo "🗄️ Применяем миграции БД..."
+          php artisan migrate --force
+          
           echo "🔄 Перезапускаем веб-сервер..."
           systemctl reload nginx
           

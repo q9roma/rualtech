@@ -25,10 +25,6 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->filled('brand')) {
-            $query->where('brand', $request->string('brand')->value());
-        }
-
         if ($request->filled('category')) {
             $query->where('category', $request->string('category')->value());
         }
@@ -53,10 +49,24 @@ class ProductController extends Controller
 
         $products = $query->paginate(48)->withQueryString();
 
-        $brands = Product::query()->active()->distinct()->orderBy('brand')->pluck('brand')->filter();
-        $categories = Product::query()->active()->distinct()->orderBy('category')->pluck('category')->filter();
+        $totalActiveProducts = Product::query()->active()->count();
 
-        return view('frontend.products.index', compact('products', 'brands', 'categories', 'sort'));
+        $categoryDirectory = Product::query()
+            ->active()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->groupBy('category')
+            ->selectRaw('category, COUNT(*) as products_count')
+            ->orderByDesc('products_count')
+            ->orderBy('category')
+            ->get();
+
+        return view('frontend.products.index', compact(
+            'products',
+            'sort',
+            'categoryDirectory',
+            'totalActiveProducts',
+        ));
     }
 
     public function show(Product $product): View
