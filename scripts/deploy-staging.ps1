@@ -21,6 +21,6 @@ if ($LASTEXITCODE -ne 0) { throw 'Source upload failed' }
 if ($LASTEXITCODE -ne 0) { throw 'Build script upload failed' }
 & ssh @sshOptions $destination "nice -n 10 bash '$remote/build-staging.sh' '$snapshot' '$checksum'"
 if ($LASTEXITCODE -ne 0) { throw 'Staging build or tests failed' }
-& ssh @sshOptions $destination "CURL_CA_BUNDLE=/srv/altech/staging/tls/localhost.crt bash '$remote/deploy-release.sh' staging '$snapshot'"
+& ssh @sshOptions $destination "bash '$remote/deploy-release.sh' staging '$snapshot'"
 if ($LASTEXITCODE -ne 0) { throw 'Staging deployment failed; inspect server log and maintenance state' }
 Write-Host "Staging deployed: $snapshot (local source snapshot, not a Git commit)"

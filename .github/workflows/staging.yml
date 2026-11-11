@@ -75,4 +75,4 @@ jobs:
           (cd dist && sha256sum --check release.tar.gz.sha256)
           ssh "${options[@]}" "$destination" "mkdir -p '$remote'"
           scp "${options[@]}" dist/release.tar.gz dist/release.tar.gz.sha256 scripts/deploy-release.sh scripts/release-common.sh "$destination:$remote/"
-          ssh "${options[@]}" "$destination" "CURL_CA_BUNDLE=/srv/altech/staging/tls/localhost.crt bash '$remote/deploy-release.sh' staging '$GITHUB_SHA'"
+          ssh "${options[@]}" "$destination" "bash '$remote/deploy-release.sh' staging '$GITHUB_SHA'"
