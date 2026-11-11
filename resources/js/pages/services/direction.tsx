@@ -2,6 +2,8 @@ import '../../../css/direction.css';
 import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { ServerServiceFaq } from '@/components/storefront/server-service-faq';
+import { ServiceRequestBanner } from '@/components/storefront/service-request-banner';
+import { ServiceProposal, type ServiceBundle } from '@/components/storefront/service-proposal';
 import { ServerServiceIntro } from '@/components/storefront/server-service-intro';
 
 import { Page, Products, Pagination, type PageProps, type PaginationData } from '@/components/storefront/content';
@@ -10,7 +12,7 @@ import { ContactDialog } from '@/components/storefront/contact-dialog';
 import type { Product } from '@/types/catalog';
 
 type Section = { key: string; title: string; text: string; total: number; products: Product[]; url: string; pagination: Omit<PaginationData<never>, 'data'> | null };
-type Props = PageProps & { brief: string; directionKey: string; directionUrl: string; selectedCollection: string; sections: Section[]; directions: Direction[] };
+type Props = PageProps & { exampleBundle?: ServiceBundle | null; brief: string; directionKey: string; directionUrl: string; selectedCollection: string; sections: Section[]; directions: Direction[] };
 
 export default function DirectionPage(props: Props) {
     const available = props.sections.filter(section => section.total > 0);
@@ -31,14 +33,16 @@ export default function DirectionPage(props: Props) {
                 {visible.map(section => <section key={section.key} id={section.key} className="direction-collection" aria-labelledby={`${section.key}-heading`}>
                     <header className="direction-collection-heading"><h2 id={`${section.key}-heading`}>{!section.pagination && section.total > section.products.length ? <Link href={section.url} aria-label={`${section.title} — открыть всю подборку`}>{section.title}</Link> : section.title}</h2><p>{section.text}</p></header>
                     {section.products.length ? <Products products={section.products} /> : <p>Сейчас в этой подборке нет опубликованных товаров. Оставьте запрос — уточним варианты поставки.</p>}
+                    {showServiceIntro && section.key === 'storage' && <ServiceProposal bundle={props.exampleBundle} />}
                     {section.pagination && <Pagination data={section.pagination} />}
                 </section>)}
                 {visible.length === 0 && <p>Сейчас товары этого направления доступны по запросу. Расскажите о задаче — уточним варианты поставки.</p>}
             </div>
             </section>
             {showServiceIntro && <ServerServiceFaq />}
-            <aside className="direction-help"><div className="direction-help-copy"><h2>Подберём под вашу задачу</h2><p>{props.brief}</p><ContactDialog service={props.title} label="Обсудить задачу" /></div></aside>
-            <ServicesOverview directions={props.directions} title="Другие решения" />
+            {showServiceIntro ? <ServiceRequestBanner service={props.title} /> : <aside className="direction-help"><div className="direction-help-copy"><h2>Подберём под вашу задачу</h2><p>{props.brief}</p><ContactDialog service={props.title} label="Обсудить задачу" /></div></aside>}
+            <ServicesOverview directions={showServiceIntro ? props.directions.filter(direction => ['networks', 'power', 'software'].includes(direction.slug)) : props.directions} title="Другие решения" />
+            {showServiceIntro && <Link className="direction-all-services" href={props.navigation.services}>Все услуги <span aria-hidden="true">↗</span></Link>}
         </div>
     </Page>;
 }

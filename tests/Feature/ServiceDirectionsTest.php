@@ -19,6 +19,18 @@ class ServiceDirectionsTest extends TestCase
         $this->withoutVite();
     }
 
+    public function test_example_bundle_uses_quantities_and_hides_incomplete_sets(): void
+    {
+        foreach (['DS423' => 100, 'ST4000NT001' => 25.15, 'BR700ELCD' => 10] as $sku => $price) {
+            Product::create(['name' => $sku, 'sku' => $sku, 'price' => $price, 'currency' => 'RUB', 'is_active' => true]);
+        }
+        $this->assertSame('160,30 ₽', ServiceDirections::exampleBundle()['formattedTotal']);
+        Product::where('sku', 'ST4000NT001')->update(['price' => null]);
+        $this->assertNull(ServiceDirections::exampleBundle()['formattedTotal']);
+        Product::where('sku', 'BR700ELCD')->update(['is_active' => false]);
+        $this->assertNull(ServiceDirections::exampleBundle());
+    }
+
     public function test_directions_work_without_cms_records_and_are_in_sitemap(): void
     {
         $this->get('/')->assertInertia(fn (Assert $page) => $page->has('directions', 8));
@@ -32,6 +44,17 @@ class ServiceDirectionsTest extends TestCase
         }
         $this->get('/services/not-a-direction')->assertNotFound();
         $this->get('/services/workplaces?collection=missing')->assertNotFound();
+    }
+
+    public function test_server_service_metadata_and_collection_urls_remain_distinct(): void
+    {
+        $this->get('/services/servers-storage')->assertInertia(fn (Assert $page) => $page
+            ->where('seoTitle', 'Подбор серверов, СХД и NAS для бизнеса')
+            ->where('description', config('directions.servers-storage.seo_description'))
+            ->where('canonicalUrl', url('/services/servers-storage')));
+        $this->get('/services/servers-storage?collection=platforms')->assertInertia(fn (Assert $page) => $page
+            ->where('seoTitle', 'Серверные платформы — Серверы и хранение данных')
+            ->where('canonicalUrl', url('/services/servers-storage').'?collection=platforms'));
     }
 
     public function test_server_platforms_are_separate_from_parts_and_drafts(): void

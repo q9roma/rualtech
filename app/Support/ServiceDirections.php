@@ -60,6 +60,27 @@ class ServiceDirections
         return $products;
     }
 
+    public static function exampleBundle(): ?array
+    {
+        $parts = [
+            ['sku' => 'DS423', 'label' => 'Synology DS423', 'quantity' => 1],
+            ['sku' => 'ST4000NT001', 'label' => 'IronWolf Pro 4 ТБ', 'quantity' => 2],
+            ['sku' => 'BR700ELCD', 'label' => 'CyberPower BR700ELCD', 'quantity' => 1],
+        ];
+        $products = Product::active()->whereIn('sku', array_column($parts, 'sku'))->get()->keyBy('sku');
+        $items = [];
+        $total = 0;
+        $priced = true;
+        foreach ($parts as $part) {
+            $product = $products->get($part['sku']);
+            if (! $product) return null;
+            $priced = $priced && (float) $product->price > 0 && $product->currency === 'RUB';
+            $total += (int) round((float) $product->price * 100) * $part['quantity'];
+            $items[] = [...$part, 'product' => Storefront::product($product)];
+        }
+        return ['items' => $items, 'formattedTotal' => $priced ? number_format($total / 100, 2, ',', ' ').' ₽' : null];
+    }
+
     public static function page(string $slug): array
     {
         $direction = config('directions.'.$slug);
@@ -98,6 +119,7 @@ class ServiceDirections
             'brief' => $direction['brief'], 'directionUrl' => $url, 'directionKey' => $slug,
             'canonicalUrl' => $selected ? route('services.category', array_filter(['categorySlug' => $slug, 'collection' => $selected, 'page' => $page > 1 ? $page : null])) : $url,
             'selectedCollection' => $selected, 'sections' => $sections,
+            'exampleBundle' => $slug === 'servers-storage' && $selected === '' ? self::exampleBundle() : null,
             'directions' => collect(self::cards())->where('slug', '!=', $slug)->values(),
         ];
     }

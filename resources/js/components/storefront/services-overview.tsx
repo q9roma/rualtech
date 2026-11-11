@@ -1,12 +1,14 @@
 import { Link } from '@inertiajs/react';
 import { ArrowUpRight, Check, Monitor, Server, Network, Video, Printer, Zap, Cpu, PanelsTopLeft } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { ServicesDesk } from './services-desk';
 
 export type Direction = { slug: string; title: string; description: string; icon: string; url: string };
 const icons = { workplaces: Monitor, 'servers-storage': Server, networks: Network, 'meeting-rooms': Video, printing: Printer, power: Zap, 'pc-upgrade': Cpu, software: PanelsTopLeft };
 const experienced = new Set(['servers-storage', 'networks', 'meeting-rooms']);
 
 export function ServicesOverview({ directions, title = 'услуги' }: { directions: Direction[]; title?: string }) {
+    if (directions.length === 8) return <ServicesDesk directions={directions} title={title} />;
     return <section className="storefront-services" aria-label={title}>
         <h2>{title}</h2>
         <div className="storefront-services-grid storefront-directions-grid">{directions.map(direction => {

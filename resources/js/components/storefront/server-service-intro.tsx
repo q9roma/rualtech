@@ -25,9 +25,5 @@ export function ServerServiceIntro({ service }: { service: string }) {
                 <p>{scenario.text}</p>
             </article>)}</div>
         </section>
-        <section className="service-brief" aria-labelledby="service-brief-title">
-            <div className="service-brief-copy"><h2 id="service-brief-title">Что написать в заявке</h2><p>Укажите программы, число пользователей и что нужно изменить. Если уже есть сервер, добавьте его модель или конфигурацию.</p><ContactDialog service={service} label="Обсудить задачу" /></div>
-            <div className="service-brief-example"><p className="service-brief-caption">Пример запроса</p><blockquote>Работаем в 1С, команда растёт. Нужен сервер и место для общих файлов. Хотим понять, что выбрать и сколько это будет стоить.</blockquote><p className="service-brief-response">В ответ уточним нагрузку, объём данных и бюджет.</p></div>
-        </section>
     </>;
 }

@@ -21,7 +21,7 @@ function BitrixForm() {
     return <div ref={container} className="min-h-40"><p className="text-sm text-muted-foreground">Если форма не загрузилась, напишите на <a className="underline" href="mailto:office@rualtech.ru">office@rualtech.ru</a>.</p></div>;
 }
 
-export function ContactDialog({ service, label, secondary = false, className, icon, productId }: { productId?: number; service?: string; label?: string; secondary?: boolean; className?: string; icon?: ReactNode }) {
+export function ContactDialog({ service, label, secondary = false, className, icon, productId, initialMessage, onMessageChange }: { initialMessage?: string; onMessageChange?: (message: string) => void; productId?: number; service?: string; label?: string; secondary?: boolean; className?: string; icon?: ReactNode }) {
     const { contactUrl } = usePage<{ contactUrl: string }>().props;
     const [busy, setBusy] = useState(false);
     const [success, setSuccess] = useState('');
@@ -58,7 +58,7 @@ export function ContactDialog({ service, label, secondary = false, className, ic
                 </div>)}
                 {productId && <div className="space-y-2"><Label htmlFor="request-quantity">Количество, шт.</Label><Input id="request-quantity" name="quantity" type="number" min={1} max={100000} step={1} defaultValue={1} required disabled={busy} aria-invalid={!!errors.quantity}/>{errors.quantity && <p role="alert" className="text-sm text-destructive">{errors.quantity.join(' ')}</p>}<p className="text-sm text-muted-foreground">Уточним возможность поставки, стоимость и сроки и свяжемся с вами.</p></div>}
                 {errors.product_id && <p role="alert" className="text-sm text-destructive">{errors.product_id.join(' ')}</p>}
-                <div className="space-y-2"><Label htmlFor="request-message">Комментарий</Label><Textarea id="request-message" name="message" maxLength={1000} disabled={busy} aria-invalid={!!errors.message} />{errors.message && <p role="alert" className="text-sm text-destructive">{errors.message.join(' ')}</p>}</div>
+                <div className="space-y-2"><Label htmlFor="request-message">Комментарий</Label><Textarea id="request-message" name="message" defaultValue={initialMessage} onChange={event => onMessageChange?.(event.target.value)} maxLength={1000} disabled={busy} aria-invalid={!!errors.message} />{errors.message && <p role="alert" className="text-sm text-destructive">{errors.message.join(' ')}</p>}</div>
                 {(error || errors.service) && <p role="alert" className="text-sm text-destructive">{error || errors.service.join(' ')}</p>}
                 <Button type="submit" disabled={busy}>{busy ? 'Отправка…' : 'Отправить заявку'}</Button>
             </form>}
