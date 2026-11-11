@@ -8,12 +8,12 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function show(string $slug): View
+    public function show(string $slug): View|\Inertia\Response
     {
         $page = Page::where('slug', $slug)
             ->where('is_active', true)
             ->firstOrFail();
 
-        return view('frontend.page', compact('page'));
+        return \App\Support\Storefront::page('frontend.page', compact('page'));
     }
 }

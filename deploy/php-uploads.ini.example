@@ -1,0 +1,4 @@
+; Install in PHP 8.4 FPM's conf.d and restart FPM.
+; The application validates CSV at 20 MiB and images at 10 MiB.
+upload_max_filesize=20M
+post_max_size=32M

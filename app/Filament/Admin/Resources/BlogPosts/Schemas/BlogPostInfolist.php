@@ -13,18 +13,18 @@ class BlogPostInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('title'),
-                TextEntry::make('slug'),
-                ImageEntry::make('featured_image'),
-                IconEntry::make('is_published')
+                TextEntry::make('title')->label('Заголовок'),
+                TextEntry::make('slug')->label('URL'),
+                ImageEntry::make('featured_image')->label('Изображение'),
+                IconEntry::make('is_published')->label('Опубликована')
                     ->boolean(),
-                TextEntry::make('published_at')
+                TextEntry::make('published_at')->label('Дата публикации')
                     ->dateTime(),
-                TextEntry::make('seo_title'),
-                TextEntry::make('seo_description'),
-                TextEntry::make('created_at')
+                TextEntry::make('seo_title')->label('SEO заголовок'),
+                TextEntry::make('seo_description')->label('SEO описание'),
+                TextEntry::make('created_at')->label('Создана')
                     ->dateTime(),
-                TextEntry::make('updated_at')
+                TextEntry::make('updated_at')->label('Обновлена')
                     ->dateTime(),
             ]);
     }

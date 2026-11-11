@@ -1,39 +1,39 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class CreateAdminUser extends Command
 {
-    protected $signature = 'admin:create {name} {email} {password}';
-    protected $description = 'Create an admin user';
+    protected $signature = 'admin:create {name} {email}';
+    protected $description = 'Create a staff account using a hidden password prompt';
 
-    public function handle()
+    public function handle(): int
     {
-        $name = $this->argument('name');
-        $email = $this->argument('email');
-        $password = $this->argument('password');
-
-        // Проверяем, существует ли уже пользователь
-        if (User::where('email', $email)->exists()) {
-            $this->info("User with email {$email} already exists!");
-            return 0;
+        $data = ['name' => $this->argument('name'), 'email' => $this->argument('email')];
+        $validator = Validator::make($data, ['name' => 'required|string|max:255', 'email' => 'required|email|max:255|unique:users,email']);
+        if ($validator->fails()) {
+            $this->error($validator->errors()->first());
+            return self::FAILURE;
         }
-
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => Hash::make($password),
-        ]);
-
-        $this->info("Admin user created successfully!");
-        $this->info("Name: {$user->name}");
-        $this->info("Email: {$user->email}");
-        $this->info("You can now login at /admin/login");
-
-        return 0;
+        if (! $this->input->isInteractive()) {
+            $this->error('Run interactively. Passwords must not be passed through command arguments.');
+            return self::FAILURE;
+        }
+        $password = $this->secret('Password (at least 12 characters)');
+        $validator = Validator::make(['password' => $password], ['password' => ['required', Password::min(12)->mixedCase()->numbers()->symbols()]]);
+        if ($validator->fails() || $password !== $this->secret('Repeat password')) {
+            $this->error('Password requirements or confirmation did not match.');
+            return self::FAILURE;
+        }
+        $user = new User($data);
+        $user->password = $password;
+        $user->is_admin = true;
+        $user->save();
+        $this->info('Staff account created.');
+        return self::SUCCESS;
     }
 }

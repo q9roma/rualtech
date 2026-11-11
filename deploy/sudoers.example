@@ -1,0 +1,7 @@
+# Install with visudo -f /etc/sudoers.d/altech after provisioning the units.
+# Confirm systemctl's absolute path on the target host first.
+altech ALL=(root) NOPASSWD: /usr/bin/systemctl stop altech-production-queue.service altech-production-ssr.service
+altech ALL=(root) NOPASSWD: /usr/bin/systemctl restart altech-production-queue.service altech-production-ssr.service
+altech ALL=(root) NOPASSWD: /usr/bin/systemctl stop altech-staging-queue.service altech-staging-ssr.service
+altech ALL=(root) NOPASSWD: /usr/bin/systemctl restart altech-staging-queue.service altech-staging-ssr.service
+altech ALL=(root) NOPASSWD: /usr/bin/systemctl reload php-fpm84.service

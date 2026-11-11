@@ -6,6 +6,9 @@
 *.md diff=markdown
 *.php diff=php
 
+# Generated upstream bundles contain intentional whitespace in template strings.
+/public/js/filament/** -whitespace
+
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore

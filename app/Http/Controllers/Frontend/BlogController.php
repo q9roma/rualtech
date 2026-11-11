@@ -9,10 +9,11 @@ use Illuminate\View\View;
 
 class BlogController extends Controller
 {
-    public function index(): View
+    public function index(): View|\Inertia\Response
     {
         $posts = BlogPost::published()
             ->orderBy('published_at', 'desc')
+            ->orderByDesc('id')
             ->paginate(9);
 
         // Кэшируем рекомендуемые записи на 1 час
@@ -27,10 +28,10 @@ class BlogController extends Controller
             ? route('blog.index')
             : $posts->url($posts->currentPage());
 
-        return view('frontend.blog.index', compact('posts', 'featuredPosts', 'canonicalUrl'));
+        return \App\Support\Storefront::page('frontend.blog.index', compact('posts', 'featuredPosts', 'canonicalUrl'));
     }
 
-    public function show(string $slug): View
+    public function show(string $slug): View|\Inertia\Response
     {
         $post = BlogPost::where('slug', $slug)
             ->published()
@@ -45,6 +46,6 @@ class BlogController extends Controller
                 ->get();
         });
 
-        return view('frontend.blog.show', compact('post', 'relatedPosts'));
+        return \App\Support\Storefront::page('frontend.blog.show', compact('post', 'relatedPosts'));
     }
 }

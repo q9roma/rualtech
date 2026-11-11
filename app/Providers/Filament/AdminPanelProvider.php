@@ -26,9 +26,11 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->brandName('Алтех — управление')
             ->path('admin')
             ->login()
             ->authGuard('web')
+            ->strictAuthorization()
             ->loginRouteSlug('login')
             ->colors([
                 'primary' => Color::Amber,
@@ -41,9 +43,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
             ])
             ->middleware([
+                \App\Http\Middleware\UseRussianLocale::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,

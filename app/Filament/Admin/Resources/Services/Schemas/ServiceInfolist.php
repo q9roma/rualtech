@@ -12,25 +12,24 @@ class ServiceInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('service_category_id')
+                TextEntry::make('category.name')->label('Категория'),
+                TextEntry::make('name')->label('Название'),
+                TextEntry::make('slug')->label('URL'),
+                TextEntry::make('icon')->label('Иконка'),
+                TextEntry::make('price_from')->label('Цена от')
                     ->numeric(),
-                TextEntry::make('name'),
-                TextEntry::make('slug'),
-                TextEntry::make('icon'),
-                TextEntry::make('price_from')
+                TextEntry::make('price_type')->label('Тип цены'),
+                TextEntry::make('sort_order')->label('Порядок')
                     ->numeric(),
-                TextEntry::make('price_type'),
-                TextEntry::make('sort_order')
-                    ->numeric(),
-                IconEntry::make('is_active')
+                IconEntry::make('is_active')->label('Активна')
                     ->boolean(),
-                IconEntry::make('is_featured')
+                IconEntry::make('is_featured')->label('Рекомендуемая')
                     ->boolean(),
-                TextEntry::make('seo_title'),
-                TextEntry::make('seo_description'),
-                TextEntry::make('created_at')
+                TextEntry::make('seo_title')->label('SEO заголовок'),
+                TextEntry::make('seo_description')->label('SEO описание'),
+                TextEntry::make('created_at')->label('Создана')
                     ->dateTime(),
-                TextEntry::make('updated_at')
+                TextEntry::make('updated_at')->label('Обновлена')
                     ->dateTime(),
             ]);
     }

@@ -1,10 +1,11 @@
 @extends('layouts.frontend')
 
 @section('title', $product->name . ' — Каталог | Алтех')
-@section('description', Str::limit(strip_tags($product->name . ($product->sku ? ' Артикул ' . $product->sku : '')), 160))
+@section('description', \App\Support\ProductSeo::metadata($product)['description'])
 @section('canonical', route('products.show', $product))
 
 @section('content')
+<script type="application/ld+json">{!! json_encode(\App\Support\ProductSeo::metadata($product)['structuredData'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) !!}</script>
 <div class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <nav class="flex flex-wrap items-center gap-x-1 text-sm text-gray-500" aria-label="Навигация">
@@ -60,6 +61,11 @@
                 </div>
 
                 <div class="px-6 py-5 sm:px-8 sm:py-6">
+                    @if($description = ($product->description ?: \App\Support\Storefront::supplierDescription($product)))
+                        <h2>Описание</h2><p class="whitespace-pre-line">{{ $description }}</p>
+                    @endif
+                    <h2>Характеристики</h2>
+                    <dl>@foreach($product->specifications ?? [] as $spec)<dt>{{ $spec['name'] }}</dt><dd>{{ $spec['value'] }}</dd>@endforeach</dl>
                     <h2 class="sr-only">Параметры позиции</h2>
                     <dl class="divide-y divide-gray-100 text-sm">
                         @if($product->sku)

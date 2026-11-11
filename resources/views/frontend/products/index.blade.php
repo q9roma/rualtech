@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
-@section('title', 'Каталог — Алтех')
-@section('description', 'Каталог оборудования и позиций прайса. Категории, поиск по названию и артикулу.')
+@section('title', (request('category') ?: 'Каталог товаров').($products->currentPage() > 1 ? ' — страница '.$products->currentPage() : '').' — Алтех')
+@section('description', (request('category') ?: 'Оборудование, комплектующие и программное обеспечение').' — каталог Алтех. Цены, характеристики и наличие.'.($products->currentPage() > 1 ? ' Страница '.$products->currentPage().'.' : ''))
 @section('canonical', $canonicalUrl)
 
 @section('content')

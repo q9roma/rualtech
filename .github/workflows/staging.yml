@@ -1,0 +1,78 @@
+name: Deploy staging
+on:
+  push:
+    branches: [codex/staging-actions]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: staging-release
+  cancel-in-progress: false
+jobs:
+  checks:
+    if: github.ref == 'refs/heads/codex/staging-actions'
+    uses: ./.github/workflows/tests.yml
+  package:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          extensions: intl, bcmath, exif, gd, dom, curl, mbstring, zip, pcntl, pdo_mysql
+          tools: composer:v2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: cp .env.example .env
+      - run: composer install --no-dev --prefer-dist --no-interaction --no-scripts --optimize-autoloader
+      - run: php artisan package:discover && php artisan filament:assets
+      - run: npm ci && npm run build:ssr && npm prune --omit=dev
+      - run: bash scripts/build-release.sh "$GITHUB_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: staging-release-${{ github.sha }}
+          path: dist/release.tar.gz*
+          retention-days: 14
+          if-no-files-found: error
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: staging-release-${{ github.sha }}
+          path: dist
+      - name: Deploy only to the isolated staging account
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -Eeuo pipefail
+          umask 077
+          [[ "$GITHUB_REF" == refs/heads/codex/staging-actions ]]
+          [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$DEPLOY_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]]
+          [[ "$DEPLOY_USER" == altech-staging ]]
+          [[ -n "$DEPLOY_KEY" && -n "$DEPLOY_KNOWN_HOSTS" ]]
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/staging_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          trap 'rm -f ~/.ssh/staging_deploy' EXIT
+          options=(-i ~/.ssh/staging_deploy -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes)
+          destination="$DEPLOY_USER@$DEPLOY_HOST"
+          remote="/srv/altech/staging/incoming/$GITHUB_SHA"
+          (cd dist && sha256sum --check release.tar.gz.sha256)
+          ssh "${options[@]}" "$destination" "mkdir -p '$remote'"
+          scp "${options[@]}" dist/release.tar.gz dist/release.tar.gz.sha256 scripts/deploy-release.sh scripts/release-common.sh "$destination:$remote/"
+          ssh "${options[@]}" "$destination" "CURL_CA_BUNDLE=/srv/altech/staging/tls/localhost.crt bash '$remote/deploy-release.sh' staging '$GITHUB_SHA'"

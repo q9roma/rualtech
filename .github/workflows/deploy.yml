@@ -1,138 +1,94 @@
-name: Deploy to Production
-
+name: Deploy verified release
 on:
-  # push:
-  #   branches: [ main ]
   workflow_dispatch:
-
+    inputs:
+      environment:
+        description: Protected deployment environment
+        required: true
+        type: choice
+        options: [staging, production]
+permissions:
+  contents: read
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
 jobs:
-  deploy:
+  authorize:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Create deployment archive
-      run: |
-        # Создаём архив с кодом (исключая .git и другие ненужные файлы)
-        tar -czf ../deploy.tar.gz \
-          --exclude='.git' \
-          --exclude='node_modules' \
-          --exclude='.env*' \
-          --exclude='*.log' \
-          --exclude='storage/logs/*' \
-          --exclude='bootstrap/cache/*' \
-          --exclude='deploy.tar.gz' \
-          .
-        mv ../deploy.tar.gz ./deploy.tar.gz
-    
-    - name: Deploy to server
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          echo "🚀 Подготавливаем деплой..."
-          cd /var/www/www-root/data/www/rualtech.ru
-          echo "📂 В директории проекта: $(pwd)"
-          
-          # Сохраняем важные файлы
-          echo "� Сохраняем .env файл..."
-          cp .env /tmp/env_backup 2>/dev/null || echo "No .env to backup"
-          
-          echo "🧹 Очищаем старые файлы (кроме критичных)..."
-          find . -maxdepth 1 -type f -name "*.php" -delete
-          find . -maxdepth 1 -type f -name "*.md" -delete
-          find . -maxdepth 1 -type f -name "*.json" -delete
-          find . -maxdepth 1 -type f -name "*.js" -delete
-          find . -maxdepth 1 -type f -name "*.yml" -delete
-          rm -rf app/ resources/ routes/ database/ config/ bootstrap/app.php bootstrap/providers.php 2>/dev/null
-          
-          echo "✅ Готов к получению новых файлов"
-    
-    - name: Copy files to server
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "deploy.tar.gz"
-        target: "/tmp/"
-    
-    - name: Extract and finalize deployment
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          echo "� Распаковываем новый код..."
-          cd /var/www/www-root/data/www/rualtech.ru
-          
-          if [ -f /tmp/deploy.tar.gz ]; then
-            tar -xzf /tmp/deploy.tar.gz
-            echo "✅ Код успешно распакован"
-            
-            # Создаем правильный .env из .env.production
-            echo "🔄 Создаем правильный .env..."
-            if [ -f ".env.production" ]; then
-              cp .env.production .env
-              echo "✅ .env создан из .env.production"
-            else
-              echo "❌ .env.production не найден, создаем .env вручную"
-              cat > .env << 'ENVEOF'
-          APP_NAME=Laravel
-          APP_ENV=production
-          APP_KEY=base64:koCcDULFl7i77qQI2uVkvcZ2613SXNC8R1mCahDmveU=
-          APP_DEBUG=false
-          APP_URL=https://rualtech.ru
-          
-          APP_LOCALE=ru
-          APP_FALLBACK_LOCALE=ru
-          
-          DB_CONNECTION=mysql
-          DB_HOST=localhost
-          DB_PORT=3306
-          DB_DATABASE=rualtech
-          DB_USERNAME=alexsor
-          DB_PASSWORD=eY7rG4pX7r
-          
-          SESSION_DRIVER=file
-          SESSION_LIFETIME=120
-          
-          CACHE_STORE=file
-          QUEUE_CONNECTION=database
-          
-          MAIL_MAILER=log
-          MAIL_FROM_ADDRESS="office@rualtech.ru"
-          MAIL_FROM_NAME="Алтех"
-          ENVEOF
-            fi
-            
-            # Очищаем временные файлы
-            rm -f /tmp/deploy.tar.gz /tmp/env_backup
-          else
-            echo "❌ Архив не найден"
+      - name: Keep production closed until explicitly approved
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          PRODUCTION_ENABLED: ${{ vars.PRODUCTION_DEPLOY_ENABLED }}
+        run: |
+          if [[ "$TARGET_ENV" == production && "$PRODUCTION_ENABLED" != true ]]; then
+            echo 'Production deployment is disabled. Complete staging acceptance and obtain approval first.' >&2
             exit 1
           fi
-          
-          echo "🔍 Проверяем файл после обновления:"
-          grep -n "Алтех\|Altech" resources/views/frontend/home.blade.php || echo "Файл не найден"
-          
-          echo "🧹 Очищаем кэши Laravel..."
-          php artisan cache:clear 2>/dev/null || echo "Cache clear failed"
-          php artisan view:clear 2>/dev/null || echo "View clear failed"  
-          php artisan config:clear 2>/dev/null || echo "Config clear failed"
-          
-          echo "🗄️ Применяем миграции БД..."
-          php artisan migrate --force
-          
-          echo "� Создаем администратора..."
-          php artisan admin:create "alexsoroka" "corp-altekh07938@yandex.ru" "admin123!" 2>/dev/null || echo "Admin user already exists or creation failed"
-          
-          echo "�🔄 Перезапускаем веб-сервер..."
-          systemctl reload nginx 2>/dev/null || echo "Nginx reload failed"
-          
-          echo "✅ Деплой завершён! Проверьте https://rualtech.ru"
-          echo "🔐 Админка доступна по адресу: https://rualtech.ru/admin/login"
+  checks:
+    needs: authorize
+    uses: ./.github/workflows/tests.yml
+  package:
+    needs: checks
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          extensions: intl, bcmath, exif, gd, dom, curl, mbstring, zip, pcntl, pdo_mysql
+          tools: composer:v2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: composer install --no-dev --prefer-dist --no-interaction --no-scripts --optimize-autoloader
+      - run: php artisan package:discover && php artisan filament:assets
+      - run: npm ci && npm run build:ssr && npm prune --omit=dev
+      - run: bash scripts/build-release.sh "$GITHUB_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-${{ github.sha }}
+          path: dist/release.tar.gz*
+          retention-days: 14
+          if-no-files-found: error
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: release-${{ github.sha }}
+          path: dist
+      - name: Upload verified artifact and activate release
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          TARGET_ENV: ${{ inputs.environment }}
+        run: |
+          set -Eeuo pipefail
+          umask 077
+          [[ "$DEPLOY_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]]
+          [[ "$DEPLOY_USER" =~ ^[a-z_][a-z0-9_-]*$ ]]
+          [[ "$TARGET_ENV" == staging || "$TARGET_ENV" == production ]]
+          [[ -n "$DEPLOY_KEY" && -n "$DEPLOY_KNOWN_HOSTS" ]]
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/altech_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          trap 'rm -f ~/.ssh/altech_deploy' EXIT
+          destination="$DEPLOY_USER@$DEPLOY_HOST"
+          remote="/srv/altech/$TARGET_ENV/incoming/$GITHUB_SHA"
+          options=(-i ~/.ssh/altech_deploy -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          (cd dist && sha256sum --check release.tar.gz.sha256)
+          ssh "${options[@]}" "$destination" "mkdir -p '$remote'"
+          scp "${options[@]}" dist/release.tar.gz dist/release.tar.gz.sha256 scripts/deploy-release.sh scripts/release-common.sh "$destination:$remote/"
+          ssh "${options[@]}" "$destination" "bash '$remote/deploy-release.sh' '$TARGET_ENV' '$GITHUB_SHA'"

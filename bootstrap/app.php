@@ -11,9 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->trustProxies(at: [
-            '*' // Доверяем всем прокси
-        ]);
+        $middleware->web(append: [\App\Http\Middleware\UseRussianLocale::class, \App\Http\Middleware\SearchIndexing::class]);
+        $middleware->replace(\Illuminate\Http\Middleware\TrustProxies::class,
+            \App\Http\Middleware\TrustProxies::class);
+        $middleware->trustHosts(at: fn () => [
+            '^'.preg_quote(parse_url(config('app.url'), PHP_URL_HOST) ?: 'localhost', '/').'$',
+        ], subdomains: false);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

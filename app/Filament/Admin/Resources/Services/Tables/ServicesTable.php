@@ -16,17 +16,15 @@ class ServicesTable
     {
         return $table
             ->columns([
-                TextColumn::make('service_category_id')
-                    ->label('ID категории')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Название')
+                    ->wrap()
                     ->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('category.name')->label('Категория')->sortable()->visibleFrom('md'),
+                TextColumn::make('slug')->toggleable(isToggledHiddenByDefault: true)
                     ->label('URL')
                     ->searchable(),
-                TextColumn::make('icon')
+                TextColumn::make('icon')->toggleable(isToggledHiddenByDefault: true)
                     ->label('Иконка')
                     ->searchable(),
                 TextColumn::make('price_from')
@@ -36,7 +34,7 @@ class ServicesTable
                 TextColumn::make('price_type')
                     ->label('Тип цены')
                     ->searchable(),
-                TextColumn::make('sort_order')
+                TextColumn::make('sort_order')->toggleable(isToggledHiddenByDefault: true)
                     ->label('Порядок')
                     ->numeric()
                     ->sortable(),
@@ -46,10 +44,10 @@ class ServicesTable
                 IconColumn::make('is_featured')
                     ->label('Рекомендуемая')
                     ->boolean(),
-                TextColumn::make('seo_title')
+                TextColumn::make('seo_title')->toggleable(isToggledHiddenByDefault: true)
                     ->label('SEO заголовок')
                     ->searchable(),
-                TextColumn::make('seo_description')
+                TextColumn::make('seo_description')->toggleable(isToggledHiddenByDefault: true)
                     ->label('SEO описание')
                     ->searchable(),
                 TextColumn::make('created_at')

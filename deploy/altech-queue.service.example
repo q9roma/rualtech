@@ -1,0 +1,22 @@
+[Unit]
+Description=Altech production queue
+After=network.target
+
+[Service]
+Type=simple
+User=altech
+Group=www-data
+WorkingDirectory=/srv/altech/production/current
+# ispmanager disables pcntl functions globally. Enable only the signal/alarm
+# functions needed by Laravel; preserve its restrictions on fork/exec/wait.
+ExecStart=/opt/php84/bin/php -d disable_functions=pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority artisan queue:work --queue=default,catalog-prices --sleep=3 --tries=3 --timeout=600 --max-time=3600
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=660
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

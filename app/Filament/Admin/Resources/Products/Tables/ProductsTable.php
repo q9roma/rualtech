@@ -23,10 +23,10 @@ class ProductsTable
     {
         return $table
             ->columns([
-                TextColumn::make('category')->label('Категория')->searchable()->sortable()->toggleable(),
+                TextColumn::make('name')->label('Наименование')->searchable()->wrap()->limit(60)->tooltip(fn ($record) => $record->name),
+                TextColumn::make('category')->label('Категория')->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('brand')->label('Бренд')->searchable()->sortable()->badge()->color('primary'),
                 TextColumn::make('sku')->label('Артикул')->searchable()->copyable()->toggleable(),
-                TextColumn::make('name')->label('Наименование')->searchable()->limit(60)->tooltip(fn ($record) => $record->name),
                 TextColumn::make('slug')->label('Slug')->toggleable(isToggledHiddenByDefault: true)->copyable(),
                 TextColumn::make('availability')->label('Наличие')->badge()
                     ->color(fn (?string $state): string => match (true) {

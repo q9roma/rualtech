@@ -1,0 +1,32 @@
+# Replace host and certificate paths; serve ONLY current/public.
+server {
+    listen 443 ssl;
+    server_name shop.example.com;
+    ssl_certificate /etc/letsencrypt/live/shop.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/shop.example.com/privkey.pem;
+    root /srv/altech/production/current/public;
+    index index.php;
+    charset utf-8;
+    client_max_body_size 32m;
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    location / { try_files $uri $uri/ /index.php?$query_string; }
+    location = /index.php {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root/index.php;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_pass unix:/run/php/rualtech-php84.sock;
+    }
+    location ~ \.php(?:/|$) { return 404; }
+    location ~ /\.(?!well-known) { deny all; }
+    location /storage/ {
+        add_header X-Content-Type-Options nosniff always;
+        try_files $uri =404;
+    }
+}
+server {
+    listen 80;
+    server_name shop.example.com;
+    return 301 https://shop.example.com$request_uri;
+}

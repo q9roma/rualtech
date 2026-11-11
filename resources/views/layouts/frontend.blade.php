@@ -6,10 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- SEO -->
-    <title>@yield('title', 'Алтех - IT-решения для бизнеса')</title>
-    <meta name="description" content="@yield('description', 'Алтех - поставщик и интегратор комплексных решений в области IT')">
+    <title>{{ trim($__env->yieldContent('title', 'Алтех - IT-решения для бизнеса')) }}</title>
+    <meta name="description" content="{{ trim($__env->yieldContent('description', 'Алтех - поставщик и интегратор комплексных решений в области IT')) }}">
     @hasSection('canonical')
-        <link rel="canonical" href="@yield('canonical')">
+        <link rel="canonical" href="{{ trim($__env->yieldContent('canonical')) }}">
     @endif
 
     <!-- Favicon -->

@@ -19,8 +19,9 @@ class BlogPostsTable
             ->columns([
                 TextColumn::make('title')
                     ->label('Заголовок')
+                    ->wrap()->limit(70)
                     ->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('slug')->toggleable(isToggledHiddenByDefault: true)
                     ->label('URL')
                     ->searchable(),
                 ImageColumn::make('featured_image')
@@ -30,22 +31,22 @@ class BlogPostsTable
                     ->boolean(),
                 TextColumn::make('published_at')
                     ->label('Дата публикации')
-                    ->dateTime()
+                    ->dateTime('d.m.Y H:i')
                     ->sortable(),
-                TextColumn::make('seo_title')
+                TextColumn::make('seo_title')->toggleable(isToggledHiddenByDefault: true)
                     ->label('SEO заголовок')
                     ->searchable(),
-                TextColumn::make('seo_description')
+                TextColumn::make('seo_description')->toggleable(isToggledHiddenByDefault: true)
                     ->label('SEO описание')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Создан')
-                    ->dateTime()
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->label('Обновлен')
-                    ->dateTime()
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

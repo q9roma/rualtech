@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources\Pages\Schemas;
 
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -16,6 +16,7 @@ class PageForm
         return $schema
             ->components([
                 Section::make('Основная информация')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('title')
                             ->label('Заголовок')
@@ -40,6 +41,7 @@ class PageForm
                     ->columns(2),
                     
                 Section::make('SEO настройки')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('seo_title')
                             ->label('SEO заголовок')

@@ -22,7 +22,7 @@ class SitemapController extends Controller
         'services',
         'blog',
         'contact',
-        'test-login',
+        'test-login', 'delivery', 'register', 'account', 'cart', 'checkout', 'ready', 'up', 'robots.txt', 'sitemap.xml', 'katalog',
     ];
 
     public function robots(): Response
@@ -33,6 +33,15 @@ class SitemapController extends Controller
             'Disallow: /admin/',
             'Disallow: /login',
             'Disallow: /test-login',
+            'Disallow: /register',
+            'Disallow: /account',
+            'Disallow: /cart',
+            'Disallow: /checkout',
+            'Disallow: /orders/',
+            'Disallow: /ready',
+            'Disallow: /catalog/suggestions',
+            'Disallow: /catalog/photo-',
+            'Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid /',
             'Allow: /',
             '',
             'Sitemap: '.url('/sitemap.xml'),
@@ -45,7 +54,7 @@ class SitemapController extends Controller
 
     public function index(): Response
     {
-        $xml = Cache::remember('sitemap.xml.v1', self::CACHE_TTL_SECONDS, fn () => $this->buildSitemapXml());
+        $xml = Cache::remember('sitemap.xml.v3.'.(int) config('storefront.inertia').'.'.sha1(url('/')), self::CACHE_TTL_SECONDS, fn () => $this->buildSitemapXml());
 
         return response($xml, 200, [
             'Content-Type' => 'application/xml; charset=UTF-8',
@@ -70,12 +79,23 @@ class SitemapController extends Controller
             ];
         };
 
-        $add(route('home'), now()->toAtomString(), 'weekly', '1.0');
+        $add(route('home'), null, 'weekly', '1.0');
         $add(route('products.index'), null, 'daily', '0.9');
         $add(route('services.index'), null, 'weekly', '0.8');
         $add(route('blog.index'), null, 'weekly', '0.8');
+        $add(route('delivery'));
+        if (config('storefront.inertia')) {
+            foreach (\App\Support\ServiceDirections::cards() as $direction) $add($direction['url']);
+        }
+        foreach (\App\Support\CatalogDirectory::categories() as $category) {
+            if (!empty($category['url']) && str_contains($category['url'], '/catalog/category/')) $add($category['url']);
+            foreach ($category['children'] ?? [] as $child) {
+                if (($child['count'] ?? 0) > 0) $add($child['url']);
+            }
+        }
 
         foreach (ServiceCategory::query()->where('is_active', true)->orderBy('id')->get() as $category) {
+            if (config('storefront.inertia') && (isset(\App\Support\ServiceDirections::ALIASES[$category->slug]) || config('directions.'.$category->slug))) continue;
             $add(
                 route('services.category', ['categorySlug' => $category->slug]),
                 $category->updated_at?->toAtomString(),

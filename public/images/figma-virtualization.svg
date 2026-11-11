@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Tabler Icons / network">
+<path id="Vector" d="M7 10.5C7 12.3565 7.7375 14.137 9.05025 15.4497C10.363 16.7625 12.1435 17.5 14 17.5C15.8565 17.5 17.637 16.7625 18.9497 15.4497C20.2625 14.137 21 12.3565 21 10.5C21 8.64348 20.2625 6.86301 18.9497 5.55025C17.637 4.2375 15.8565 3.5 14 3.5C12.1435 3.5 10.363 4.2375 9.05025 5.55025C7.7375 6.86301 7 8.64348 7 10.5Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#171717"/>
+<path id="Vector_2" d="M14 3.5C15.5552 3.8885 16.3333 6.22183 16.3333 10.5C16.3333 14.7782 15.5552 17.1115 14 17.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_3" d="M14 3.5C12.4448 3.8885 11.6667 6.22183 11.6667 10.5C11.6667 14.7782 12.4448 17.1115 14 17.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_4" d="M7 10.5H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_5" d="M3.5 23.3333H11.6667" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_6" d="M16.3333 23.3333H24.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_7" d="M11.6667 23.3333C11.6667 23.9522 11.9125 24.5457 12.3501 24.9832C12.7877 25.4208 13.3812 25.6667 14 25.6667C14.6188 25.6667 15.2123 25.4208 15.6499 24.9832C16.0875 24.5457 16.3333 23.9522 16.3333 23.3333C16.3333 22.7145 16.0875 22.121 15.6499 21.6834C15.2123 21.2458 14.6188 21 14 21C13.3812 21 12.7877 21.2458 12.3501 21.6834C11.9125 22.121 11.6667 22.7145 11.6667 23.3333Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+<path id="Vector_8" d="M14 17.5V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0A0A0A"/>
+</g>
+</svg>

@@ -110,6 +110,8 @@ class ContactController extends Controller
             'company' => 'nullable|string|max:100',
             'message' => 'nullable|string|max:1000',
             'service' => 'required|string|max:200',
+            'product_id' => ['nullable','integer',\Illuminate\Validation\Rule::exists('products','id')->where('is_active',true)],
+            'quantity' => 'required_with:product_id|nullable|integer|min:1|max:100000',
         ]);
 
         if ($validator->fails()) {
@@ -127,16 +129,19 @@ class ContactController extends Controller
         }
 
         try {
+            $product=$request->filled('product_id') ? \App\Models\Product::where('is_active',true)->findOrFail($request->integer('product_id')) : null;
+            $service=$product ? mb_substr('Запрос поставки: '.$product->sku.' — '.$product->name,0,200) : $request->service;
             $contactRequest = ContactRequest::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'company' => $request->company,
-                'subject' => "Заказ продукта: {$request->service}",
-                'message' => $request->message ?: "Заинтересован в продукте: {$request->service}",
-                'service' => $request->service,
+                'subject' => $product ? mb_substr('Запрос поставки · '.$product->sku,0,200) : "Заказ продукта: {$request->service}",
+                'message' => $product ? 'Товар № '.$product->id.': '.$product->name."\nКоличество: ".$request->integer('quantity')." шт.\n".($request->message ?? '') : ($request->message ?: "Заинтересован в продукте: {$request->service}"),
+                'service' => $service,
                 'source' => ContactRequest::SOURCE_SERVICE_PAGE,
                 'meta_data' => [
+                    ...($product ? ['product_id'=>$product->id,'quantity'=>$request->integer('quantity'),'product_name'=>$product->name,'sku'=>$product->sku,'request_type'=>'supply'] : []),
                     'user_agent' => $request->userAgent(),
                     'ip_address' => $request->ip(),
                     'referer' => $request->header('referer'),

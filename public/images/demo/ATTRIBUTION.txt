@@ -1,0 +1,13 @@
+Lenovo ThinkPad X1 Carbon photos by TAKA@P.P.R.S
+License: CC BY-SA 2.0 https://creativecommons.org/licenses/by-sa/2.0/
+Author: https://www.flickr.com/people/26414679@N05
+960px thumbnails provided by Wikimedia Commons; no local edits.
+thinkpad-x1-main.jpg: https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Carbon_014_(10774123843).jpg
+thinkpad-x1-open.jpg: https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Carbon_(first_gen)_(10773963714).jpg
+thinkpad-x1-angle.jpg: https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Carbon_011_(10773851965).jpg
+Demo assets only; no endorsement implied.
+
+macbook-pro-1.webp, macbook-pro-2.webp, macbook-pro-3.webp
+Source: https://dummyjson.com/products/category/laptops
+Images: https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/
+Unmodified catalog images from DummyJSON prototyping dataset; demo only.

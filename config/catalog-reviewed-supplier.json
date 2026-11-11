@@ -1,0 +1,290 @@
+[
+  {
+    "supplier_id": "0E-00085351",
+    "brand": "Dahua",
+    "sku": "DH-HAC-HDW1200CLQP-IL-A",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Камера Dahua DH-HAC-HDW1200CLQP-IL-A"
+  },
+  {
+    "supplier_id": "0E-00085353",
+    "brand": "Dahua",
+    "sku": "DH-IPC-HFW1239TL1-A-IL",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Камера Dahua DH-IPC-HFW1239TL1-A-IL"
+  },
+  {
+    "supplier_id": "0E-00107732",
+    "brand": "Defender",
+    "sku": "45987",
+    "section": "Мониторы и периферия",
+    "subcategory": "Комплекты клавиатура и мышь",
+    "rule": "reviewed-peripherals-komplekty-klaviatura-i-mys",
+    "reviewed_name": "Набор беспроводной DEFENDER Auckland C-987 RU,белый,полноразмерный"
+  },
+  {
+    "supplier_id": "0E-00116448",
+    "brand": "Defender",
+    "sku": "45992",
+    "section": "Мониторы и периферия",
+    "subcategory": "Комплекты клавиатура и мышь",
+    "rule": "reviewed-peripherals-komplekty-klaviatura-i-mys",
+    "reviewed_name": "Набор беспроводной DEFENDER Milan C-992 RU,черный,полноразмерный"
+  },
+  {
+    "supplier_id": "0E-00126508",
+    "brand": "Samsung",
+    "sku": "QM32R-T",
+    "section": "Мониторы и периферия",
+    "subcategory": "Интерактивные панели",
+    "rule": "reviewed-peripherals-interaktivnye-paneli",
+    "reviewed_name": "Интерактивный дисплей Samsung [QM32R-T]"
+  },
+  {
+    "supplier_id": "0E-00064360",
+    "brand": "Samsung",
+    "sku": "LH008IABMUS/CI",
+    "section": "Мониторы и периферия",
+    "subcategory": "Светодиодные экраны и модули",
+    "rule": "reviewed-peripherals-svetodiodnye-ekrany-i-moduli",
+    "reviewed_name": "Светодиодный экран Samsung AIO IAB 146\" 4K, 24/7, UHD, 500 кд/м2, MagicInfo/SSSP, MICRO LED"
+  },
+  {
+    "supplier_id": "0E-00110497",
+    "brand": "LG",
+    "sku": "STB-6500",
+    "section": "Мониторы и периферия",
+    "subcategory": "Системы гостиничного телевидения",
+    "rule": "reviewed-peripherals-hospitality-tv",
+    "reviewed_name": "Приставка с поддержкой гостиничного ПО Pro LG STB-6500"
+  },
+  {
+    "supplier_id": "0E-00110496",
+    "brand": "LG",
+    "sku": "PCS500R",
+    "section": "Мониторы и периферия",
+    "subcategory": "Системы гостиничного телевидения",
+    "rule": "reviewed-peripherals-hospitality-tv",
+    "reviewed_name": "Сервер с предустановленным ПО LG PCS500R"
+  },
+  {
+    "supplier_id": "0E-00106648",
+    "brand": "Wize",
+    "sku": "WT55",
+    "section": "Мониторы и периферия",
+    "subcategory": "Крепления и стойки",
+    "rule": "reviewed-peripherals-krepleniia-i-stoiki",
+    "reviewed_name": "Универсальное наклонное настенное крепление Wize [WT55]"
+  },
+  {
+    "supplier_id": "0E-00106625",
+    "brand": "Wize",
+    "sku": "PRS47A",
+    "section": "Мониторы и периферия",
+    "subcategory": "Крепления и стойки",
+    "rule": "reviewed-peripherals-krepleniia-i-stoiki",
+    "reviewed_name": "Универсальный потолочный комплект Wize Pro [PRS47A]"
+  },
+  {
+    "supplier_id": "0E-00106627",
+    "brand": "Lumien",
+    "sku": "LEC-100115",
+    "section": "Мониторы и периферия",
+    "subcategory": "Проекционные экраны",
+    "rule": "reviewed-peripherals-projection-screens",
+    "reviewed_name": "Экран с электроприводом Lumien [LEC-100115]"
+  },
+  {
+    "supplier_id": "0E-00106626",
+    "brand": "Panasonic",
+    "sku": "PT-MZ682B",
+    "section": "Мониторы и периферия",
+    "subcategory": "Проекторы",
+    "rule": "reviewed-peripherals-proektory",
+    "reviewed_name": "Лазерный проектор Panasonic [PT-MZ682B] 3LCD"
+  },
+  {
+    "supplier_id": "0E-00108054",
+    "brand": "Vivotek",
+    "sku": "IP9181-HT-V2 (2.8-8.5 mm)",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Корпусная IP камера, Vivotek IP9181-HT-V2 (2.8-8.5 mm)"
+  },
+  {
+    "supplier_id": "0E-00108059",
+    "brand": "Vivotek",
+    "sku": "FD9383-HTV",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Купольная IP уличная камера, Vivotek FD9383-HTV"
+  },
+  {
+    "supplier_id": "0E-00108048",
+    "brand": "Vivotek",
+    "sku": "FD9387-HTV-A",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Купольная антивандальная IP уличная камера, Vivotek FD9387-HTV-A"
+  },
+  {
+    "supplier_id": "0E-00108058",
+    "brand": "Vivotek",
+    "sku": "IB9383-HTV",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Цилиндрическая IP уличная камера, Vivotek IB9383-HTV"
+  },
+  {
+    "supplier_id": "0E-00108041",
+    "brand": "Vivotek",
+    "sku": "TB9332-E (15 mm)",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Цилиндрическая тепловизионная IP уличная камера, Vivotek TB9332-E (15 mm)"
+  },
+  {
+    "supplier_id": "0E-00108038",
+    "brand": "Vivotek",
+    "sku": "TB9332-E (35 mm)",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Цилиндрическая тепловизионная IP уличная камера, Vivotek TB9332-E (35 mm)"
+  },
+  {
+    "supplier_id": "0E-00108032",
+    "brand": "Vivotek",
+    "sku": "TB9332-E (50 mm)",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Цилиндрическая тепловизионная IP уличная камера, Vivotek TB9332-E (50 mm)"
+  },
+  {
+    "supplier_id": "0E-00108044",
+    "brand": "Vivotek",
+    "sku": "TB9332-E (9 mm)",
+    "section": "Сетевое оборудование",
+    "subcategory": "Видеонаблюдение",
+    "rule": "reviewed-network-surveillance",
+    "reviewed_name": "Цилиндрическая тепловизионная IP уличная камера, Vivotek TB9332-E (9 mm)"
+  },
+  {
+    "supplier_id": "0E-00125676",
+    "brand": "ICU inTouch",
+    "sku": "ICD-D-MM-Shell",
+    "section": "Мониторы и периферия",
+    "subcategory": "Оборудование видеоконференций",
+    "rule": "reviewed-peripherals-video-conferencing",
+    "reviewed_name": "Видеотерминал ICU M Микро"
+  },
+  {
+    "supplier_id": "0E-00125675",
+    "brand": "ICU inTouch",
+    "sku": "ICD-D-M-SC2",
+    "section": "Мониторы и периферия",
+    "subcategory": "Оборудование видеоконференций",
+    "rule": "reviewed-peripherals-video-conferencing",
+    "reviewed_name": "Видеотерминал ICU M Про"
+  },
+  {
+    "supplier_id": "0E-00127673",
+    "brand": "ICU inTouch",
+    "sku": "ICU-HDMI-1",
+    "section": "Мониторы и периферия",
+    "subcategory": "Оборудование видеоконференций",
+    "rule": "reviewed-peripherals-video-conferencing",
+    "reviewed_name": "Интерфейс HDMI INx1 - M2"
+  },
+  {
+    "supplier_id": "0E-00125677",
+    "brand": "ICU inTouch",
+    "sku": "ICD-CP200",
+    "section": "Мониторы и периферия",
+    "subcategory": "Оборудование видеоконференций",
+    "rule": "reviewed-peripherals-video-conferencing",
+    "reviewed_name": "Консоль управления СР200Р"
+  },
+  {
+    "supplier_id": "0E-00127672",
+    "brand": "ICU inTouch",
+    "sku": "ICD-C",
+    "section": "Мониторы и периферия",
+    "subcategory": "Оборудование видеоконференций",
+    "rule": "reviewed-peripherals-video-conferencing",
+    "reviewed_name": "Контроллер управления ICU Device Controller"
+  },
+  {
+    "supplier_id": "0E-00125678",
+    "brand": "ICU inTouch",
+    "sku": "IСU-SHELL-OEM",
+    "section": "Программное обеспечение",
+    "subcategory": "ПО для видеоконференций",
+    "rule": "reviewed-software-video-conferencing",
+    "reviewed_name": "Программное обеспечение ICU SHELL"
+  },
+  {
+    "supplier_id": "0E-00127674",
+    "brand": "ICU inTouch",
+    "sku": "IV-SHELL-SIP",
+    "section": "Программное обеспечение",
+    "subcategory": "ПО для видеоконференций",
+    "rule": "reviewed-software-video-conferencing",
+    "reviewed_name": "Программное обеспечение терминал видеоконферений 720Р: неисключительная бессрочная лицензия (опция д"
+  },
+  {
+    "supplier_id": "0E-00124896",
+    "brand": "Novastar",
+    "sku": "H_20xRJ45 sending card",
+    "section": "Мониторы и периферия",
+    "subcategory": "Светодиодные экраны и модули",
+    "rule": "reviewed-peripherals-svetodiodnye-ekrany-i-moduli",
+    "reviewed_name": "Novastar H_20xRJ45 sending card"
+  },
+  {
+    "supplier_id": "0E-00124895",
+    "brand": "Novastar",
+    "sku": "H_2xHDMI2.0 input card",
+    "section": "Мониторы и периферия",
+    "subcategory": "Светодиодные экраны и модули",
+    "rule": "reviewed-peripherals-svetodiodnye-ekrany-i-moduli",
+    "reviewed_name": "Novastar H_2xHDMI2.0 input card"
+  },
+  {
+    "supplier_id": "0E-00121967",
+    "brand": "Novastar",
+    "sku": "VX600",
+    "section": "Мониторы и периферия",
+    "subcategory": "Светодиодные экраны и модули",
+    "rule": "reviewed-peripherals-svetodiodnye-ekrany-i-moduli",
+    "reviewed_name": "Видеопроцессор Novastar VX600"
+  },
+  {
+    "supplier_id": "0E-00110380",
+    "brand": "LG",
+    "sku": "ST-1362FH",
+    "section": "Мониторы и периферия",
+    "subcategory": "Крепления и стойки",
+    "rule": "reviewed-peripherals-krepleniia-i-stoiki",
+    "reviewed_name": "Моторизированная стойка для дисплея LG ST-1362FH"
+  },
+  {
+    "supplier_id": "0E-00110384",
+    "brand": "LG",
+    "sku": "ST-653TW",
+    "section": "Мониторы и периферия",
+    "subcategory": "Крепления и стойки",
+    "rule": "reviewed-peripherals-krepleniia-i-stoiki",
+    "reviewed_name": "Подставка для дисплея LG ST-653TW"
+  }
+]

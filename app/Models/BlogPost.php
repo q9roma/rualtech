@@ -58,7 +58,7 @@ class BlogPost extends Model
 
     public function getReadingTimeAttribute(): int
     {
-        $words = str_word_count(strip_tags($this->content));
-        return ceil($words / 200); // 200 слов в минуту
+        preg_match_all('/[\p{L}\p{N}]+/u', strip_tags(str_replace('><', '> <', $this->content)), $words);
+        return max(1, (int) ceil(count($words[0]) / 200));
     }
 }

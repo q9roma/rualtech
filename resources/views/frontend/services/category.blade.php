@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('title', $category->seo_title ?: $category->name . ' — Услуги | Алтех')
-@section('description', $category->seo_description ?: $category->description)
+@section('description', $category->seo_description ?: ($category->description ?? ''))
 @section('canonical', $canonicalUrl)
 
 @section('content')

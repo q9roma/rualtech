@@ -1,0 +1,19 @@
+[Unit]
+Description=Altech production Inertia SSR
+After=network.target
+
+[Service]
+Type=simple
+User=altech
+Group=www-data
+WorkingDirectory=/srv/altech/production/current
+Environment=INERTIA_SSR_PORT=13714
+ExecStart=/opt/node24/bin/node bootstrap/ssr/ssr.js
+Restart=always
+RestartSec=5
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

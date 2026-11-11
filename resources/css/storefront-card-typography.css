@@ -1,0 +1,62 @@
+/* Shared type roles for storefront cards: products, services, and service scenarios. */
+:root {
+    --storefront-card-title-size: 16px;
+    --storefront-card-title-line: 24px;
+    --storefront-card-body-size: 14px;
+    --storefront-card-body-line: 22px;
+    --storefront-card-meta-size: 12px;
+    --storefront-card-meta-line: 18px;
+}
+.storefront-home-product .storefront-product-header h3,
+:is(.storefront-page-main, .storefront-home-main) .storefront-services .storefront-directions-grid .direction-tile[data-direction] h3,
+.direction-page .service-scenarios .service-scenario h3 {
+    font-family: Geist, Arial, sans-serif;
+    font-size: var(--storefront-card-title-size);
+    line-height: var(--storefront-card-title-line);
+    font-weight: 500;
+    letter-spacing: -.2px;
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+}
+:is(.storefront-page-main, .storefront-home-main) .storefront-services .direction-tile-content p,
+.direction-page .service-scenarios .service-scenario p {
+    font-family: Geist, Arial, sans-serif;
+    font-size: var(--storefront-card-body-size);
+    line-height: var(--storefront-card-body-line);
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #686e75;
+}
+.storefront-home-product .storefront-product-category,
+.storefront-home-product .storefront-product-details dl,
+.storefront-home-product .storefront-product-price-block p {
+    font-size: var(--storefront-card-meta-size);
+    line-height: var(--storefront-card-meta-line);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+.storefront-home-product .storefront-product-purchase strong {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -.4px;
+    font-variant-numeric: tabular-nums;
+}
+.direction-page .service-scenario > a {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+}
+/* Reserve the same title measure in adjacent service cards. */
+:is(.storefront-page-main, .storefront-home-main) .storefront-services .storefront-directions-grid .direction-tile[data-direction] h3 {
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -.6px;
+    text-wrap: balance;
+}
+.storefront-services .direction-tile:not([data-direction='workplaces']) .direction-tile-content { margin-top: auto; }
+.storefront-services .direction-tile h3 { min-height: 0; }
+.direction-page .service-scenario h3 { min-height: 48px; }
+@media(max-width:760px) { .direction-page .service-scenario h3 { min-height:0; } }
+@media(max-width:600px) { .storefront-services .direction-tile h3 { min-height:0; } }

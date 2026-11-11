@@ -1,0 +1,2385 @@
+{
+  "acer": {
+    "file": "acer.svg",
+    "color": "#83b81a",
+    "source": "https://www.acer.com",
+    "assetSource": "simple-icons@16.37.0/icons/acer.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#83b81a"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 219.8,
+      "w": 600,
+      "h": 160.4
+    },
+    "size": 100
+  },
+  "razer": {
+    "file": "razer.svg",
+    "color": "#00ff00",
+    "source": "https://press.razer.com",
+    "assetSource": "simple-icons@16.37.0/icons/razer.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#00ff00"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 88
+  },
+  "msi": {
+    "file": "msi.svg",
+    "color": "#ff0000",
+    "source": "https://www.msi.com/page/brochure",
+    "assetSource": "simple-icons@16.37.0/icons/msi.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#ff0000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 45.8,
+      "y": 0,
+      "w": 508.4,
+      "h": 600
+    },
+    "size": 72
+  },
+  "ubiquiti": {
+    "file": "ubiquiti.svg",
+    "color": "#0559c9",
+    "source": "https://www.ui.com",
+    "assetSource": "simple-icons@16.37.0/icons/ubiquiti.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#0559c9"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 63
+  },
+  "synology": {
+    "file": "synology.svg",
+    "color": "#353535",
+    "source": "https://www.synology.com/en-global/company/branding",
+    "assetSource": "simple-icons@16.37.0/icons/synology.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#353535"
+    ],
+    "notes": "Dark gray monochrome version for legibility on light gradients.",
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 215.8,
+      "w": 600,
+      "h": 168.4
+    },
+    "size": 100
+  },
+  "amd": {
+    "file": "amd.svg",
+    "color": "#ed1c24",
+    "source": "https://www.amd.com",
+    "assetSource": "simple-icons@16.37.0/icons/amd.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#ed1c24"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 220.8,
+      "w": 600,
+      "h": 158.4
+    },
+    "size": 100
+  },
+  "xiaomi": {
+    "file": "xiaomi.svg",
+    "color": "#ff6900",
+    "source": "https://www.mi.com/global",
+    "assetSource": "simple-icons@16.37.0/icons/xiaomi.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#ff6900"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 51
+  },
+  "kyocera": {
+    "file": "kyocera.svg",
+    "color": "#df0522",
+    "source": "https://uk.kyocera.com",
+    "assetSource": "simple-icons@16.37.0/icons/kyocera.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#df0522"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 50.8,
+      "y": 0,
+      "w": 498.4,
+      "h": 600
+    },
+    "size": 54
+  },
+  "nvidia": {
+    "file": "nvidia.svg",
+    "color": "#76b900",
+    "source": "https://www.nvidia.com/en-us",
+    "assetSource": "simple-icons@16.37.0/icons/nvidia.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#76b900"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 93.8,
+      "w": 600,
+      "h": 412.4
+    },
+    "size": 70
+  },
+  "epson": {
+    "file": "epson.svg",
+    "color": "#003399",
+    "source": "https://global.epson.com/IR/library/",
+    "assetSource": "simple-icons@16.37.0/icons/epson.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#003399"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 219.8,
+      "w": 600,
+      "h": 160.4
+    },
+    "size": 100
+  },
+  "toshiba": {
+    "file": "toshiba.svg",
+    "color": "#ff0000",
+    "source": "https://commons.wikimedia.org/wiki/File:Toshiba_logo.svg",
+    "assetSource": "simple-icons@16.37.0/icons/toshiba.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#ff0000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 246.8,
+      "w": 600,
+      "h": 106.4
+    },
+    "size": 115
+  },
+  "tplink": {
+    "file": "tplink.svg",
+    "color": "#4acbd6",
+    "source": "https://www.tp-link.com",
+    "assetSource": "simple-icons@16.37.0/icons/tplink.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#4acbd6"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 64
+  },
+  "broadcom": {
+    "file": "broadcom.svg",
+    "color": "#e31837",
+    "source": "https://www.broadcom.com/support",
+    "assetSource": "simple-icons@16.37.0/icons/broadcom.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#e31837"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 54
+  },
+  "kaspersky": {
+    "file": "kaspersky.svg",
+    "color": "#006d5c",
+    "source": "https://www.kaspersky.com",
+    "assetSource": "simple-icons@16.37.0/icons/kaspersky.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#006d5c"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 234.8,
+      "w": 600,
+      "h": 130.4
+    },
+    "size": 115
+  },
+  "hyperx": {
+    "file": "hyperx.svg",
+    "color": "#e21836",
+    "source": "https://ca.hyperx.com/cdn/shop/files/image_placeholder.svg",
+    "assetSource": "simple-icons@16.37.0/icons/hyperx.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#e21836"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 123.8,
+      "w": 600,
+      "h": 352.4
+    },
+    "size": 100
+  },
+  "jbl": {
+    "file": "jbl.svg",
+    "color": "#ff3300",
+    "source": "https://www.jbl.com",
+    "assetSource": "simple-icons@16.37.0/icons/jbl.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#ff3300"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 123.8,
+      "w": 600,
+      "h": 352.4
+    },
+    "size": 83
+  },
+  "sennheiser": {
+    "file": "sennheiser.svg",
+    "color": "#000000",
+    "source": "https://sennheiser.com",
+    "assetSource": "simple-icons@16.37.0/icons/sennheiser.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 67.8,
+      "w": 600,
+      "h": 464.4
+    },
+    "size": 66
+  },
+  "panasonic": {
+    "file": "panasonic.svg",
+    "color": "#0049ab",
+    "source": "https://www.panasonic.com",
+    "assetSource": "simple-icons@16.37.0/icons/panasonic.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#0049ab"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 246.8,
+      "w": 600,
+      "h": 106.4
+    },
+    "size": 115
+  },
+  "deepcool": {
+    "file": "deepcool.svg",
+    "color": "#068584",
+    "source": "https://www.deepcool.com",
+    "assetSource": "simple-icons@16.37.0/icons/deepcool.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#068584"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 68.8,
+      "y": 0,
+      "w": 462.4,
+      "h": 600
+    },
+    "size": 66
+  },
+  "kingston": {
+    "file": "kingston.svg",
+    "color": "#000000",
+    "source": "https://www.kingston.com",
+    "assetSource": "simple-icons@16.37.0/icons/kingstontechnology.svg",
+    "license": "CC0-1.0",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 75.8,
+      "y": 0,
+      "w": 448.4,
+      "h": 600
+    },
+    "size": 60
+  },
+  "cactus": {
+    "file": "cactus.svg",
+    "color": "#93d500",
+    "source": "https://static.cactus-russia.ru/images.2020/main/logo.svg",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#93d500"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 274,
+      "x": 0,
+      "y": 1.7999999999999998,
+      "w": 600,
+      "h": 270.4
+    },
+    "size": 100
+  },
+  "defender": {
+    "file": "defender.svg",
+    "color": "#252525",
+    "source": "https://defender.ru/",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#252525"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 99,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 99
+    },
+    "size": 140
+  },
+  "a4tech": {
+    "file": "a4tech.svg",
+    "color": "#222222",
+    "source": "https://a4tech.com/images/a4logo_2.svg",
+    "notes": "White lettering changed to dark for light surfaces; orange mark preserved.",
+    "palette": [
+      "#222222"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 141,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 141
+    },
+    "size": 115
+  },
+  "pantum": {
+    "file": "pantum.svg",
+    "color": "#717070",
+    "source": "https://www.pantum.ru/wp-content/themes/pantum/assets/img/logo-svg.svg",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#717070"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 69,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 69
+    },
+    "size": 140
+  },
+  "cudy": {
+    "file": "cudy.png",
+    "color": "#000000",
+    "source": "https://www.cudy.com/cdn/shop/files/cudy-logo-black.png?v=1700658757&width=600",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 250,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 250
+    },
+    "size": 100
+  },
+  "canon": {
+    "file": "canon.svg",
+    "color": "#cc0000",
+    "source": "https://global.canon/01cmn/img/common/logo-sp.svg",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#cc0000",
+      "#696969"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 67,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 67
+    },
+    "size": 140
+  },
+  "philips": {
+    "file": "philips.svg",
+    "color": "#0081c4",
+    "source": "https://commons.wikimedia.org/wiki/File:Philips_logo.svg",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#0081c4"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 120,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 120
+    },
+    "size": 115
+  },
+  "hisense": {
+    "file": "hisense.svg",
+    "color": "#00AAA6",
+    "source": "https://static.insales-cdn.com/files/1/1177/122422425/original/brand_logo_2.svg",
+    "notes": "sRGB fill retained; unsupported duplicate Display P3 declaration removed.",
+    "palette": [
+      "#00AAA6"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 94,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 94
+    },
+    "size": 140
+  },
+  "logitech": {
+    "file": "logitech.svg",
+    "color": "#000000",
+    "source": "https://commons.wikimedia.org/wiki/File:Logitech_logo.svg",
+    "notes": "Original asset; transparent background required.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 183,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 183
+    },
+    "size": 100
+  },
+  "mikrotik": {
+    "file": "mikrotik.svg",
+    "color": "#0e0e10",
+    "source": "https://mikrotik.com/logo/library/logo/SVG/MT_Black.svg",
+    "notes": "Official primary logo, transparent background.",
+    "palette": [
+      "#0e0e10"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 103,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 103
+    },
+    "size": 115
+  },
+  "cablexpert": {
+    "file": "cablexpert.png",
+    "color": "#000000",
+    "source": "https://cablexpert.com/img/logo1.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 257,
+      "height": 120,
+      "x": 0,
+      "y": 0,
+      "w": 257,
+      "h": 120
+    },
+    "size": 100
+  },
+  "formula v line": {
+    "file": "formula.png",
+    "color": "#131313",
+    "source": "https://static.lc-group.ru/img/partners/formula-vline.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#131313"
+    ],
+    "bounds": {
+      "width": 226,
+      "height": 118,
+      "x": 2.396,
+      "y": 2.396,
+      "w": 222.208,
+      "h": 115.208
+    },
+    "size": 100
+  },
+  "marvo": {
+    "file": "marvo.png",
+    "color": "#202020",
+    "source": "https://marvo.pro/wp-content/uploads/2024/09/logo-marvo-white.png#509",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "monochrome": true,
+    "palette": [
+      "#202020"
+    ],
+    "bounds": {
+      "width": 300,
+      "height": 100,
+      "x": 1.52,
+      "y": 0,
+      "w": 296.96,
+      "h": 100
+    },
+    "size": 100
+  },
+  "western digital": {
+    "file": "westerndigital.svg",
+    "color": "#000000",
+    "source": "https://www.westerndigital.com/content/dam/store/en-us/assets/brand/wd/wd-header-main-logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#2d77ff",
+      "#45cfea"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 347,
+      "x": 0,
+      "y": 86.8,
+      "w": 600,
+      "h": 173.4
+    },
+    "size": 100
+  },
+  "gembird": {
+    "file": "gembird.svg",
+    "color": "#173a58",
+    "source": "https://gembird.com/img/gembird-logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#173a58"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 139,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 139
+    },
+    "size": 115
+  },
+  "genius": {
+    "file": "genius.svg",
+    "color": "#231815",
+    "source": "https://www.geniusnet.com/images/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#231815",
+      "#e50012"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 276,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 276
+    },
+    "size": 100
+  },
+  "montech": {
+    "file": "montech.png",
+    "color": "#171717",
+    "source": "https://www.montechpc.com/images/322355/0/0/100",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#171717"
+    ],
+    "bounds": {
+      "width": 246,
+      "height": 39,
+      "x": 0,
+      "y": 0,
+      "w": 246,
+      "h": 39
+    },
+    "size": 140
+  },
+  "id-cooling": {
+    "file": "idcooling.png",
+    "color": "#010101",
+    "source": "https://3logic.ru/upload/iblock/bd0/ruhhnsbqmcvs5kkg19hmu8evf6w5xrmx.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#010101"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 180,
+      "x": 0,
+      "y": 21.872,
+      "w": 600,
+      "h": 136.256
+    },
+    "size": 115
+  },
+  "yealink": {
+    "file": "yealink.png",
+    "color": "#08b286",
+    "source": "https://www.yealink.com/public/images/yealink_logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#08b286"
+    ],
+    "bounds": {
+      "width": 1080,
+      "height": 228,
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 228
+    },
+    "size": 115
+  },
+  "accord pc": {
+    "file": "accordpc.svg",
+    "color": "#000000",
+    "source": "https://www.accordpc.com/wp-content/uploads/2026/06/accordpc-header-bk-logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#ff0000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 74,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 74
+    },
+    "size": 140
+  },
+  "csb": {
+    "file": "csb.png",
+    "color": "#d51a19",
+    "source": "https://csb-battery.com/wp-content/uploads/2023/10/CSB-New-Logo-with-Slogan-.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#d51a19",
+      "#000000"
+    ],
+    "bounds": {
+      "width": 2953,
+      "height": 429,
+      "x": 185.192,
+      "y": 17.192,
+      "w": 2543.616,
+      "h": 398.616
+    },
+    "size": 140
+  },
+  "novastar": {
+    "file": "novastar.png",
+    "color": "#5b5953",
+    "source": "https://www.novastar.tech/static/img/01index/logo01.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#5b5953",
+      "#008fcf",
+      "#005ea6"
+    ],
+    "bounds": {
+      "width": 288,
+      "height": 54,
+      "x": 0,
+      "y": 0,
+      "w": 288,
+      "h": 54
+    },
+    "size": 115
+  },
+  "oklick": {
+    "file": "oklick.svg",
+    "color": "#2c2c2c",
+    "source": "https://static.oklick.ru/img2024/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#2c2c2c"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 126,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 126
+    },
+    "size": 115
+  },
+  "onkron": {
+    "file": "onkron.svg",
+    "color": "#808080",
+    "source": "https://onkron.ru/images/onkron_rgb_2026.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#808080",
+      "#1fcfcb"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 136,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 136
+    },
+    "size": 115
+  },
+  "apacer": {
+    "file": "apacer.svg",
+    "color": "#303030",
+    "source": "https://www.apacer.com/templates/default/images/common/apacer-logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#303030"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 200,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 200
+    },
+    "size": 100
+  },
+  "rdw": {
+    "file": "rdw.svg",
+    "color": "#da2128",
+    "source": "https://rdwcomp.ru/assets/templates/img/rdw-logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#da2128",
+      "#303030"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 171,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 171
+    },
+    "size": 100
+  },
+  "катюша": {
+    "file": "katyusha.svg",
+    "color": "#000000",
+    "source": "https://katusha-it.ru/storage/media/10/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 277,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 277
+    },
+    "size": 100
+  },
+  "pccooler": {
+    "file": "pccooler.png",
+    "color": "#ea5306",
+    "source": "https://cps-website.oss-cn-zhangjiakou.aliyuncs.com/cps-website-pccooler-overseas/media/original_images/pccoolerlogo.ca94f71.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#ea5306"
+    ],
+    "bounds": {
+      "width": 3307,
+      "height": 514,
+      "x": 0,
+      "y": 0,
+      "w": 3307,
+      "h": 514
+    },
+    "size": 140
+  },
+  "ippon": {
+    "file": "ippon.svg",
+    "color": "#2b3483",
+    "source": "https://static.ippon.ru/img2023/Logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#2b3483"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 101,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 101
+    },
+    "size": 115
+  },
+  "pny": {
+    "file": "pny.svg",
+    "color": "#000000",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/4/4f/PNY_Technologies_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 133,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 133
+    },
+    "size": 115
+  },
+  "tecno": {
+    "file": "tecno.svg",
+    "color": "#0064fe",
+    "source": "https://d13pvy8xd75yde.cloudfront.net/global/x_new/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0064fe"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 119,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 119
+    },
+    "size": 115
+  },
+  "boe": {
+    "file": "boe.png",
+    "color": "#000000",
+    "source": "https://www.boe.com/nuxt/resouces/img/logo2.7e63e62.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 82,
+      "height": 78,
+      "x": 0,
+      "y": 21.016,
+      "w": 82,
+      "h": 38.968
+    },
+    "size": 99
+  },
+  "thermaltake": {
+    "file": "thermaltake.svg",
+    "color": "#000000",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Thermaltake_Premium_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#818486"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 94,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 94
+    },
+    "size": 140
+  },
+  "kingspec": {
+    "file": "kingspec.png",
+    "color": "#e8380d",
+    "source": "https://www.kingspec.com/uploads/image/6306dcea4705b.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#e8380d"
+    ],
+    "bounds": {
+      "width": 142,
+      "height": 32,
+      "x": 7.5120000000000005,
+      "y": 1.512,
+      "w": 126.976,
+      "h": 29.976
+    },
+    "size": 115
+  },
+  "dahua": {
+    "file": "dahua.png",
+    "color": "#000000",
+    "source": "https://www.dahuasecurity.com/logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#e60012"
+    ],
+    "bounds": {
+      "width": 1000,
+      "height": 300,
+      "x": 0,
+      "y": 0,
+      "w": 1000,
+      "h": 300
+    },
+    "size": 100
+  },
+  "hiper": {
+    "file": "hiper.svg",
+    "color": "#19181c",
+    "source": "https://hiper-power.com/assets/logos/Logo_Hiper_Black.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#19181c"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 237,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 237
+    },
+    "size": 100
+  },
+  "gg": {
+    "file": "gg.png",
+    "color": "#006acc",
+    "source": "https://www.ggimage.com/uploads/image/20220512/20220512174152_1149.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#006acc",
+      "#fa9e0d"
+    ],
+    "bounds": {
+      "width": 767,
+      "height": 261,
+      "x": 61.416,
+      "y": 30.416,
+      "w": 647.168,
+      "h": 203.168
+    },
+    "size": 100
+  },
+  "phison": {
+    "file": "phison.png",
+    "color": "#f39220",
+    "source": "https://www.phison.com/wp-content/uploads/2025/11/Phison-logo-Digital-1024x197.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#f39220"
+    ],
+    "bounds": {
+      "width": 1024,
+      "height": 197,
+      "x": 0,
+      "y": 0,
+      "w": 1024,
+      "h": 197
+    },
+    "size": 115
+  },
+  "sandisk": {
+    "file": "sandisk.svg",
+    "color": "#e10600",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/5/5f/SanDisk_2024_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#e10600"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 65,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 65
+    },
+    "size": 140
+  },
+  "sven": {
+    "file": "sven.svg",
+    "color": "#0072bc",
+    "source": "https://www.ocs.ru/upload/medialibrary/6f8/jj0k2znkxf30o853cxv7oq017n6xftp7/sven_496.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0072bc"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 231,
+      "x": 173.748,
+      "y": 9.748,
+      "w": 277.504,
+      "h": 212.504
+    },
+    "size": 100
+  },
+  "exegate": {
+    "file": "exegate.svg",
+    "color": "#202020",
+    "source": "https://www.exegate.ru/img/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "monochrome": true,
+    "palette": [
+      "#202020"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 115,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 115
+    },
+    "size": 115
+  },
+  "patriot": {
+    "file": "patriot.png",
+    "color": "#202020",
+    "source": "https://www.patriotmemory.com/images/nav_logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "monochrome": true,
+    "palette": [
+      "#202020"
+    ],
+    "bounds": {
+      "width": 2560,
+      "height": 624,
+      "x": 33.792,
+      "y": 113.792,
+      "w": 2492.416,
+      "h": 397.416
+    },
+    "size": 140
+  },
+  "benq": {
+    "file": "benq.png",
+    "color": "#572689",
+    "source": "https://www.benq.com/etc/designs/g6/clientlib-site/img/header-icon/nav-icon-benq-logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#572689",
+      "#8268ab"
+    ],
+    "bounds": {
+      "width": 512,
+      "height": 352,
+      "x": 0,
+      "y": 28.856,
+      "w": 512,
+      "h": 288.288
+    },
+    "size": 66
+  },
+  "lanmaster": {
+    "file": "lanmaster.svg",
+    "color": "#1d1d1b",
+    "source": "https://lanmaster.ru/catalog/view/theme/lanmaster25/assets/img/logotype.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#1d1d1b",
+      "#ffe900",
+      "#f68e1e"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 107,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 107
+    },
+    "size": 115
+  },
+  "palit": {
+    "file": "palit.svg",
+    "color": "#303030",
+    "source": "https://www.palit.com/file/images/Logo_w.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#303030",
+      "#fbc700"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 157,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 157
+    },
+    "size": 100
+  },
+  "tenda": {
+    "file": "tenda.png",
+    "color": "#fb5100",
+    "source": "https://static.tenda.com.cn/public/logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#fb5100"
+    ],
+    "bounds": {
+      "width": 168,
+      "height": 48,
+      "x": 0,
+      "y": 0,
+      "w": 168,
+      "h": 43.984
+    },
+    "size": 100
+  },
+  "импульс": {
+    "file": "impuls.png",
+    "color": "#0e1f3d",
+    "source": "https://impuls.energy/images/logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0e1f3d",
+      "#ccced4",
+      "#808898"
+    ],
+    "bounds": {
+      "width": 286,
+      "height": 77,
+      "x": 0,
+      "y": 0,
+      "w": 286,
+      "h": 77
+    },
+    "size": 100
+  },
+  "iconbit": {
+    "file": "iconbit.png",
+    "color": "#231f20",
+    "source": "https://www.iconbit.ru/files/logo-2.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#231f20",
+      "#db1a21"
+    ],
+    "bounds": {
+      "width": 196,
+      "height": 40,
+      "x": 0,
+      "y": 0,
+      "w": 196,
+      "h": 40
+    },
+    "size": 115
+  },
+  "leoch": {
+    "file": "leoch.png",
+    "color": "#161983",
+    "source": "https://www.leoch.com/Public/Uploads/uploadfile/images/20260831/leochbatterylogo1-190.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#161983"
+    ],
+    "bounds": {
+      "width": 300,
+      "height": 148,
+      "x": 36.336,
+      "y": 0,
+      "w": 227.328,
+      "h": 148
+    },
+    "size": 100
+  },
+  "abr": {
+    "file": "abr.svg",
+    "color": "#202395",
+    "source": "https://static.tildacdn.com/tild3261-6633-4661-b832-633037343862/logo_.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#202395"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 224,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 224
+    },
+    "size": 100
+  },
+  "indilinx": {
+    "file": "indilinx.png",
+    "color": "#1897ab",
+    "source": "https://indilinxtech.com/wp-content/uploads/2026/03/logo.webp",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#1897ab",
+      "#8bc030",
+      "#07478d"
+    ],
+    "bounds": {
+      "width": 136,
+      "height": 30,
+      "x": 0,
+      "y": 0,
+      "w": 136,
+      "h": 30
+    },
+    "size": 115
+  },
+  "konica minolta, inc.": {
+    "file": "konicaminolta.svg",
+    "color": "#000000",
+    "source": "https://www.konicaminolta.com/shared/unchangeable/img/identity01g.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#0565b2",
+      "#499ae0"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 131,
+      "x": 22.496,
+      "y": 22.496,
+      "w": 555.008,
+      "h": 86.008
+    },
+    "size": 140
+  },
+  "chuwi": {
+    "file": "chuwi.svg",
+    "color": "#ff6b00",
+    "source": "https://www.ocs.ru/upload/iblock/5d2/dtpvnrif6j55u3eo3ytzpo3fmebk0anz/2023_09_06_nmvpt5_1200px_Chuwi_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#ff6b00"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 114,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 114
+    },
+    "size": 115
+  },
+  "mindeo": {
+    "file": "mindeo.svg",
+    "color": "#303030",
+    "source": "https://www.mindeo.cn/upload/sysconfigs/2025-01/678791c3d8344.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#303030"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 150,
+      "x": 8.208,
+      "y": 35.208,
+      "w": 579.584,
+      "h": 75.584
+    },
+    "size": 140
+  },
+  "wbr": {
+    "file": "wbr.svg",
+    "color": "#e31e24",
+    "source": "https://wbr-battery.ru/sites/all/themes/subtheme/img/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#e31e24"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 295,
+      "x": 0,
+      "y": 0,
+      "w": 598.016,
+      "h": 295
+    },
+    "size": 100
+  },
+  "zalman": {
+    "file": "zalman.png",
+    "color": "#202020",
+    "source": "https://www.zalman.com/resources/img/new/ico_logo.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "monochrome": true,
+    "palette": [
+      "#202020"
+    ],
+    "bounds": {
+      "width": 137,
+      "height": 25,
+      "x": 0,
+      "y": 0,
+      "w": 109.568,
+      "h": 25
+    },
+    "size": 115
+  },
+  "general security": {
+    "file": "generalsecurity.svg",
+    "color": "#e2000f",
+    "source": "https://general-security.ru/sites/all/themes/subtheme/img/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#e2000f"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 243,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 243
+    },
+    "size": 100
+  },
+  "ginzzu": {
+    "file": "ginzzu.png",
+    "color": "#202020",
+    "source": "https://ginzzu.ru/r17/templates/default/img/logoGinzzu.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "monochrome": true,
+    "palette": [
+      "#202020"
+    ],
+    "bounds": {
+      "width": 120,
+      "height": 40,
+      "x": 13.836,
+      "y": 7.836,
+      "w": 99.328,
+      "h": 22.328
+    },
+    "size": 115
+  },
+  "netac": {
+    "file": "netac.png",
+    "color": "#003caa",
+    "source": "https://www.netac.com/static/module/index/default/images/logo1.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#003caa"
+    ],
+    "bounds": {
+      "width": 153,
+      "height": 50,
+      "x": 0,
+      "y": 0,
+      "w": 147.456,
+      "h": 50
+    },
+    "size": 100
+  },
+  "сайбер электро": {
+    "file": "cyberelectro.svg",
+    "color": "#212223",
+    "source": "https://xn--80acmarjf0aodcu3l.xn--p1ai/local/templates/cyber_re/assets_re/img/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#212223",
+      "#3a6ded"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 136,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 136
+    },
+    "size": 115
+  },
+  "buro": {
+    "file": "buro.svg",
+    "color": "#f04336",
+    "source": "https://static.buro-tech.ru/new/img/logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#f04336"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 193,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 193
+    },
+    "size": 100
+  },
+  "powercube": {
+    "file": "powercube.svg",
+    "color": "#006eb8",
+    "source": "https://www.ocs.ru/upload/iblock/bb5/eb4e45ddmy7lcxwlwbl9hbuuc74rtbt3/2021_11_16_c52dl0_Powercube.SVG",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#006eb8"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 593,
+      "x": 71.564,
+      "y": 67.564,
+      "w": 460.872,
+      "h": 463.872
+    },
+    "size": 62
+  },
+  "cet": {
+    "file": "cet.svg",
+    "color": "#f6921f",
+    "source": "https://www.ocs.ru/upload/iblock/15b/yat8y3gfm7nitc2taa01orgcbk5z9sdp/2022_10_21_io7rmy_CET_ai.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#f6921f",
+      "#fbcf97",
+      "#065576"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 128,
+      "x": 5.1,
+      "y": 21.1,
+      "w": 588.8,
+      "h": 86.8
+    },
+    "size": 140
+  },
+  "netlan": {
+    "file": "netlan.svg",
+    "color": "#b7b0ce",
+    "source": "https://netlan.ru/heap/netlan.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#b7b0ce"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 437,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 437
+    },
+    "size": 100
+  },
+  "asilan": {
+    "file": "asilan.png",
+    "color": "#171717",
+    "source": "https://asilan.ru/build/assets/logo-bnVCAN0M.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#171717"
+    ],
+    "bounds": {
+      "width": 320,
+      "height": 100,
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 100
+    },
+    "size": 100
+  },
+  "ewin": {
+    "file": "ewin.png",
+    "color": "#01c0ca",
+    "source": "https://12752276.s21i.faiusr.com/4/ABUIABAEGAAg5fC3ywYotuGUpgIw4gQ4wAE.png.webp",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#01c0ca",
+      "#00d68e"
+    ],
+    "bounds": {
+      "width": 610,
+      "height": 192,
+      "x": 0,
+      "y": 0,
+      "w": 610,
+      "h": 192
+    },
+    "size": 100
+  },
+  "anker": {
+    "file": "anker.svg",
+    "color": "#000000",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/7/75/Anker_Innovations_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 174,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 174
+    },
+    "size": 100
+  },
+  "seasonic": {
+    "file": "seasonic.svg",
+    "color": "#0085ca",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Seasonic_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0085ca"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 130,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 130
+    },
+    "size": 115
+  },
+  "silicon power": {
+    "file": "siliconpower.svg",
+    "color": "#000000",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/9/98/Silicon_Power_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 139,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 139
+    },
+    "size": 115
+  },
+  "asrock": {
+    "file": "asrock.svg",
+    "color": "#79bd28",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/e/ed/ASRock_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#79bd28"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 104,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 104
+    },
+    "size": 115
+  },
+  "adata": {
+    "file": "adata.svg",
+    "color": "#04338e",
+    "source": "https://upload.wikimedia.org/wikipedia/en/6/66/ADATA_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#04338e",
+      "#c40227"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 326,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 326
+    },
+    "size": 100
+  },
+  "vandor": {
+    "file": "vandor.svg",
+    "color": "#090908",
+    "source": "https://vandor-technology.com/wp-content/uploads/vandor_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#090908"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 219,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 219
+    },
+    "size": 100
+  },
+  "liga group": {
+    "file": "ligagroup.png",
+    "color": "#0e1436",
+    "source": "https://liga-group.ru/wp-content/themes/liga_new/images/menu/logo_small.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0e1436",
+      "#00b057"
+    ],
+    "bounds": {
+      "width": 200,
+      "height": 200,
+      "x": 22.176,
+      "y": 35.176,
+      "w": 155.648,
+      "h": 129.648
+    },
+    "size": 68
+  },
+  "cyberpower": {
+    "file": "cyberpower.svg",
+    "color": "#303030",
+    "source": "https://www.ocs.ru/upload/iblock/0df/mt9w2gksc21jglziwq0tgddindzirgd0/p1560d730aba7_07c3_42f7_8c9b_e56a082f3831.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#303030"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 203,
+      "x": 48.096000000000004,
+      "y": 48.096000000000004,
+      "w": 503.808,
+      "h": 106.80799999999999
+    },
+    "size": 115
+  },
+  "rikor": {
+    "file": "rikor.svg",
+    "color": "#2e76b8",
+    "source": "https://www.ocs.ru/upload/iblock/4d7/jjbpc7roujl3x8pj1q3mew2zo25tayrw/p0976af04ad0d_cf9b_407d_b8a0_b5d2924b6654.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#2e76b8",
+      "#81b341"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 243,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 243
+    },
+    "size": 100
+  },
+  "foxline": {
+    "file": "foxline.svg",
+    "color": "#000000",
+    "source": "https://www.ocs.ru/upload/iblock/dbf/7jc148xwyjpvwfiscmqto800zplqbqmm/p023862480c4f_7067_438a_b4d3_4e1769706a03.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 81,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 81
+    },
+    "size": 140
+  },
+  "jonsbo": {
+    "file": "jonsbo.png",
+    "color": "#1f1918",
+    "source": "https://3logic.ru/upload/iblock/93f/zqoqocpcjrwun2iyeod1e3xo0f1ctgbq.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#1f1918"
+    ],
+    "bounds": {
+      "width": 480,
+      "height": 112,
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 112
+    },
+    "size": 115
+  },
+  "delta": {
+    "file": "delta.svg",
+    "color": "#000000",
+    "source": "https://www.delta-batt.com/",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 156,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 156
+    },
+    "size": 100
+  },
+  "gigabyte": {
+    "file": "gigabyte.svg",
+    "color": "#000000",
+    "source": "https://www.gigabyte.com/",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 78,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 78
+    },
+    "size": 140
+  },
+  "aukey": {
+    "file": "aukey.svg",
+    "color": "#111921",
+    "source": "https://www.aukey.com/",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#111921"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 133,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 133
+    },
+    "size": 115
+  },
+  "wize": {
+    "file": "wize.svg",
+    "color": "#000000",
+    "source": "https://www.wize-av.ru/",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#009bdb"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 297,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 297
+    },
+    "size": 90
+  },
+  "lumien": {
+    "file": "lumien.svg",
+    "color": "#000000",
+    "source": "https://lumien.ru/local/templates/.default/static/images/sprites/sprite-multi.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#e7630c"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 78,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 78
+    },
+    "size": 140
+  },
+  "apple": {
+    "file": "apple.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 37.8,
+      "y": 0,
+      "w": 524.4,
+      "h": 600
+    },
+    "size": 50
+  },
+  "asus": {
+    "file": "asus.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 230.8,
+      "w": 600,
+      "h": 138.4
+    },
+    "size": 115
+  },
+  "cisco": {
+    "file": "cisco.svg",
+    "color": "#c4122e",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#c4122e",
+      "#15495d"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 5.28,
+      "y": 134.28,
+      "w": 573.44,
+      "h": 309.44
+    },
+    "size": 100
+  },
+  "dell": {
+    "file": "dell.svg",
+    "color": "#0083ca",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#0083ca"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 600
+    },
+    "size": 82
+  },
+  "hp": {
+    "file": "hp.svg",
+    "color": "#0096d6",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#0096d6"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 69.6,
+      "y": 69.6,
+      "w": 460.8,
+      "h": 460.8
+    },
+    "size": 59
+  },
+  "huawei": {
+    "file": "huawei.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 66.8,
+      "w": 600,
+      "h": 466.4
+    },
+    "size": 67
+  },
+  "intel": {
+    "file": "intel.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 94.8,
+      "w": 600,
+      "h": 410.4
+    },
+    "size": 97
+  },
+  "lenovo": {
+    "file": "lenovo.svg",
+    "color": "#005e9d",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#005e9d"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 248.8,
+      "w": 600,
+      "h": 102.4
+    },
+    "size": 115
+  },
+  "lg": {
+    "file": "lg.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 159.8,
+      "w": 600,
+      "h": 280.4
+    },
+    "size": 97
+  },
+  "microsoft": {
+    "file": "microsoft.svg",
+    "color": "#F25022",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#F25022",
+      "#7FBA00",
+      "#00A4EF",
+      "#FFB900"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 88.032,
+      "y": 88.032,
+      "w": 423.936,
+      "h": 423.936
+    },
+    "size": 48
+  },
+  "samsung": {
+    "file": "samsung.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 246.8,
+      "w": 600,
+      "h": 106.4
+    },
+    "size": 115
+  },
+  "seagate": {
+    "file": "seagate.svg",
+    "color": "#000000",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#000000"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 600,
+      "x": 0,
+      "y": 24.8,
+      "w": 600,
+      "h": 550.4
+    },
+    "size": 78
+  },
+  "supermicro": {
+    "file": "supermicro.svg",
+    "color": "#00953b",
+    "source": "Existing local brand asset",
+    "palette": [
+      "#00953b",
+      "#003a70"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 318,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 317.304
+    },
+    "size": 100
+  },
+  "aet": {
+    "file": "aet.png",
+    "color": "#d22c2e",
+    "source": "https://www.treolan.ru/storage/vendors/picture/i/e/a/yklgvagl/resize/420x420-alpha-v2.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#d22c2e"
+    ],
+    "bounds": {
+      "width": 420,
+      "height": 420,
+      "x": 0.03200000000000003,
+      "y": 79.032,
+      "w": 420,
+      "h": 269.936
+    },
+    "size": 62
+  },
+  "bulat": {
+    "file": "bulat.png",
+    "color": "#6e87a0",
+    "source": "https://cdn-ru.bitrix24.ru/b22990688/landing/15d/15da2d679f3f1932ffd633a17d881149/logo_3_1x.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#6e87a0"
+    ],
+    "bounds": {
+      "width": 83,
+      "height": 79,
+      "x": 0.051999999999999935,
+      "y": 0,
+      "w": 80.896,
+      "h": 79
+    },
+    "size": 55
+  },
+  "sber": {
+    "file": "sber.svg",
+    "color": "#21a038",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/2/27/Logo_Sberbank.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#21a038"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 120,
+      "x": 8.16,
+      "y": 9.16,
+      "w": 583.68,
+      "h": 101.68
+    },
+    "size": 115
+  },
+  "yandex": {
+    "file": "yandex.svg",
+    "color": "#000000",
+    "source": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Yandex_logo.svg",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#fc3f1d"
+    ],
+    "bounds": {
+      "width": 600,
+      "height": 144,
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 144
+    },
+    "size": 115
+  },
+  "continent": {
+    "file": "continent.png",
+    "color": "#060606",
+    "source": "https://www.treolan.ru/storage/vendors/picture/z/d/7/bxgjmgbh/resize/420x420-alpha-v2.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#060606",
+      "#5a5a5a"
+    ],
+    "bounds": {
+      "width": 420,
+      "height": 420,
+      "x": 158.8,
+      "y": 200.8,
+      "w": 102.4,
+      "h": 18.4
+    },
+    "size": 115
+  },
+  "cabeus": {
+    "file": "cabeus.png",
+    "color": "#2d2c2b",
+    "source": "https://www.treolan.ru/storage/vendors/picture/v/e/z/mibeoyei/resize/420x420-alpha-v2.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#2d2c2b",
+      "#556794"
+    ],
+    "bounds": {
+      "width": 420,
+      "height": 420,
+      "x": 0,
+      "y": 127.02,
+      "w": 420,
+      "h": 133.96
+    },
+    "size": 100
+  },
+  "crucial": {
+    "file": "crucial.png",
+    "color": "#221e1f",
+    "source": "https://www.treolan.ru/storage/vendors/picture/q/z/a/uz6arqut/resize/420x420-alpha-v2.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#221e1f",
+      "#595858"
+    ],
+    "bounds": {
+      "width": 420,
+      "height": 420,
+      "x": 4.188,
+      "y": 138.188,
+      "w": 410.624,
+      "h": 137.624
+    },
+    "size": 100
+  },
+  "rexant": {
+    "file": "rexant.png",
+    "color": "#ff151f",
+    "source": "https://static.lc-group.ru/img/partners/rexant.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#ff151f"
+    ],
+    "bounds": {
+      "width": 250,
+      "height": 36,
+      "x": 0,
+      "y": 0,
+      "w": 250,
+      "h": 36
+    },
+    "size": 140
+  },
+  "afox": {
+    "file": "afox.png",
+    "color": "#231e1f",
+    "source": "https://3logic.ru/upload/iblock/6d7/lhsl5yfhp2fdl39hkfw660cvady87qh0.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#231e1f",
+      "#c20943",
+      "#720011"
+    ],
+    "bounds": {
+      "width": 3555,
+      "height": 999,
+      "x": 11.647999999999996,
+      "y": 7.647999999999996,
+      "w": 3528.704,
+      "h": 977.704
+    },
+    "size": 100
+  },
+  "arm media": {
+    "file": "armmedia.png",
+    "color": "#ff151f",
+    "source": "https://static.lc-group.ru/img/partners/armmedia.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#ff151f",
+      "#002a71"
+    ],
+    "bounds": {
+      "width": 240,
+      "height": 38,
+      "x": 0,
+      "y": 0,
+      "w": 240,
+      "h": 38
+    },
+    "size": 140
+  },
+  "digma": {
+    "file": "digma.png",
+    "color": "#808080",
+    "source": "https://static.lc-group.ru/img/partners/digma.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#808080"
+    ],
+    "bounds": {
+      "width": 250,
+      "height": 46,
+      "x": 4.132,
+      "y": 1.1320000000000001,
+      "w": 244.736,
+      "h": 43.736
+    },
+    "size": 115
+  },
+  "nikomax": {
+    "file": "nikomax.png",
+    "color": "#ff8001",
+    "source": "https://static.lc-group.ru/img/partners/nikomax.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#ff8001",
+      "#efe3ce"
+    ],
+    "bounds": {
+      "width": 300,
+      "height": 36,
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 36
+    },
+    "size": 140
+  },
+  "kromax": {
+    "file": "kromax.png",
+    "color": "#000000",
+    "source": "https://static.lc-group.ru/img/partners/kromax.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#000000",
+      "#c20914",
+      "#007a2b"
+    ],
+    "bounds": {
+      "width": 240,
+      "height": 46,
+      "x": 0,
+      "y": 0,
+      "w": 240,
+      "h": 46
+    },
+    "size": 115
+  },
+  "vivotek": {
+    "file": "vivotek.png",
+    "color": "#0085d0",
+    "source": "https://issivs.com/wp-content/uploads/2024/08/vivotek-logo-blue-1.png",
+    "notes": "Transparent source; visible bounds and palette verified for light surfaces.",
+    "palette": [
+      "#0085d0"
+    ],
+    "bounds": {
+      "width": 2560,
+      "height": 669,
+      "x": 0,
+      "y": 0,
+      "w": 2560,
+      "h": 669
+    },
+    "size": 100
+  }
+}

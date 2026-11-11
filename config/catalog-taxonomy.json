@@ -1,0 +1,306 @@
+[
+    {
+        "code": "computers",
+        "name": "Компьютеры и ноутбуки",
+        "children": [
+            {
+                "code": "computers-mini-pk",
+                "name": "Мини-ПК"
+            },
+            {
+                "code": "computers-monobloki",
+                "name": "Моноблоки"
+            },
+            {
+                "code": "computers-nastolnye-kompiutery",
+                "name": "Настольные компьютеры"
+            },
+            {
+                "code": "computers-noutbuki",
+                "name": "Ноутбуки"
+            }
+        ]
+    },
+    {
+        "code": "servers-storage",
+        "name": "Серверы и хранение данных",
+        "children": [
+            {
+                "code": "servers-storage-nakopiteli-dlia-serverov-i-nas",
+                "name": "Накопители для серверов и NAS"
+            },
+            {
+                "code": "servers-storage-servernaia-operativnaia-pamiat",
+                "name": "Серверная оперативная память"
+            },
+            {
+                "code": "servers-storage-servernye-komplektuiushhie",
+                "name": "Серверные комплектующие"
+            },
+            {
+                "code": "servers-storage-sistemy-xraneniia-dannyx",
+                "name": "Системы хранения данных"
+            }
+        ]
+    },
+    {
+        "code": "network",
+        "name": "Сетевое оборудование",
+        "children": [
+            {
+                "code": "network-antenny",
+                "name": "Антенны"
+            },
+            {
+                "code": "network-kommutatory",
+                "name": "Коммутаторы"
+            },
+            {
+                "code": "network-marsrutizatory",
+                "name": "Маршрутизаторы"
+            },
+            {
+                "code": "network-sks-i-montaznye-prinadleznosti",
+                "name": "СКС и монтажные принадлежности"
+            },
+            {
+                "code": "network-setevye-adaptery-i-modemy",
+                "name": "Сетевые адаптеры и модемы"
+            },
+            {
+                "code": "network-setevye-kabeli",
+                "name": "Сетевые кабели"
+            },
+            {
+                "code": "network-tocki-dostupa-i-wi-fi-sistemy",
+                "name": "Точки доступа и Wi-Fi-системы"
+            },
+            {
+                "code": "network-surveillance",
+                "name": "Видеонаблюдение"
+            }
+        ]
+    },
+    {
+        "code": "components",
+        "name": "Комплектующие",
+        "children": [
+            {
+                "code": "components-ssd",
+                "name": "SSD"
+            },
+            {
+                "code": "components-bloki-pitaniia",
+                "name": "Блоки питания"
+            },
+            {
+                "code": "components-videokarty",
+                "name": "Видеокарты"
+            },
+            {
+                "code": "components-vnesnie-nakopiteli",
+                "name": "Внешние накопители"
+            },
+            {
+                "code": "components-zestkie-diski",
+                "name": "Жёсткие диски"
+            },
+            {
+                "code": "components-korpusa",
+                "name": "Корпуса"
+            },
+            {
+                "code": "components-materinskie-platy",
+                "name": "Материнские платы"
+            },
+            {
+                "code": "components-operativnaia-pamiat",
+                "name": "Оперативная память"
+            },
+            {
+                "code": "components-oxlazdenie",
+                "name": "Охлаждение"
+            },
+            {
+                "code": "components-prinadleznosti-dlia-ustanovki-nakopitelei",
+                "name": "Принадлежности для установки накопителей"
+            },
+            {
+                "code": "components-processory",
+                "name": "Процессоры"
+            },
+            {
+                "code": "components-fles-nakopiteli-i-karty-pamiati",
+                "name": "Флеш-накопители и карты памяти"
+            }
+        ]
+    },
+    {
+        "code": "peripherals",
+        "name": "Мониторы и периферия",
+        "children": [
+            {
+                "code": "peripherals-veb-kamery",
+                "name": "Веб-камеры"
+            },
+            {
+                "code": "peripherals-garnitury",
+                "name": "Гарнитуры"
+            },
+            {
+                "code": "peripherals-dok-stancii-i-usb-xaby",
+                "name": "Док-станции и USB-хабы"
+            },
+            {
+                "code": "peripherals-interaktivnye-paneli",
+                "name": "Интерактивные панели"
+            },
+            {
+                "code": "peripherals-kabeli-i-perexodniki",
+                "name": "Кабели и переходники"
+            },
+            {
+                "code": "peripherals-klaviatury",
+                "name": "Клавиатуры"
+            },
+            {
+                "code": "peripherals-kovriki-dlia-mysi",
+                "name": "Коврики для мыши"
+            },
+            {
+                "code": "peripherals-komplekty-klaviatura-i-mys",
+                "name": "Комплекты клавиатура и мышь"
+            },
+            {
+                "code": "peripherals-krepleniia-i-stoiki",
+                "name": "Крепления и стойки"
+            },
+            {
+                "code": "peripherals-monitory",
+                "name": "Мониторы"
+            },
+            {
+                "code": "peripherals-mysi-i-trekpady",
+                "name": "Мыши и трекпады"
+            },
+            {
+                "code": "peripherals-ofisnaia-telefoniia",
+                "name": "Офисная телефония"
+            },
+            {
+                "code": "peripherals-podstavki-dlia-noutbukov",
+                "name": "Подставки для ноутбуков"
+            },
+            {
+                "code": "peripherals-proektory",
+                "name": "Проекторы"
+            },
+            {
+                "code": "peripherals-professionalnye-displei",
+                "name": "Профессиональные дисплеи"
+            },
+            {
+                "code": "peripherals-svetodiodnye-ekrany-i-moduli",
+                "name": "Светодиодные экраны и модули"
+            },
+            {
+                "code": "peripherals-sredstva-uxoda-za-texnikoi",
+                "name": "Средства ухода за техникой"
+            },
+            {
+                "code": "peripherals-sumki-i-riukzaki-dlia-noutbukov",
+                "name": "Сумки и рюкзаки для ноутбуков"
+            },
+            {
+                "code": "peripherals-video-conferencing",
+                "name": "Оборудование видеоконференций"
+            },
+            {
+                "code": "peripherals-hospitality-tv",
+                "name": "Системы гостиничного телевидения"
+            },
+            {
+                "code": "peripherals-projection-screens",
+                "name": "Проекционные экраны"
+            }
+        ]
+    },
+    {
+        "code": "printing",
+        "name": "Печать и расходные материалы",
+        "children": [
+            {
+                "code": "printing-zapcasti-i-aksessuary-dlia-pecati",
+                "name": "Запчасти и аксессуары для печати"
+            },
+            {
+                "code": "printing-kartridzi-i-tonery",
+                "name": "Картриджи и тонеры"
+            },
+            {
+                "code": "printing-mnogofunkcionalnye-ustroistva",
+                "name": "Многофункциональные устройства"
+            },
+            {
+                "code": "printing-printery",
+                "name": "Принтеры"
+            },
+            {
+                "code": "printing-skanery-strixkodov",
+                "name": "Сканеры штрихкодов"
+            },
+            {
+                "code": "printing-unictoziteli-dokumentov",
+                "name": "Уничтожители документов"
+            }
+        ]
+    },
+    {
+        "code": "power",
+        "name": "Электропитание",
+        "children": [
+            {
+                "code": "power-akkumuliatory-dlia-ibp",
+                "name": "Аккумуляторы для ИБП"
+            },
+            {
+                "code": "power-istocniki-bespereboinogo-pitaniia",
+                "name": "Источники бесперебойного питания"
+            },
+            {
+                "code": "power-monitoring-i-montaz-ibp",
+                "name": "Мониторинг и монтаж ИБП"
+            },
+            {
+                "code": "power-setevye-filtry-i-udliniteli",
+                "name": "Сетевые фильтры и удлинители"
+            }
+        ]
+    },
+    {
+        "code": "software",
+        "name": "Программное обеспечение",
+        "children": [
+            {
+                "code": "software-antivirusy-i-zashhita",
+                "name": "Антивирусы и защита"
+            },
+            {
+                "code": "software-operacionnye-sistemy",
+                "name": "Операционные системы"
+            },
+            {
+                "code": "software-ofisnye-prilozeniia",
+                "name": "Офисные приложения"
+            },
+            {
+                "code": "software-servernoe-po-i-licenzii-dostupa",
+                "name": "Серверное ПО и лицензии доступа"
+            },
+            {
+                "code": "software-video-conferencing",
+                "name": "ПО для видеоконференций"
+            }
+        ]
+    }
+]

@@ -3,15 +3,56 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "build": "vite build && vite build --ssr",
+        "postbuild": "node scripts/restart-ssr-after-build.mjs",
+        "dev": "vite",
+        "typecheck": "tsc --noEmit",
+        "build:ssr": "npm run build",
+        "ssr": "node bootstrap/ssr/ssr.js",
+        "storybook": "storybook dev -p 6006 --host 127.0.0.1 --no-open",
+        "build-storybook": "storybook build"
     },
     "devDependencies": {
+        "@storybook/addon-docs": "^10.6.6",
+        "@storybook/react-vite": "^10.6.6",
         "@tailwindcss/vite": "^4.0.0",
+        "@types/node": "^24.19.2",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
+        "@vitejs/plugin-react": "^5.2.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
+        "storybook": "^10.6.6",
         "tailwindcss": "^4.0.0",
+        "tw-animate-css": "^1.4.0",
+        "typescript": "^7.0.2",
         "vite": "^7.0.4"
+    },
+    "overrides": {
+        "@joshwooding/vite-plugin-react-docgen-typescript": {
+            "glob": "^14.0.5"
+        }
+    },
+    "dependencies": {
+        "@inertiajs/react": "^3.11.0",
+        "@tiptap/extension-image": "^3.33.0",
+        "@tiptap/extension-subscript": "^3.33.0",
+        "@tiptap/extension-superscript": "^3.33.0",
+        "@tiptap/extension-table": "^3.33.0",
+        "@tiptap/extension-text-align": "^3.33.0",
+        "@tiptap/react": "^3.33.0",
+        "@tiptap/starter-kit": "^3.33.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cn": "^0.5.2",
+        "lucide-react": "^1.69.0",
+        "next-themes": "^0.4.6",
+        "radix-ui": "^1.8.1",
+        "react": "^19.3.1",
+        "react-day-picker": "^9.14.0",
+        "react-dom": "^19.3.1",
+        "sonner": "^2.0.8",
+        "tailwind-merge": "^3.7.0"
     }
 }

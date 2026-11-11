@@ -1,0 +1,19 @@
+/* Delivery composes the product delivery promise and homepage vehicle/ribbon. */
+.delivery-overview { max-width: 1100px; margin: 0 auto 40px; font-family: Geist, Arial, sans-serif; color: #171717; }
+.delivery-overview-main { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 48px; align-items: center; }
+.delivery-overview-copy { min-width: 0; padding-block: 8px; }
+.delivery-overview h1 { margin: 0 0 16px; font-size: 42px; line-height: 1.15; letter-spacing: -1.3px; font-weight: 600; }
+.delivery-overview-copy > p { color: #737373; font-size: 14px; line-height: 22px; }
+.delivery-overview-copy > .delivery-overview-region { font-size: 16px; line-height: 24px; color: #525252; }
+.delivery-overview-carriers { margin-top: 24px; }
+.delivery-overview-vehicle { min-width: 0; isolation: isolate; background: #fafafa; }
+.delivery-overview-vehicle img { width: 100%; height: 300px; object-fit: cover; mix-blend-mode: darken; }
+.delivery-overview-contact { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 28px; margin-top: 20px; border-top: 1px solid #e5e5e5; }
+.delivery-overview-contact > p { max-width: 440px; font-size: 14px; line-height: 22px; color: #737373; }
+.delivery-overview-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.delivery-overview-details { min-height: 44px; border-radius: 10px; font-size: 14px; box-shadow: none; }
+.delivery-overview-button { min-height: 44px; border-radius: 10px; padding-inline: 20px; background: #171717; color: #fff; font-size: 14px; box-shadow: none; flex-shrink: 0; }
+.delivery-overview-button:hover { background: #333; }
+@media(max-width:640px) { .delivery-overview-vehicle img { height: auto; object-fit: contain; } .delivery-overview-actions { width: 100%; } .delivery-overview-actions > button { width: 100%; } }
+@media(max-width:900px) { .delivery-overview-main { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; } .delivery-overview h1 { font-size: 34px; } }
+@media(max-width:640px) { .delivery-overview { margin: 0 auto 24px; } .delivery-overview-main { grid-template-columns: minmax(0,1fr); gap: 0; } .delivery-overview-copy { padding: 8px 0 0; } .delivery-overview h1 { font-size: 34px; } .delivery-overview-vehicle { max-width: 420px; width: 100%; margin: 0 auto; } .delivery-overview-contact { margin-top: 0; padding-top: 24px; flex-direction: column; align-items: flex-start; gap: 20px; } .delivery-overview-button { width: 100%; } }
