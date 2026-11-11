@@ -37,7 +37,7 @@ class CatalogPhotoQueue
             $manual=json_decode($product->photos ?? 'null',true);
             $preserved=is_array($manual) && count($manual)>0;
             $approved=DB::table('catalog_approved_media')->where('product_id',$product->id)->first();
-            if ($product->photos===null && $approved && json_decode($approved->identity,true)===$payload && collect(json_decode($approved->images,true))->contains(fn($im)=>ApprovedProductMedia::valid($im))) $preserved=true;
+            if ($product->photos===null && $approved && self::sameIdentity($payload,json_decode($approved->identity,true)) && collect(json_decode($approved->images,true))->contains(fn($im)=>ApprovedProductMedia::valid($im))) $preserved=true;
             $status = $preserved ? 'preserved' : ($product->photos!==null ? 'rejected' : ($payload['ean_conflict'] || ! $payload['brand'] || ! $payload['sku'] ? 'review' : 'queued'));
             $inserted = DB::table('catalog_photo_tasks')->insertOrIgnore([
                 'product_id' => $product->id, 'identity_hash' => $hash, 'upload_id' => $upload->id,
@@ -59,6 +59,16 @@ class CatalogPhotoQueue
         DB::table('catalog_photo_tasks')->whereNotIn('product_id', $products->pluck('id'))->where('status', '!=', 'superseded')->update(['status'=>'superseded','lease_token'=>null,'lease_until'=>null,'updated_at'=>now()]);
         foreach (DB::table('catalog_photo_tasks')->where('status', 'ready')->pluck('id') as $id) app(CatalogPhotoAssignment::class)->assign($id);
         return $count;
+    }
+
+    private static function sameIdentity(array $expected, mixed $stored): bool
+    {
+        if (!is_array($stored)) return false;
+        // JSON object key order is not stable across database engines.
+        // Preserve strict field/value comparisons while ignoring that order.
+        ksort($expected);
+        ksort($stored);
+        return $expected === $stored;
     }
 
     public function claim(): ?object

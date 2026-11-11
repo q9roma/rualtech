@@ -44,14 +44,14 @@ class LunarCommerceTest extends TestCase
         $data = [...$this->checkout(), 'delivery_method' => 'terminal', 'carrier' => 'cdek',
             'shipping_city' => 'Москва', 'shipping_address' => 'Терминал на улице Лесной',
             'create_account' => true, 'password' => 'long-secure-password', 'password_confirmation' => 'long-secure-password'];
-        $this->post('/checkout', $data)->assertRedirect('/orders/1');
+        $this->post('/checkout', $data)->assertRedirect('/orders/'.Order::sole()->getKey());
         $order = Order::sole();
         $this->assertAuthenticatedAs(\App\Models\User::findOrFail($order->user_id));
         $this->assertSame('СДЭК', $order->meta['delivery']['carrier']);
         $this->assertSame('Москва', $order->shippingAddress->city);
         $this->assertSame('Тестовый город', $order->billingAddress->city);
         $this->assertTrue(\Illuminate\Support\Facades\Hash::check('long-secure-password', \App\Models\User::findOrFail($order->user_id)->password));
-        $this->post('/checkout', $data)->assertRedirect('/orders/1');
+        $this->post('/checkout', $data)->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->assertSame(1, Order::count());
     }
 
@@ -60,7 +60,7 @@ class LunarCommerceTest extends TestCase
         $this->post('/cart/products/'.$this->product()->id, ['quantity' => 1]);
         $data = [...$this->checkout(), 'delivery_method' => 'yandex_pvz'];
         $this->post('/checkout', $data)->assertSessionHasErrors(['shipping_city', 'shipping_address']);
-        $this->post('/checkout', [...$data, 'shipping_city' => 'Москва', 'shipping_address' => 'Никитский бульвар, 15/16', 'pickup_point' => ['id' => 'stale'], 'carrier' => 'cdek'])->assertRedirect('/orders/1');
+        $this->post('/checkout', [...$data, 'shipping_city' => 'Москва', 'shipping_address' => 'Никитский бульвар, 15/16', 'pickup_point' => ['id' => 'stale'], 'carrier' => 'cdek'])->assertRedirect('/orders/'.Order::sole()->getKey());
         $order = Order::sole();
         $this->assertNull($order->meta['delivery']['pickup_point']);
         $this->assertSame('Яндекс Доставка', $order->meta['delivery']['carrier']);
@@ -76,7 +76,7 @@ class LunarCommerceTest extends TestCase
     public function test_other_delivery_methods_discard_stale_pickup_selection(): void
     {
         $this->post('/cart/products/'.$this->product()->id, ['quantity' => 1]);
-        $this->post('/checkout', [...$this->checkout(), 'pickup_point' => ['id' => 'stale-point']])->assertRedirect('/orders/1');
+        $this->post('/checkout', [...$this->checkout(), 'pickup_point' => ['id' => 'stale-point']])->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->assertNull(Order::sole()->meta['delivery']['pickup_point']);
         $this->assertSame(config('commerce.pickup.address'), Order::sole()->shippingAddress->line_one);
         $this->assertSame('141007', Order::sole()->shippingAddress->postcode);
@@ -106,7 +106,7 @@ class LunarCommerceTest extends TestCase
         $this->post('/cart/products/'.$product->id, ['quantity' => 1]);
         $data = [...$this->checkout(), 'delivery_method' => 'courier', 'shipping_city' => 'Москва', 'shipping_address' => 'Адрес, 1'];
         $this->post('/checkout', $data)->assertSessionHasErrors('courier_region');
-        $this->post('/checkout', [...$data, 'courier_region' => 'moscow'])->assertRedirect('/orders/1');
+        $this->post('/checkout', [...$data, 'courier_region' => 'moscow'])->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->assertSame('Курьер Алтех', Order::sole()->meta['delivery']['carrier']);
     }
 
@@ -162,11 +162,11 @@ class LunarCommerceTest extends TestCase
         $this->actingAs($user);
         $product = $this->product();
         $this->post('/cart/products/'.$product->id, ['quantity' => 1])->assertRedirect('/cart');
-        $this->post('/checkout', $this->checkout())->assertRedirect('/orders/1');
+        $this->post('/checkout', $this->checkout())->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->assertEquals($user->id, Order::sole()->user_id);
-        $this->withSession(['commerce' => []])->get('/orders/1')->assertOk();
+        $this->withSession(['commerce' => []])->get('/orders/'.Order::sole()->getKey())->assertOk();
         $other = \App\Models\User::factory()->create();
-        $this->actingAs($other)->withSession(['commerce.orders' => [1]])->get('/orders/1')->assertNotFound();
+        $this->actingAs($other)->withSession(['commerce.orders' => [Order::sole()->getKey()]])->get('/orders/'.Order::sole()->getKey())->assertNotFound();
     }
 
     public function test_native_lunar_cart_checkout_and_order_are_idempotent_and_keep_snapshots(): void
@@ -175,16 +175,16 @@ class LunarCommerceTest extends TestCase
         $this->post('/cart/products/'.$product->id, ['quantity' => 2, 'price' => 1])->assertRedirect('/cart');
         $this->get('/cart')->assertInertia(fn (Assert $page) => $page->component('commerce/cart')->has('cart.lines', 1)->where('cart.total', '2 469,12 ₽'));
         $data = $this->checkout();
-        $this->post('/checkout', $data)->assertRedirect('/orders/1');
+        $this->post('/checkout', $data)->assertRedirect('/orders/'.Order::sole()->getKey());
         $order = Order::firstOrFail();
         $this->assertSame(246912, $order->total->value);
         $this->assertNotNull($order->placed_at);
         $this->assertSame('buyer@example.test', $order->billingAddress->contact_email);
         $this->assertSame('prototype-pending-confirmation', $order->status);
-        $this->post('/checkout', $data)->assertRedirect('/orders/1');
+        $this->post('/checkout', $data)->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->assertSame(1, Order::count());
         $product->update(['name' => 'Новое имя', 'price' => '9999.99']);
-        $this->get('/orders/1')->assertInertia(fn (Assert $page) => $page->component('commerce/order')
+        $this->get('/orders/'.Order::sole()->getKey())->assertInertia(fn (Assert $page) => $page->component('commerce/order')
             ->where('order.total', '2 469,12 ₽')->where('order.lines.0.name', 'Тестовый сервер')->where('order.lines.0.sku', 'DUPLICATE-SKU'));
         $this->get('/cart')->assertInertia(fn (Assert $page) => $page->has('cart.lines', 0));
         Mail::assertNothingSent();
@@ -229,9 +229,9 @@ class LunarCommerceTest extends TestCase
         $this->post('/cart/products/'.$product->id, ['quantity' => 1]);
         $line = Cart::firstOrFail()->lines->first();
         $data = $this->checkout();
-        $this->post('/checkout', $data)->assertRedirect('/orders/1');
+        $this->post('/checkout', $data)->assertRedirect('/orders/'.Order::sole()->getKey());
         $this->withSession(['commerce' => []]);
-        $this->get('/orders/1')->assertNotFound();
+        $this->get('/orders/'.Order::sole()->getKey())->assertNotFound();
         $this->patch('/cart/lines/'.$line->id, ['quantity' => 1])->assertNotFound();
         $this->delete('/cart/lines/'.$line->id)->assertNotFound();
         $this->post('/checkout', $data)->assertNotFound();

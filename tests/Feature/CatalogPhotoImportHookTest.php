@@ -13,7 +13,14 @@ class CatalogPhotoImportHookTest extends TestCase
     {
         parent::setUp();
         // Real commits are required to exercise afterCommit; no outer test transaction.
-        $this->assertSame(':memory:', config('database.connections.sqlite.database'));
+        $this->assertSame('testing', app()->environment());
+        $connection = DB::getDefaultConnection();
+        $database = DB::connection()->getDatabaseName();
+        $this->assertTrue(
+            ($connection === 'sqlite' && $database === ':memory:')
+            || ($connection === 'mysql' && $database === 'altech_test'),
+            'Real-commit tests may reset only the explicitly designated test database.'
+        );
         $this->artisan('migrate:fresh', ['--force'=>true]);
         \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
     }

@@ -9,6 +9,14 @@ use Tests\TestCase;
 class AdminPhotoQueueTest extends TestCase
 {
     use RefreshDatabase;
+
+    private function reviewToken(int $id): string
+    {
+        // MySQL normalizes JSON on storage; use the persisted revision seen by the client.
+        $row = DB::table('catalog_photo_tasks')->find($id);
+        return hash('sha256', $row->payload.($row->result ?? '').$row->status);
+    }
+
     public function test_upload_recovers_failed_task_and_requires_confirmation(): void
     {
         Storage::fake('local');
@@ -17,7 +25,7 @@ class AdminPhotoQueueTest extends TestCase
         $payload=json_encode(['name'=>$p->name,'brand'=>$p->brand,'sku'=>$p->sku]);
         $id=DB::table('catalog_photo_tasks')->insertGetId(['product_id'=>$p->id,'identity_hash'=>hash('sha256','failed-upload'),'upload_id'=>'test','payload'=>$payload,'status'=>'failed','result'=>null,'error'=>'Download failed','created_at'=>now(),'updated_at'=>now()]);
         $url='/admin/catalog-photo-queue/'.$id.'/review';
-        $token=hash('sha256',$payload.'failed');
+        $token=$this->reviewToken($id);
         $this->postJson($url,['decision'=>'accept_all','token'=>$token])->assertUnprocessable();
         $this->postJson($url,['decision'=>'upload','token'=>str_repeat('0',64),'photo'=>\Illuminate\Http\UploadedFile::fake()->image('photo.jpg',800,600)])->assertUnprocessable();
         $response=$this->postJson($url,['decision'=>'upload','token'=>$token,'photo'=>\Illuminate\Http\UploadedFile::fake()->image('photo.jpg',800,600)])
@@ -35,7 +43,7 @@ class AdminPhotoQueueTest extends TestCase
         $payload=json_encode(['name'=>$p->name,'brand'=>$p->brand,'sku'=>$p->sku]);
         $result=json_encode(['images'=>[]]);
         $id=DB::table('catalog_photo_tasks')->insertGetId(['product_id'=>$p->id,'identity_hash'=>hash('sha256','upload'),'upload_id'=>'test','payload'=>$payload,'status'=>'review','result'=>$result,'created_at'=>now(),'updated_at'=>now()]);
-        $data=['decision'=>'upload','token'=>hash('sha256',$payload.$result.'review')];
+        $data=['decision'=>'upload','token'=>$this->reviewToken($id)];
         $url='/admin/catalog-photo-queue/'.$id.'/review';
         $this->post($url,[...$data,'photo'=>\Illuminate\Http\UploadedFile::fake()->create('bad.txt',1,'text/plain')])->assertSessionHasErrors('photo');
         $response=$this->postJson($url,[...$data,'photo'=>\Illuminate\Http\UploadedFile::fake()->image('photo.jpg',800,600)])
@@ -44,7 +52,7 @@ class AdminPhotoQueueTest extends TestCase
         $task=DB::table('catalog_photo_tasks')->find($id);
         $this->assertSame('review',$task->status);
         $this->assertCount(1,json_decode($task->result,true)['images']);
-        $response->assertJsonPath('reviewToken',hash('sha256',$payload.$task->result.'review'));
+        $response->assertJsonPath('reviewToken',$this->reviewToken($id));
         $this->get('/admin/catalog-photo-queue/'.$id.'/image/0')->assertOk();
         $this->post($url,[...$data,'photo'=>\Illuminate\Http\UploadedFile::fake()->image('photo.jpg',800,600)])->assertSessionHasErrors('review');
         $this->assertDatabaseCount('catalog_approved_media',0);
@@ -104,7 +112,7 @@ class AdminPhotoQueueTest extends TestCase
             $result=json_encode(['images'=>[['file'=>$file,'flags'=>[]]]]);
             $id=DB::table('catalog_photo_tasks')->insertGetId(['product_id'=>$p->id,'identity_hash'=>hash('sha256',$decision),'upload_id'=>'test','payload'=>$payload,'status'=>'review','result'=>$result,'created_at'=>now(),'updated_at'=>now()]);
             $url='/admin/catalog-photo-queue/'.$id.'/review';
-            $data=['decision'=>$decision,'index'=>0,'token'=>hash('sha256',$payload.$result.'review')];
+            $data=['decision'=>$decision,'index'=>0,'token'=>$this->reviewToken($id)];
             $this->post($url,[...$data,'token'=>str_repeat('0',64)])->assertSessionHasErrors('review');
             $this->post($url,$data)->assertSessionHasNoErrors()->assertRedirect();
             $this->assertDatabaseHas('catalog_photo_tasks',['id'=>$id,'status'=>$decision==='accept' ? 'preserved' : 'rejected']);
@@ -128,9 +136,9 @@ class AdminPhotoQueueTest extends TestCase
         $result=json_encode(['images'=>$images]);
         $id=DB::table('catalog_photo_tasks')->insertGetId(['product_id'=>$p->id,'identity_hash'=>hash('sha256','multi'),'upload_id'=>'test','payload'=>$payload,'status'=>'review','result'=>$result,'created_at'=>now(),'updated_at'=>now()]);
         $url='/admin/catalog-photo-queue/'.$id.'/review';
-        $token=hash('sha256',$payload.$result.'review');
+        $token=$this->reviewToken($id);
         $this->post($url,['decision'=>'accept_all','token'=>$token])->assertSessionHasErrors('review');
-        $this->assertSame($result,DB::table('catalog_photo_tasks')->find($id)->result);
+        $this->assertEquals(json_decode($result,true),json_decode(DB::table('catalog_photo_tasks')->find($id)->result,true));
         $this->post($url,['decision'=>'reject','index'=>99,'token'=>$token])->assertSessionHasErrors('review');
         $this->postJson($url,['decision'=>'reject','index'=>1,'token'=>$token])->assertOk()->assertJsonPath('status','review')->assertJsonCount(2,'images');
         $row=DB::table('catalog_photo_tasks')->find($id);
@@ -139,7 +147,7 @@ class AdminPhotoQueueTest extends TestCase
         $this->assertSame([$images[0],$images[2]],$remaining['images']);
         $this->assertSame([$images[1]],$remaining['review_rejected_images']);
         $this->post($url,['decision'=>'accept_all','token'=>$token])->assertSessionHasErrors('review');
-        $this->postJson($url,['decision'=>'accept_all','token'=>hash('sha256',$payload.$row->result.'review')])->assertOk()->assertJsonPath('status','preserved')->assertJsonCount(2,'images');
+        $this->postJson($url,['decision'=>'accept_all','token'=>$this->reviewToken($id)])->assertOk()->assertJsonPath('status','preserved')->assertJsonCount(2,'images');
         $row=DB::table('catalog_photo_tasks')->find($id);
         $this->assertSame('preserved',$row->status);
         $this->assertSame([$images[0],$images[2]],json_decode($row->result,true)['images']);

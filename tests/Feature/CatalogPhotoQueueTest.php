@@ -40,11 +40,15 @@ class CatalogPhotoQueueTest extends TestCase
     {
         $p=$this->fixture(); $file=str_repeat('a',64).'.jpg';
         Storage::disk('local')->put('catalog-media-queue/media/'.$file,'fixture');
-        DB::table('catalog_approved_media')->insert(['product_id'=>$p->id,'task_id'=>0,'user_id'=>null,'origin'=>'automatic','identity'=>json_encode(['id'=>$p->id,'brand'=>'LG','sku'=>'M1','name'=>'Monitor','ean'=>'123','ean_conflict'=>false]),'images'=>json_encode([['file'=>$file]]),'created_at'=>now(),'updated_at'=>now()]);
+        DB::table('catalog_approved_media')->insert(['product_id'=>$p->id,'task_id'=>0,'user_id'=>null,'origin'=>'automatic','identity'=>json_encode(['ean_conflict'=>false,'ean'=>'123','name'=>'Monitor','sku'=>'M1','brand'=>'LG','id'=>$p->id]),'images'=>json_encode([['file'=>$file]]),'created_at'=>now(),'updated_at'=>now()]);
         $queue=new CatalogPhotoQueue; $queue->plan(); $queue->plan();
         $this->assertDatabaseHas('catalog_photo_tasks',['status'=>'preserved','attempts'=>0]);
         $this->assertNull($queue->claim());
         $this->assertSame('fixture',Storage::disk('local')->get('catalog-media-queue/media/'.$file));
+        $p->update(['sku'=>'M2']);
+        $queue->plan();
+        $this->assertDatabaseHas('catalog_photo_tasks',['product_id'=>$p->id,'status'=>'queued']);
+        $this->assertNotNull($queue->claim());
     }
     public function test_expired_worker_is_reclaimed_and_old_worker_cannot_overwrite_result(): void
     {
