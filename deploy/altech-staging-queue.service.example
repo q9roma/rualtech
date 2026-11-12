@@ -1,0 +1,25 @@
+[Unit]
+Description=Altech staging queue
+After=network.target
+Wants=altech-staging-photos.service
+
+[Service]
+Type=simple
+User=altech-staging
+Group=altech-staging
+WorkingDirectory=/srv/altech/staging/current
+# ispmanager disables pcntl functions globally. Enable only the signal/alarm
+# functions needed by Laravel; preserve its restrictions on fork/exec/wait.
+ExecStart=/opt/php84/bin/php -d memory_limit=512M -d disable_functions=pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority artisan queue:work --queue=default,catalog-prices --memory=384 --sleep=3 --tries=3 --timeout=600 --max-time=3600
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=660
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+MemoryMax=768M
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

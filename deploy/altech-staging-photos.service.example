@@ -1,0 +1,23 @@
+[Unit]
+Description=Altech staging catalog photos
+After=network.target altech-staging-queue.service
+PartOf=altech-staging-queue.service
+ConditionPathExists=/etc/altech-staging/photos-enabled
+
+[Service]
+Type=simple
+User=altech-staging
+Group=altech-staging
+WorkingDirectory=/srv/altech/staging/current
+ExecStart=/opt/php84/bin/php -d memory_limit=256M artisan catalog:photos-work --continuous --max-time=3600
+Restart=always
+RestartSec=10
+TimeoutStopSec=150
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+MemoryMax=384M
+Nice=10
+
+[Install]
+WantedBy=altech-staging-queue.service

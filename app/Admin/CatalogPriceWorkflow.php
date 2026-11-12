@@ -100,7 +100,7 @@ class CatalogPriceWorkflow
             $disk->put($current->directory().'/report.json', json_encode($this->details($summary['batch_id']), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
             $current->update(['status' => 'completed', 'summary' => [...$current->summary, ...$summary], 'error' => null]);
             DB::afterCommit(function () {
-                if (! app()->environment('local', 'testing')) return;
+                if (! app()->environment('local', 'testing') && ! config('catalog-import.photos_enabled')) return;
                 try { app(\App\Support\CatalogPhotoQueue::class)->plan(); }
                 catch (\Throwable $e) {
                     // Prices are committed. The scheduler reconciles this independently on its next pass.

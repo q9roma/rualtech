@@ -53,4 +53,13 @@ class CatalogPhotoImportHookTest extends TestCase
         (new \App\Support\CatalogPhotoQueue)->plan();
         $this->assertDatabaseCount('catalog_photo_tasks',1);
     }
+    public function test_deployed_import_plans_photos_when_explicitly_enabled(): void
+    {
+        $u = $this->ready();
+        $this->app->instance('env', 'production');
+        config(['catalog-import.photos_enabled' => true]);
+        app(CatalogPriceWorkflow::class)->apply($u);
+        $this->assertSame('completed', $u->fresh()->status);
+        $this->assertDatabaseHas('catalog_photo_tasks', ['status' => 'queued']);
+    }
 }

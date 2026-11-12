@@ -23,4 +23,26 @@ class CatalogPhotosContinuousTest extends TestCase
         $lock=Cache::lock('catalog-photos-daemon',10);
         $this->assertTrue($lock->get()); $lock->release();
     }
+    public function test_deployed_worker_requires_explicit_opt_in(): void
+    {
+        $this->app->instance('env', 'production');
+        config(['catalog-import.photos_enabled' => false]);
+        $this->mock(CatalogPhotoQueue::class, fn ($mock) => $mock->shouldNotReceive('plan'));
+        $this->artisan('catalog:photos-work', ['--plan-only' => true])->assertFailed();
+    }
+
+    public function test_deployed_worker_can_process_with_explicit_opt_in(): void
+    {
+        $this->app->instance('env', 'production');
+        config(['catalog-import.photos_enabled' => true]);
+        Storage::fake('local');
+        $this->mock(CatalogPhotoQueue::class, function ($mock) {
+            $mock->shouldReceive('plan')->once()->andReturn([]);
+            $mock->shouldReceive('claim')->once()->andReturn((object) ['id' => 42]);
+            $mock->shouldReceive('run')->once()->withArgs(fn ($task) => $task->id === 42);
+            $mock->shouldReceive('report')->once()->andReturn(['counts' => ['ready' => 1]]);
+        });
+        $this->artisan('catalog:photos-work', ['--limit' => 1])->assertSuccessful();
+        Storage::disk('local')->assertExists('catalog-media-queue/latest.json');
+    }
 }

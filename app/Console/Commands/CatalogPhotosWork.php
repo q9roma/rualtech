@@ -11,7 +11,7 @@ class CatalogPhotosWork extends Command
     protected $description = 'Reconcile completed imports and process durable private photo tasks (no publication)';
     public function handle(CatalogPhotoQueue $queue): int
     {
-        if (! app()->environment('local','testing')) { $this->error('Test pipeline is local-only'); return self::FAILURE; }
+        if (! app()->environment('local','testing') && ! config('catalog-import.photos_enabled')) { $this->error('Catalog photo processing is disabled for this deployment'); return self::FAILURE; }
         $continuous=(bool)$this->option('continuous') && !$this->option('plan-only');
         $maxTime=max(1,min(3600,(int)$this->option('max-time')));
         $daemon=$continuous ? Cache::lock('catalog-photos-daemon',$maxTime+600) : null;
