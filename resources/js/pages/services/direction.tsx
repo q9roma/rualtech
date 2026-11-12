@@ -1,4 +1,3 @@
-import '../../../css/direction.css';
 import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { ServerServiceFaq } from '@/components/storefront/server-service-faq';

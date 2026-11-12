@@ -3,7 +3,6 @@ import { ContactDialog } from '@/components/storefront/contact-dialog';
 import { BrandRibbon } from '@/components/storefront/brand-ribbon';
 import { DeliveryPopover } from '@/components/storefront/delivery-popover';
 import { deliveryContent } from '@/lib/delivery-content';
-import '../../css/delivery.css';
 
 const carriers = ['СДЭК', 'Деловые Линии', 'ПЭК', 'Почта России', 'DPD', 'Более 5 компаний'];
 

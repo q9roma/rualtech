@@ -10,7 +10,7 @@ const steps: {key: PriceSection; title: string; description: string}[] = [
     {key:'result',title:'Результат',description:'Итоги и отчёт'},
 ];
 // Compact workflow navigation; keep the current step visible at every width.
-export function CatalogPriceStepper({status,hasSummary,uploading,uploadError,id,section='upload'}: {status?: string;hasSummary:boolean;uploading:boolean;uploadError:boolean;id?:string;section?:PriceSection}) {
+export function CatalogPriceStepper({status,hasSummary,id,section='upload'}: {status?: string;hasSummary:boolean;id?:string;section?:PriceSection}) {
     const navigation = useRef<HTMLElement>(null);
     useEffect(() => {
         const nav = navigation.current;
@@ -37,5 +37,5 @@ export function CatalogPriceStepper({status,hasSummary,uploading,uploadError,id,
             {completed && <span className="sr-only">Завершено</span>}
         </>;
         return <li key={step.key} data-active={active} data-completed={completed} data-disabled={!enabled && !active}>{enabled ? <Link aria-current={active ? 'step' : undefined} href={`/admin/catalog-prices/${id}?section=${step.key}`}>{content}</Link> : <span className="price-stage-label" aria-current={active ? 'step' : undefined} aria-disabled={!active || undefined}>{content}</span>}</li>;
-    })}</ol>{(uploadError || uploading) && <p role="status" className="mt-4 text-sm text-muted-foreground">{uploadError ? 'Проверьте сообщение у формы.' : 'Файл загружается…'}</p>}</nav>;
+    })}</ol></nav>;
 }

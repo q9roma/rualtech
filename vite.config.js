@@ -13,7 +13,7 @@ export default defineConfig({
     plugins: [
         inertiaDevSsr(),
         laravel({
-            input: ['resources/css/app.css', 'resources/css/storefront.css', 'resources/js/app.js', 'resources/js/storefront.tsx', 'resources/js/admin.tsx'],
+            input: ['resources/css/app.css', 'resources/css/storefront-entry.css', 'resources/js/app.js', 'resources/js/storefront.tsx', 'resources/js/admin.tsx'],
             ssr: 'resources/js/ssr.tsx',
             refresh: ['resources/views/**', 'routes/**', 'app/Http/**', 'app/Support/**'],
         }),

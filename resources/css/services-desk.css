@@ -26,7 +26,7 @@
   .desk-card{
     position:relative;isolation:isolate;overflow:hidden;
     display:flex;flex-direction:column;justify-content:flex-end;
-    padding:calc(var(--cm) * 13 + 22px) 22px 22px;border:1px solid var(--line);border-radius:var(--radius-xl);
+    padding:calc(var(--cm) * var(--scene,13) + 22px) 22px 22px;border:1px solid var(--line);border-radius:var(--radius-xl);
     background:var(--card);
     transition:box-shadow .25s ease-out;
   }
@@ -119,10 +119,6 @@
   @media (min-width:641px){.desk-a-srv::after,.desk-a-prn::after{height:34%}}
   @media (hover:hover){
     .desk-card:hover{box-shadow:0 20px 44px -28px rgba(28,32,52,.22)}
-    .desk-card:hover .desk-obj .desk-o{
-    transform:translate(var(--dx,0),var(--dy,0)) rotate(calc(var(--r,0deg) + var(--dr,0deg)));
-    transition-delay:.3s;
-  }
     .desk-card--glow:hover::before{opacity:1;transform:scale(1.06) translate(-1%,1%)}
     .desk-card:hover .desk-leds circle{animation:desk-led .5s .12s infinite alternate}
     .desk-card:hover .desk-leds circle:nth-child(2){animation-delay:.22s}
@@ -146,33 +142,30 @@
   }
   @media (max-width:1023px){
     .desk-services{--cm:clamp(8px,1.3vw,10px)}
-    .desk-a-ws .desk-obj:nth-child(2){--x:10%!important}
-    .desk-a-pc .desk-obj{margin-top:-28px}
-    .desk-a-sw .desk-obj{margin-top:-26px}
     .desk-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:minmax(calc(var(--cm) * 25),auto);
       grid-template-areas:"ws ws" "srv net" "srv sw" "vid vid" "prn ups" "prn pc"}
+    .desk-obj{left:auto;right:calc(var(--cm) * var(--rt));top:calc(var(--cm) * var(--tt))}
+    .desk-obj .desk-o{transform:rotate(var(--rot-t,var(--r,0deg)))}
+    .desk-card::after{display:none}
+    .desk-a-ups{--scene:15}
   }
   @media (max-width:640px){
     .desk-services{--cm:clamp(8px,2.8vw,11px)}
-    
-    .desk-a-srv .desk-obj{--y:5%!important;margin-top:30px}
-    .desk-a-srv .desk-obj:nth-child(1){--x:58%!important}
-    .desk-a-srv .desk-obj:nth-child(2){--x:5%!important}
-    .desk-a-srv .desk-obj:nth-child(n+3){display:none}
-    .desk-a-vid .desk-obj{--x:-12%!important;margin-top:44px}
-    .desk-a-ws .desk-obj:nth-child(2){display:none}
-    .desk-a-prn .desk-obj{margin-top:-170px}
-    .desk-grid{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:minmax(250px,auto);
+    .desk-grid{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto;
       grid-template-areas:"ws" "srv" "net" "sw" "vid" "prn" "ups" "pc"}
-    .desk-card--row{justify-content:flex-end}
-    .desk-card--row::after{top:auto;bottom:0;width:auto;right:0;height:55%;
-      background:linear-gradient(to top,var(--desk) 50%,rgba(255,255,255,0))}
+    .desk-card{padding-left:20px;padding-right:20px}.card__text{max-width:none}
+    .desk-a-srv{--scene:15.5}
+    .desk-a-ws{--scene:15}
+    .desk-obj{right:calc(var(--cm) * var(--rm));top:calc(var(--cm) * var(--tm))}
+    .desk-obj .desk-o{transform:rotate(var(--rot-m,var(--rot-t,var(--r,0deg))))}
+    .desk-hide-m{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     .desk-card,.desk-obj,.desk-obj .desk-o,.desk-obj .desk-real,.desk-obj .desk-wire,.desk-arr,.desk-fill,.desk-card--glow::before{transition:none}
     .desk-card:hover .desk-leds circle,.desk-card:hover .desk-pwr,.desk-card:hover .desk-fan{animation:none}
-    .desk-card:hover .desk-obj .desk-o{transform:rotate(var(--r,0deg))}
   }
 
 .desk-services { font-family:inherit; color:var(--foreground); }
 .desk-badge svg { stroke:currentColor; }
+
+.desk-nw { white-space:nowrap; }

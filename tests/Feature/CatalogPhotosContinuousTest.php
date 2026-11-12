@@ -45,4 +45,19 @@ class CatalogPhotosContinuousTest extends TestCase
         $this->artisan('catalog:photos-work', ['--limit' => 1])->assertSuccessful();
         Storage::disk('local')->assertExists('catalog-media-queue/latest.json');
     }
+    public function test_termination_finishes_current_task_and_releases_daemon_lock(): void
+    {
+        if (!function_exists('pcntl_signal') || !function_exists('posix_kill')) $this->markTestSkipped('POSIX signals required');
+        Storage::fake('local');
+        $this->mock(CatalogPhotoQueue::class, function ($mock) {
+            $mock->shouldReceive('plan')->once()->andReturn([]);
+            $mock->shouldReceive('claim')->once()->andReturn((object) ['id' => 1]);
+            $mock->shouldReceive('run')->once()->andReturnUsing(fn () => posix_kill(getmypid(), SIGTERM));
+            $mock->shouldReceive('report')->once()->andReturn([]);
+        });
+        $this->artisan('catalog:photos-work', ['--continuous' => true, '--max-time' => 60])->assertSuccessful();
+        $lock=Cache::lock('catalog-photos-daemon', 10);
+        $this->assertTrue($lock->get());
+        $lock->release();
+    }
 }

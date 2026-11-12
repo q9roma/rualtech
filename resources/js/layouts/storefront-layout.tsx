@@ -1,4 +1,3 @@
-import '../../css/storefront-card-typography.css';
 import type { PropsWithChildren, ReactNode } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import type { CatalogProps } from '@/types/catalog';

@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
-import '../resources/css/storefront.css';
+import '../resources/css/storefront-entry.css';
 
 const preview: Preview = {
     tags: ['autodocs'],

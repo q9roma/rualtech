@@ -17,6 +17,14 @@ class CatalogPhotosWork extends Command
         $daemon=$continuous ? Cache::lock('catalog-photos-daemon',$maxTime+600) : null;
         if ($daemon && !$daemon->get()) return self::SUCCESS;
         $started=microtime(true); $lastPlan=0; $processed=0; $retryFailed=(bool)$this->option('retry-failed');
+        $stopRequested=false; $handlers=[]; $asyncSignals=null;
+        if (function_exists('pcntl_async_signals') && function_exists('pcntl_signal') && function_exists('pcntl_signal_get_handler')) {
+            $asyncSignals=pcntl_async_signals(true);
+            foreach ([SIGTERM, SIGINT] as $signal) {
+                $handlers[$signal]=pcntl_signal_get_handler($signal);
+                pcntl_signal($signal, function () use (&$stopRequested) { $stopRequested=true; });
+            }
+        }
         try {
             do {
                 $lock=Cache::lock('catalog-photos-work',600);
@@ -42,10 +50,14 @@ class CatalogPhotosWork extends Command
                     } finally { $lock->release(); }
                 }
                 if (!$continuous && (!$task || $processed>=max(0,(int)$this->option('limit')))) break;
-                if ($continuous && !$task) sleep(2);
-            } while (!$continuous || microtime(true)-$started<$maxTime);
+                if ($continuous && !$task && !$stopRequested) sleep(2);
+            } while (!$stopRequested && (!$continuous || microtime(true)-$started<$maxTime));
             return self::SUCCESS;
         } catch (\Throwable $e) { report($e); $this->error($e->getMessage()); return self::FAILURE; }
-        finally { $daemon?->release(); }
+        finally {
+            $daemon?->release();
+            foreach ($handlers as $signal => $handler) pcntl_signal($signal, $handler);
+            if ($asyncSignals !== null) pcntl_async_signals($asyncSignals);
+        }
     }
 }

@@ -9,7 +9,7 @@ Type=simple
 User=altech-staging
 Group=altech-staging
 WorkingDirectory=/srv/altech/staging/current
-ExecStart=/opt/php84/bin/php -d memory_limit=256M artisan catalog:photos-work --continuous --max-time=3600
+ExecStart=/opt/php84/bin/php -d memory_limit=256M -d disable_functions=pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority artisan catalog:photos-work --continuous --max-time=3600
 Restart=always
 RestartSec=10
 TimeoutStopSec=150

@@ -170,9 +170,9 @@ export default function CatalogPrice({ upload, details, history, section='upload
                 </div>
             </nav>
     ) : <div className="flex justify-end">
-        <Button type="submit" form="price-upload-form" disabled={form.processing || !form.data.file || !form.data.price_date}>{form.processing ? <Loader2 className="animate-spin"/> : <Upload/>}{form.processing ? `Загружаем${form.progress ? ` ${form.progress.percentage}%` : '…'}` : 'Проверить прайс'}</Button>
+        <Button type="submit" form="price-upload-form" disabled={form.processing || !form.data.file || !form.data.price_date}>{form.processing ? <Loader2 className="animate-spin"/> : <Upload/>}{form.processing ? 'Подождите…' : 'Проверить прайс'}</Button>
     </div>;
-    return <AdminLayout workspaceScroll footer={footer} navigation={upload ? <CatalogPriceStepper id={upload.id} section={section} status={upload.status} hasSummary={!!summary} uploading={false} uploadError={false}/> : <CatalogPriceStepper hasSummary={false} uploading={form.processing} uploadError={Object.keys(form.errors).length > 0}/>} description={!upload ? 'Обновите цены и остатки из Excel. Новые товары сохранятся черновиками.' : undefined} title={upload ? upload.name : 'Обновить прайс'} back={{ href: upload ? '/admin/catalog-prices' : '/admin/products', label: upload ? 'К загрузкам прайса' : 'К товарам' }}>
+    return <AdminLayout workspaceScroll footer={footer} navigation={upload ? <CatalogPriceStepper id={upload.id} section={section} status={upload.status} hasSummary={!!summary}/> : <CatalogPriceStepper hasSummary={false}/>} description={!upload ? 'Обновите цены и остатки из Excel. Новые товары сохранятся черновиками.' : undefined} title={upload ? upload.name : 'Обновить прайс'} back={{ href: upload ? '/admin/catalog-prices' : '/admin/products', label: upload ? 'К загрузкам прайса' : 'К товарам' }}>
         <div className="admin-price-page">
         {!upload ? <>
 

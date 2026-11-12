@@ -3,7 +3,6 @@ import { ArrowUpRight } from 'lucide-react';
 import { useId } from 'react';
 import artwork from './services-desk-art.json';
 import type { Direction } from './services-overview';
-import '../../../css/services-desk.css';
 
 export function ServicesDesk({ directions, title }: { directions: Direction[]; title: string }) {
     const id = useId().replace(/:/g, '');
@@ -17,9 +16,10 @@ export function ServicesDesk({ directions, title }: { directions: Direction[]; t
         <div className="desk-grid">{artwork.cards.map(card => {
             const direction = directions.find(item => item.slug === card.slug);
             if (!direction) return null;
+            const lastSpace = card.title.lastIndexOf(' ');
             return <article key={card.slug} className={card.classes} data-direction={card.slug}>
                 <div dangerouslySetInnerHTML={{ __html: localize(card.art) }} />
-                <h3 className="desk-card__title"><Link className="desk-card__link" href={direction.url}>{card.title}<ArrowUpRight className="desk-arr" aria-hidden="true" /></Link></h3>
+                <h3 className="desk-card__title"><Link className="desk-card__link" href={direction.url}>{card.title.slice(0, lastSpace + 1)}<span className="desk-nw">{card.title.slice(lastSpace + 1)}<ArrowUpRight className="desk-arr" aria-hidden="true" /></span></Link></h3>
                 <p className="desk-card__text">{card.description}</p>
             </article>;
         })}</div>

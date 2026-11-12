@@ -29,7 +29,7 @@
         }, 8000);
     </script>
     @viteReactRefresh
-    @vite(['resources/css/storefront.css', 'resources/js/storefront.tsx'])
+    @vite(['resources/css/storefront-entry.css', 'resources/js/storefront.tsx'])
     @inertiaHead
     @if(!$__inertiaSsrResponse && in_array($page['component'] ?? '', ['home', 'catalog/index', 'products/show', 'services/index', 'services/directions', 'services/direction', 'services/category', 'services/show', 'blog/index', 'blog/show', 'page', 'delivery']))
         <title data-inertia="">{{ $page['props']['seoTitle'] ?? $page['props']['title'] ?? 'Алтех' }} — Алтех</title>
