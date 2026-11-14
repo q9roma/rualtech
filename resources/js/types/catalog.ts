@@ -24,6 +24,7 @@ export type Product = {
 };
 
 export type CatalogProps = {
+    collection?: { key: string; name: string; description: string; categoryFilters: {value: string; label: string}[] } | null;
     categoryGuide?: { heading: string; intro: string; checks: string[] } | null;
     navigation: { home: string; catalog: string; services: string; blog: string; logo: string; catalogCategories?: { name: string; count: number; url: string; children?: { name: string; url: string }[] }[]; pages?: { name: string; url: string }[] };
     products: {
@@ -36,7 +37,7 @@ export type CatalogProps = {
         prev_page_url: string | null;
         next_page_url: string | null;
     };
-    filters: { search: string; category: string; sort: string; price_min: number | null; price_max: number | null; brands: string[]; in_stock: boolean };
+    filters: { collection?: string; collection_categories?: string[]; search: string; category: string; sort: string; price_min: number | null; price_max: number | null; brands: string[]; in_stock: boolean };
     facets: { brands: { name: string; count: number }[]; priceMin: string | number | null; priceMax: string | number | null };
     categories: { category: string; products_count: number; url?: string; children?: { name: string; url: string; count: number }[] }[];
     totalActiveProducts: number;

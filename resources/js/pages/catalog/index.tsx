@@ -14,28 +14,34 @@ import { Page } from '@/components/storefront/content';
 import { ProductCard } from '@/components/storefront/product-card';
 import { ContactDialog } from '@/components/storefront/contact-dialog';
 import type { CatalogProps } from '@/types/catalog';
+import { WindowsZone, type WindowsTab } from '@/components/storefront/windows-zone';
+import { WorkplaceScene } from '@/components/storefront/collection-scenes';
 
-export default function Catalog(props: CatalogProps) {
+export default function Catalog(props: CatalogProps & { windowsTabs?: WindowsTab[] }) {
     const { navigation, products, filters, categories, facets } = props;
+    const productWord = ({ one: 'товар', few: 'товара' } as Record<string, string>)[new Intl.PluralRules('ru-RU').select(products.total)] ?? 'товаров';
+    const productCountLabel = `${products.total.toLocaleString('ru-RU')} ${productWord}`;
     const listingRef = useRef<HTMLElement>(null);
     const [loading, setLoading] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const apply = (changes: Partial<CatalogProps['filters']>) => {
-        if (changes.category !== undefined) setMobileOpen(false);
+        if (changes.category !== undefined) { setMobileOpen(false); changes = { ...changes, collection: '', collection_categories: [] }; }
+        if (changes.collection === '') changes = { ...changes, collection_categories: [] };
         const query = new URL(window.location.href).searchParams;
         const current = { ...filters, search: query.get('search') ?? filters.search, category: query.get('category') ?? filters.category, sort: query.get('sort') ?? filters.sort };
         router.get(navigation.catalog, { ...current, ...changes, in_stock: (changes.in_stock ?? current.in_stock) ? 1 : undefined }, {
-            preserveState: true, preserveScroll: true, reset: ['products'], only: ['products', 'filters', 'facets', 'canonicalUrl', 'categoryGuide'],
+            preserveState: true, preserveScroll: true, reset: ['products'], only: ['products', 'filters', 'facets', 'canonicalUrl', 'categoryGuide', 'windowsTabs', 'collection'],
             onSuccess: () => { if (listingRef.current && listingRef.current.getBoundingClientRect().top < 112) listingRef.current.scrollIntoView({ block: 'start' }); },
             onStart: () => setLoading(true), onFinish: () => setLoading(false),
         });
     };
-    const filtered = Boolean(filters.search || filters.price_min != null || filters.price_max != null || filters.brands?.length || filters.in_stock);
-    const directoryProps = { categories, selected: filters.category, loading, onSelect: (category: string) => apply({ category }) };
-    const title = (filters.search ? `Поиск: «${filters.search}»` : categoryLabel(filters.category) || 'Каталог товаров') + (products.current_page > 1 ? ` — страница ${products.current_page}` : '');
+    const filtered = Boolean(filters.collection || filters.search || filters.price_min != null || filters.price_max != null || filters.brands?.length || filters.in_stock);
+    const directoryProps = { categories, collection: filters.collection, catalogUrl: navigation.catalog, selected: filters.category, loading, onSelect: (category: string) => apply({ category }) };
+    const title = (filters.search ? `Поиск: «${filters.search}»` : props.collection?.name || categoryLabel(filters.category) || 'Каталог товаров') + (products.current_page > 1 ? ` — страница ${products.current_page}` : '');
     const sortOptions = [...(filters.search || filters.sort === 'relevance' ? [['relevance', 'По соответствию']] : []), ['name', 'По названию'], ['price_asc', 'Сначала дешевле'], ['price_desc', 'Сначала дороже'], ['brand', 'По бренду']];
     return <Page {...props} hideSubheader title={title} description={`${categoryLabel(filters.category) || 'Оборудование, комплектующие и программное обеспечение'} — каталог Алтех. Цены, характеристики и наличие.${products.current_page > 1 ? ` Страница ${products.current_page}.` : ''}`}>
         {filtered && <Head><meta name="robots" content="noindex, follow" /></Head>}
+
         <SidebarProvider className="catalog-workspace catalog-with-directory min-h-0">
             <aside className="catalog-quiet-sidebar" aria-label="Разделы каталога">
                 <div className="catalog-category-section"><CategoryDirectory {...directoryProps} /></div>
@@ -52,10 +58,27 @@ export default function Catalog(props: CatalogProps) {
                         </SheetContent>
                     </Sheet>
                 </div>
+                {props.collection && <section className="catalog-collection-summary" aria-labelledby="collection-heading">
+                    <div className="catalog-collection-hero">
+                    <div className="catalog-collection-copy">
+                    <div className="catalog-collection-top">
+                        <h1 id="collection-heading">{props.collection.name}</h1>
+                        <button type="button" className="catalog-collection-reset" disabled={loading} onClick={() => apply({ collection: '' })} aria-label="Сбросить подборку Рабочее место" title="Сбросить подборку">Сбросить<X size={12} aria-hidden="true" /></button>
+                    </div>
+                    <div className="catalog-collection-categories" role="group" aria-label="Категории подборки">
+                        {props.collection.categoryFilters.map(category => <Button key={category.value} variant="outline" size="sm" disabled={loading} aria-label={`Убрать категорию ${category.label}`} onClick={() => {
+                            const remaining = props.collection!.categoryFilters.filter(item => item.value !== category.value).map(item => item.value);
+                            apply(remaining.length ? { collection_categories: remaining } : { collection: '' });
+                        }}>{category.label}<X size={14} /></Button>)}
+                    </div>
+                    </div>
+                    <div className="catalog-collection-illustration" aria-hidden="true"><WorkplaceScene /></div>
+                    </div>
+                </section>}
                 <div className="catalog-toolbar catalog-toolbar-plain catalog-heading-toolbar">
-                    <div className="catalog-context"><h1>{categoryLabel(filters.category) || (filters.search ? 'Результаты поиска' : 'Все товары')}</h1></div>
+                    <div className="catalog-context">{props.collection ? <span className="catalog-collection-count">{productCountLabel}</span> : <h1>{categoryLabel(filters.category) || (filters.search ? 'Результаты поиска' : 'Все товары')}</h1>}</div>
                     <div className="catalog-content-sort"><Select value={filters.sort} disabled={loading} onValueChange={sort => apply({ sort })}><SelectTrigger aria-label="Сортировка товаров"><SelectValue /></SelectTrigger><SelectContent align="end">{sortOptions.map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div>
-                    <span className="sr-only" role="status">{loading ? 'Обновляем выдачу…' : `Товаров: ${products.total}`}</span>
+                    <span className="sr-only" role="status">{loading ? 'Обновляем выдачу…' : productCountLabel}</span>
                 </div>
                 <SubcategoryCards {...directoryProps} />
                 {(filters.price_min != null || filters.price_max != null || filters.brands?.length > 0 || filters.in_stock) && <div className="catalog-active-filters" aria-label="Выбранные параметры">
@@ -68,7 +91,7 @@ export default function Catalog(props: CatalogProps) {
                     {filters.search && <Button variant="outline" size="sm" disabled={loading} aria-label={`Убрать поиск: ${filters.search}`} onClick={() => apply({ search: '', sort: filters.sort === 'relevance' ? 'name' : filters.sort })}>Поиск: {filters.search}<X size={14} /></Button>}
                     <Button variant="ghost" size="sm" disabled={loading} onClick={() => apply({ search: '', category: '', sort: 'name', price_min: null, price_max: null, brands: [], in_stock: false })}>Сбросить всё</Button>
                 </div>}
-                {products.data.length ? <InfiniteScroll key={JSON.stringify(filters)} data="products" buffer={400} preserveUrl itemsElement=".catalog-products" next={({ loading: fetching, fetch, hasMore }) => hasMore && <div className="catalog-load-more"><Button variant="ghost" onClick={fetch} disabled={fetching}>{fetching ? 'Загружаем товары…' : 'Показать ещё'}</Button></div>}><div className="catalog-products storefront-home-products">{products.data.map(product => <ProductCard key={product.id} product={product} variant="standard" />)}</div></InfiniteScroll> : <div className="catalog-no-results"><PackageSearch size={32} /><h2>Товары не найдены</h2><p>Попробуйте расширить диапазон цены или убрать часть фильтров.</p><Button variant="outline" disabled={loading} onClick={() => apply({ search: '', category: '', sort: 'name', price_min: null, price_max: null, brands: [], in_stock: false })}>Показать все товары</Button></div>}
+                {products.data.length ? <InfiniteScroll key={JSON.stringify(filters)} data="products" buffer={400} preserveUrl itemsElement=".catalog-products" next={({ loading: fetching, fetch, hasMore }) => hasMore && <div className="catalog-load-more"><Button variant="ghost" onClick={fetch} disabled={fetching}>{fetching ? 'Загружаем товары…' : 'Показать ещё'}</Button></div>}><div className="catalog-products storefront-home-products">{!!props.windowsTabs?.length && <div className="catalog-brand-zone"><WindowsZone tabs={props.windowsTabs} /></div>}{products.data.map(product => <ProductCard key={product.id} product={product} variant="standard" />)}</div></InfiniteScroll> : <div className="catalog-no-results"><PackageSearch size={32} /><h2>Товары не найдены</h2><p>Попробуйте расширить диапазон цены или убрать часть фильтров.</p><Button variant="outline" disabled={loading} onClick={() => apply({ search: '', category: '', sort: 'name', price_min: null, price_max: null, brands: [], in_stock: false })}>Показать все товары</Button></div>}
                 {(products.prev_page_url || products.next_page_url) && <nav className="flex justify-between gap-4 py-4 text-sm" aria-label="Страницы каталога">
                     {products.prev_page_url && <a className="underline" href={products.prev_page_url}>Предыдущая страница</a>}
                     {products.next_page_url && <a className="underline" href={products.next_page_url}>Следующая страница</a>}
@@ -83,3 +106,6 @@ export default function Catalog(props: CatalogProps) {
         </section>}
     </Page>;
 }
+
+
+

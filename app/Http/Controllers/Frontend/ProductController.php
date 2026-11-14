@@ -53,6 +53,9 @@ class ProductController extends Controller
         $request->validate([
             'search' => ['nullable', 'string', 'max:200'],
             'category' => ['nullable', 'string', 'max:255'],
+            'collection' => ['nullable', 'in:workplace'],
+            'collection_categories' => ['nullable', 'array', 'min:1', 'max:5'],
+            'collection_categories.*' => ['string', 'distinct', \Illuminate\Validation\Rule::in(array_keys(\App\Support\CatalogCollections::workplace()['categories']))],
             'sort' => ['nullable', 'string', 'max:30'],
             'page' => ['nullable', 'integer', 'min:1'],
             'price_min' => ['nullable', 'numeric', 'min:0', 'max:999999999'],
@@ -63,6 +66,17 @@ class ProductController extends Controller
         ]);
 
         $query = Product::query()->active()->with('catalogCategory');
+        // Ordinary category navigation takes precedence over a task collection.
+        $collection = ! $request->filled('category') && $request->input('collection') === 'workplace'
+            ? \App\Support\CatalogCollections::workplace() : null;
+        if ($collection) {
+            if ($request->filled('collection_categories')) {
+                $collection['categories'] = array_intersect_key($collection['categories'], array_flip($request->input('collection_categories')));
+            }
+            \App\Support\CatalogCollections::filter($query, $collection);
+            $categoryNames = \App\Models\ProductCategory::whereIn('code', array_keys($collection['categories']))->pluck('name', 'code');
+            $collection['categoryFilters'] = collect($collection['categories'])->map(fn ($name, $code) => ['value' => $code, 'label' => $categoryNames[$code] ?? $name])->values();
+        }
 
         $search = trim($request->string('search')->value());
         if ($search !== '') $query->search($search);
@@ -114,6 +128,7 @@ class ProductController extends Controller
         };
 
         $products = $query->orderBy('id')->paginate(48)->appends($request->only('search', 'category', 'sort', 'price_min', 'price_max', 'brands', 'in_stock'));
+        if ($collection) $products->appends(['collection' => $collection['key'], 'collection_categories' => array_keys($collection['categories'])]);
 
         abort_if($products->currentPage() > 1 && $products->isEmpty(), 404);
         $pageNum = max(1, $request->integer('page', 1));
@@ -133,12 +148,21 @@ class ProductController extends Controller
             ->map(fn ($category) => (object) $category);
 
         if (config('storefront.inertia')) {
+            $softwareCategory = \App\Models\ProductCategory::where('code', 'software')->first();
+            $showMicrosoftZone = in_array($request->input('category'), array_filter([
+                'Программное обеспечение', $softwareCategory?->name, $softwareCategory?->slug,
+            ]), true) && $pageNum === 1 && $search === '' && ! $brands
+                && $priceMin === null && $priceMax === null && ! $request->boolean('in_stock');
             return Inertia::render('catalog/index', [
+                'collection' => $collection ? array_intersect_key($collection, array_flip(['key', 'name', 'description', 'categoryFilters'])) : null,
+                'windowsTabs' => fn () => $showMicrosoftZone ? \App\Support\MicrosoftBrandZone::tabs() : [],
                 'categoryGuide' => $pageNum === 1 && $search === '' ? collect(config('catalog-guides'))->get($request->input('category')) : null,
                 'title' => ($request->input('category') ?: 'Каталог товаров').($pageNum > 1 ? ' — страница '.$pageNum : ''),
                 'description' => ($request->input('category') ?: 'Оборудование, комплектующие и программное обеспечение').' — каталог Алтех. Цены, характеристики и наличие.'.($pageNum > 1 ? ' Страница '.$pageNum.'.' : ''),
                 'products' => Inertia::scroll(fn () => $products->through(\App\Support\Storefront::cartProduct(...))),
                 'filters' => [
+                    'collection' => $collection['key'] ?? '',
+                    'collection_categories' => $collection ? array_keys($collection['categories']) : [],
                     'search' => $request->string('search')->trim()->value(),
                     'category' => $request->string('category')->value(),
                     'sort' => $sort,

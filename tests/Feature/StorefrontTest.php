@@ -19,6 +19,27 @@ class StorefrontTest extends TestCase
         $this->withoutVite();
     }
 
+    public function test_windows_zone_uses_active_microsoft_software_independently_of_home_filter(): void
+    {
+        $create = fn ($name, $overrides = []) => Product::create(array_merge([
+            'name' => $name, 'category' => 'Операционные системы', 'brand' => 'Microsoft', 'is_active' => true,
+        ], $overrides));
+        $windows = $create('Windows 11 Pro');
+        $server = $create('Windows Server 2025');
+        $office = $create('Office 2024');
+        $subscription = $create('Office 365');
+        $create('Windows 10', ['is_active' => false]);
+        $create('Ноутбук Windows 11', ['category' => 'Ноутбуки', 'brand' => 'Lenovo']);
+        $create('Windows accessory', ['brand' => 'Other']);
+
+        $this->get('/?category='.urlencode('Серверы'))->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->has('windowsTabs', 4)
+            ->has('windowsTabs.0.products', 1)->where('windowsTabs.0.products.0.id', $windows->id)
+            ->has('windowsTabs.1.products', 1)->where('windowsTabs.1.products.0.id', $subscription->id)
+            ->has('windowsTabs.2.products', 1)->where('windowsTabs.2.products.0.id', $office->id)
+            ->has('windowsTabs.3.products', 1)->where('windowsTabs.3.products.0.id', $server->id));
+    }
+
     public function test_russian_reading_time_and_block_description_are_readable(): void
     {
         $data = $this->content();
@@ -49,12 +70,24 @@ class StorefrontTest extends TestCase
             Product::create(['name' => 'CPU '.$i, 'category' => 'Процессоры', 'is_active' => true]);
         }
         $this->get('/?category='.urlencode('Процессоры'))->assertInertia(fn (Assert $page) => $page
-            ->has('catalogProducts', 12)->where('catalogTotal', 15)
+            ->has('catalogProducts', 8)->where('catalogTotal', 15)
             ->where('catalogFilter', 'Процессоры')->where('catalogProducts.0.category', 'Процессоры')
             ->where('canonicalUrl', route('home')));
         $this->get('/?category='.urlencode('Видеокарты'))->assertInertia(fn (Assert $page) => $page
             ->has('catalogProducts', 0)->where('catalogTotal', 0));
 
+    }
+
+    public function test_microsoft_zone_is_only_shown_in_unfiltered_software_catalog(): void
+    {
+        $software = \App\Models\ProductCategory::create([
+            'code' => 'software', 'name' => 'Программное обеспечение', 'slug' => 'software', 'is_active' => true,
+        ]);
+        $this->get(route('catalog.category', $software->slug))->assertOk()->assertInertia(fn (Assert $page) => $page->has('windowsTabs', 4));
+        $this->get('/catalog?category='.urlencode($software->name))->assertOk()->assertInertia(fn (Assert $page) => $page->has('windowsTabs', 4));
+        $this->get('/catalog')->assertOk()->assertInertia(fn (Assert $page) => $page->has('windowsTabs', 0));
+        $this->get('/catalog?category='.urlencode($software->name).'&search=Windows')->assertOk()->assertInertia(fn (Assert $page) => $page->has('windowsTabs', 0));
+        $this->get('/catalog?category='.urlencode($software->name).'&in_stock=1')->assertOk()->assertInertia(fn (Assert $page) => $page->has('windowsTabs', 0));
     }
 
     private function content(): array

@@ -98,6 +98,7 @@ class Storefront
                 'categories' => $data['serviceCategories']->map(self::category(...)),
                 'catalogProducts' => $data['catalogProducts']->map(self::cartProduct(...)),
                 'catalogSections' => $data['catalogSections'],
+                'windowsTabs' => $data['windowsTabs'],
                 'catalogFilter' => $data['catalogFilter'],
                 'catalogFilters' => $data['catalogFilters'],
                 'catalogTotal' => $data['catalogTotal'],

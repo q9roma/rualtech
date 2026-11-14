@@ -134,11 +134,11 @@
     .desk-card:hover .desk-arr,.desk-card__link:focus-visible .desk-arr{opacity:1;transform:none}
   }
   @media (hover:hover){
-    .desk-obj .desk-real{opacity:0;transition:opacity .28s ease-out}
-    .desk-obj .desk-wire{opacity:1;transition:opacity .28s ease-out}
+    .desk-obj .desk-real{opacity:1;transition:opacity .28s ease-out}
+    .desk-obj .desk-wire{opacity:0;transition:opacity .28s ease-out}
     .desk-card--glow::before{opacity:.3}
-    .desk-card:hover .desk-obj .desk-real{opacity:1}
-    .desk-card:hover .desk-obj .desk-wire{opacity:0}
+    .desk-card:hover .desk-obj .desk-real{opacity:0}
+    .desk-card:hover .desk-obj .desk-wire{opacity:1}
   }
   @media (max-width:1023px){
     .desk-services{--cm:clamp(8px,1.3vw,10px)}
@@ -169,3 +169,14 @@
 .desk-badge svg { stroke:currentColor; }
 
 .desk-nw { white-space:nowrap; }
+/* Give the homepage service cards distinct edges and more breathing room. */
+.storefront-home-main > .desk-services { --gap: 16px; }
+.storefront-home-main > .desk-services .desk-card { border-color: #dedee2; box-shadow: 0 2px 6px rgb(28 32 52 / 4%); }
+@media(hover:hover) { .storefront-home-main > .desk-services .desk-card:hover { border-color: #c7c7ce; box-shadow: 0 6px 16px rgb(28 32 52 / 7%); } }
+@media(max-width:640px) { .storefront-home-main > .desk-services { --gap: 16px; } }
+
+.storefront-home-main > .desk-services .desk-a-ups .desk-obj { width: min(60%, calc(var(--cm) * 18.5)); left: 31%; right: auto; top: 24px; }
+
+
+
+

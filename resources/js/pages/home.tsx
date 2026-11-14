@@ -5,8 +5,10 @@ import { WhyAltech } from '@/components/storefront/why-altech';
 import { ServicesOverview, type Direction } from '@/components/storefront/services-overview';
 import { HomeCatalog } from '@/components/storefront/home-sections';
 import type { Product } from '@/types/catalog';
+import { WindowsZone, type WindowsTab } from '@/components/storefront/windows-zone';
+import { TaskCollections } from '@/components/storefront/task-collections';
 
-export default function Home(props: PageProps & { directions: Direction[]; categories: Entry[]; services: Entry[]; pages: Entry[]; catalogProducts: Product[]; catalogFilter: string; catalogFilters: string[]; catalogTotal: number; catalogSections: { name: string; total: number; products: Product[] }[] }) {
+export default function Home(props: PageProps & { windowsTabs: WindowsTab[]; directions: Direction[]; categories: Entry[]; services: Entry[]; pages: Entry[]; catalogProducts: Product[]; catalogFilter: string; catalogFilters: string[]; catalogTotal: number; catalogSections: { name: string; total: number; products: Product[] }[] }) {
     const equipment = [
         ['Серверы', 'Серверы и хранение данных'],
         ['Сеть', 'Сетевое оборудование'],
@@ -20,8 +22,12 @@ export default function Home(props: PageProps & { directions: Direction[]; categ
         <BrandRibbon />
         <ServicesOverview directions={props.directions} />
         <HomeCatalog products={props.catalogProducts} catalogUrl={props.navigation.catalog} homeUrl={props.navigation.home} activeFilter={props.catalogFilter} filters={props.catalogFilters} total={props.catalogTotal} />
+        <TaskCollections catalogUrl={props.navigation.catalog}><WindowsZone tabs={props.windowsTabs} /></TaskCollections>
         <WhyAltech />
         <div className="storefront-category-sections">{props.catalogSections.map(section => <HomeCatalog key={section.name} title={section.name} showFilters={false} products={section.products} total={section.total} filters={[]} activeFilter={section.name} homeUrl={props.navigation.home} catalogUrl={props.navigation.catalog} />)}</div>
         {props.pages.length > 0 && <section className="space-y-4"><h2 className="text-xl font-semibold">О компании</h2><Entries items={props.pages} /></section>}
     </Page>;
 }
+
+
+

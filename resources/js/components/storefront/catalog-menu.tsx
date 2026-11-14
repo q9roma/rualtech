@@ -7,6 +7,7 @@ import type { CatalogProps } from '@/types/catalog';
 
 import { categoryIcon } from './category-icon';
 import { categoryLabel } from './category-label';
+import { taskCollections } from './task-collections';
 
 const categoryLabels: Record<string, string> = {
     'Сетевое оборудование': 'Сети',
@@ -29,7 +30,7 @@ export function CatalogMenu({ compact = false }: { compact?: boolean }) {
     };
     useEffect(() => () => cancelHover(), []);
     const titleId = useId();
-    const categories = navigation.catalogCategories ?? [];
+    const categories = [...(navigation.catalogCategories ?? []), { name: 'Подборки', url: navigation.catalog, children: [] }];
     const active = categories.find(category => category.name === activeName) ?? categories[0];
 
     return <Popover open={open} onOpenChange={value => { cancelHover(); setOpen(value); if (!value) setActiveName(''); }}>
@@ -62,11 +63,27 @@ export function CatalogMenu({ compact = false }: { compact?: boolean }) {
                 </nav>
                 <div id={titleId + '-subcategories'} className="catalog-menu-subcategories">
                     {active && <>
-                        <Link href={active.url} onClick={() => setOpen(false)} className="catalog-menu-section-title">{categoryLabel(active.name)}<ArrowUpRight size={18} /></Link>
-                        <nav aria-label={categoryLabel(active.name)} className="catalog-menu-subcategory-links">
+                        {active.name === 'Подборки' ? <h3 className="catalog-menu-section-title">Подборки</h3> : <Link href={active.url} onClick={() => setOpen(false)} className="catalog-menu-section-title">{categoryLabel(active.name)}<ArrowUpRight size={18} /></Link>}
+                        {active.name === 'Программное обеспечение' && <Link
+                            href={`${navigation.catalog}?${new URLSearchParams({ category: active.name, 'brands[]': 'Microsoft' })}`}
+                            onClick={() => setOpen(false)} className="catalog-microsoft-banner storefront-windows-header">
+                            <span className="storefront-windows-brand"><img src="/images/partners/microsoft.svg" width="28" height="28" alt="" />Microsoft для бизнеса</span>
+                            <strong>Windows и всё для работы</strong>
+                            <span className="catalog-microsoft-description">Операционные системы и офисные приложения для вашей команды.</span>
+                            <span className="catalog-microsoft-action">Смотреть товары<ArrowUpRight size={16} aria-hidden="true" /></span>
+                            <span className="storefront-windows-art" aria-hidden="true">{['word', 'excel', 'powerpoint'].map(app => <img key={app} src={`/images/microsoft/${app}.svg`} width="56" height="56" alt="" />)}</span>
+                        </Link>}
+                        <nav aria-label={categoryLabel(active.name)} className={active.name === 'Подборки' ? 'catalog-menu-collections' : 'catalog-menu-subcategory-links'}>
+                            {active.name === 'Подборки' && taskCollections.map(item => {
+                                const content = <><div className="catalog-menu-collection-heading"><span>{item.title}</span>{item.ready ? <ArrowUpRight size={16} aria-hidden="true" /> : <small>Скоро</small>}</div><div className="storefront-task-art" aria-hidden="true"><item.Scene /></div></>;
+                                return item.ready
+                                    ? <Link key={item.title} href={`${navigation.catalog}?collection=workplace`} onClick={() => setOpen(false)} className="storefront-task-card" data-tone={item.tone}>{content}</Link>
+                                    : <div key={item.title} className="storefront-task-card" data-tone={item.tone} aria-disabled="true">{content}</div>;
+                            })}
                             {(active.children ?? []).map(child => <Link key={child.name} href={child.url} onClick={() => setOpen(false)}>{child.name}</Link>)}
                         </nav>
-                        <Link href={active.url} onClick={() => setOpen(false)} className="catalog-menu-all">Все товары раздела<ChevronRight size={14} /></Link>
+                        {active.name !== 'Подборки' && <Link href={active.url} onClick={() => setOpen(false)} className="catalog-menu-all">Все товары раздела<ChevronRight size={14} /></Link>}
+
                     </>}
                 </div>
             </div>

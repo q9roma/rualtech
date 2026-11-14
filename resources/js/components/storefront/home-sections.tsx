@@ -8,7 +8,7 @@ import type { Product } from '@/types/catalog';
 
 type Props = { products: Product[]; catalogUrl: string; homeUrl: string; activeFilter: string; filters: string[]; total: number; title?: string; showFilters?: boolean };
 
-export function HomeCatalog({ products, catalogUrl, homeUrl, activeFilter, filters, total, title = 'популярное', showFilters = true }: Props) {
+export function HomeCatalog({ products, catalogUrl, homeUrl, activeFilter, filters, title = 'популярное', showFilters = true }: Props) {
     const headingId = useId();
     const [loading, setLoading] = useState(false);
     const [failed, setFailed] = useState(false);
@@ -21,7 +21,7 @@ export function HomeCatalog({ products, catalogUrl, homeUrl, activeFilter, filte
         });
     }
     return <section className="storefront-home-catalog" aria-labelledby={headingId}>
-        <div className={`storefront-section-heading${showFilters ? ' storefront-popular-heading' : ''}`}><h2 id={headingId}>{title}</h2></div>
+        <div className={`storefront-section-heading${showFilters ? ' storefront-popular-heading' : ''}`}><h2 id={headingId}><Link href={filteredUrl} className="storefront-catalog-title-link">{title}<ArrowUpRight size={20} aria-hidden="true" /></Link></h2></div>
         {showFilters && <div className="storefront-product-filters" role="group" aria-label="Фильтр по категории">{['', ...filters].map(category => <Button key={category} size="sm" variant={category === activeFilter ? 'default' : 'outline'} aria-pressed={category === activeFilter} disabled={loading} onClick={() => filter(category)}>{category || 'Все категории'}</Button>)}</div>}
         <span className="sr-only" role="status">{loading ? 'Обновляем товары…' : ''}</span>
         {failed && <p role="alert">Не удалось обновить товары. Попробуйте выбрать категорию ещё раз.</p>}
@@ -30,6 +30,6 @@ export function HomeCatalog({ products, catalogUrl, homeUrl, activeFilter, filte
             return <ProductCard variant="standard" key={product.id} product={product} />;
         })}</div> : <CatalogEmpty onReset={showFilters ? () => filter('') : undefined} loading={loading} />}
         </div>
-        {total > products.length && <div className="storefront-catalog-more"><Button asChild variant="outline"><Link href={filteredUrl}>Все товары{activeFilter ? ' категории' : ''} <ArrowUpRight size={16} /></Link></Button></div>}
     </section>;
 }
+
